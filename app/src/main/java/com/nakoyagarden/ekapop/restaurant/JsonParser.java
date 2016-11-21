@@ -72,6 +72,7 @@ public class JsonParser {
         // try parse the string to a JSON object
         try {
             //jObj = new JSONObject(json);
+            if(json.toString().indexOf("DOCTYPE")>=0) return new JSONArray();
             jarr = new JSONArray(json);
             //jObj = new JSONObject("{\"code\":\"1000\",\"name\":\"\\u0e43\\u0e19\\u0e23\\u0e49\\u0e32\\u0e19\"},{\"code\":\"1001\",\"name\":\"\\u0e1f\\u0e38\\u0e15\\u0e1a\\u0e32\\u0e17\"},{\"code\":\"1002\",\"name\":\"\\u0e43\\u0e19\\u0e2a\\u0e27\\u0e19\"}");
         } catch (JSONException e) {

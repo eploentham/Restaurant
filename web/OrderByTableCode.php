@@ -4,7 +4,7 @@
 //$conn = new ConnectDB();
 $resultArray = array();
 //$resultArray["area"] = array();
-$objConnect = mysql_connect("localhost","root","");
+$objConnect = mysql_connect("localhost","root","Ekartc2c5");
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select * From t_order Where active = '1' and table_code like '".$_POST['table_code']."' and status_bill <> '2' Order By lot_id,row1");

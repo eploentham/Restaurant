@@ -4,7 +4,7 @@
 //$conn = new ConnectDB();
 $resultArray = array();
 //$resultArray["area"] = array();
-$objConnect = mysql_connect("localhost","root","");
+$objConnect = mysql_connect("localhost","root","Ekartc2c5");
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select * From b_table Where table_id = '".$_POST['table_id']."'");
