@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/layoutEsernOrder">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboArea"
+            android:layout_row="0"
+            android:layout_column="0" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboTable"
+            android:layout_row="0"
+            android:layout_column="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbDate"
+            android:layout_row="0"
+            android:layout_column="2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/txtRemark"
+            android:layout_row="0"
+            android:layout_column="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbMinced"
+            android:layout_row="1"
+            android:layout_column="0" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGMinced">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkMincedPork" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkMincedBeef" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkMincedCatFish" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--<EditText
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/txtQtyMinced"
+            android:layout_row="1"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyMinced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkMinced"
+            android:layout_row="1"
+            android:layout_column="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbFall"
+            android:layout_row="4"
+            android:layout_column="0" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="1">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGFall">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkFallPork" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkFallBeef" />
+
+            </RadioGroup>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGFallBitter">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkFallBitter"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkFallSour"/>
+            </RadioGroup>
+        </LinearLayout>
+        <!--<EditText
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/txtQtyFall"
+            android:layout_row="4"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyFall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkFall"
+            android:layout_row="4"
+            android:layout_column="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbKoy"
+            android:layout_row="6"
+            android:layout_column="0" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="6"
+            android:layout_column="1">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGKoy">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkKoy" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkKoyKoo" />
+            </RadioGroup>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGKoyBitter">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkKoyBitter" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkKoySour" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+
+
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/txtQtyKoy"
+            android:layout_row="6"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyKoy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="6"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkKoy"
+            android:layout_row="6"
+            android:layout_column="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbBoilZaa"
+            android:layout_row="7"
+            android:layout_column="0" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="7"
+            android:layout_column="1">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGBoilZaa">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkBoilZaaBonePork" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkBoilZaaBeef" />
+            </RadioGroup>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGBoilZaaBitter">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkBoilZaaBitter" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkBoilZaaSour" />
+            </RadioGroup>
+
+        </LinearLayout>
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/txtQtyBoilZaa"
+            android:layout_row="7"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyBoilZaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="7"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkBoilZaa"
+            android:layout_row="7"
+            android:layout_column="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbThickSoup"
+            android:layout_row="8"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbPapazaSalad"
+            android:layout_row="9"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbGrillPorkNeck"
+            android:layout_row="10"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbWeepingTiger"
+            android:layout_row="11"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbGrillRibBeef"
+            android:layout_row="12"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbStickyRice"
+            android:layout_row="13"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbBambooShootSalad"
+            android:layout_row="14"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbBurnBeef"
+            android:layout_row="15"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbMessage"
+            android:layout_row="16"
+            android:layout_column="1" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="8"
+            android:layout_column="1">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGThickSoupPork">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkThickSoupPork" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkThickSoupBeef" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/txtQtyThickSoup"
+            android:layout_row="8"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyThickSoup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="8"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkThickSoup"
+            android:layout_row="8"
+            android:layout_column="3" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="9"
+            android:layout_column="1">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/chkGPapazaSalad">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkPapazaSaladThai" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkPapazaSaladCrab" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New RadioButton"
+                    android:id="@+id/chkPapazaSaladCrabPickledFish" />
+            </RadioGroup>
+        </LinearLayout>
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyPapazaSalad"
+            android:layout_row="9"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyPapazaSalad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="9"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkPapazaSalad"
+            android:layout_row="9"
+            android:layout_column="3" />
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyGrillPorkNeck"
+            android:layout_row="10"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyGrillPorkNeck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="10"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkGrillPorkNeck"
+            android:layout_row="10"
+            android:layout_column="3" />
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyWeepingTiger"
+            android:layout_row="11"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyWeepingTiger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="11"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkWeepingTiger"
+            android:layout_row="11"
+            android:layout_column="3" />
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyGrillRibBeef"
+            android:layout_row="12"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyGrillRibBeef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="12"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkGrillRibBeef"
+            android:layout_row="12"
+            android:layout_column="3" />
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyStickyRice"
+            android:layout_row="13"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyStickyRice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="13"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkStickyRice"
+            android:layout_row="13"
+            android:layout_column="3" />
+
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyBambooShootSalad"
+            android:layout_row="14"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyBambooShootSalad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="14"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkBambooShootSalad"
+            android:layout_row="14"
+            android:layout_column="3" />
+        <!--<EditText
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="9"
+            android:id="@+id/txtQtyBurnBeef"
+            android:layout_row="15"
+            android:layout_column="2" />-->
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtQtyBurnBeef"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="15"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRemarkBurnBeef"
+            android:layout_row="15"
+            android:layout_column="3" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnSave"
+            android:layout_row="16"
+            android:layout_column="2" />
+
+        <!--<com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/horizontal_number_picker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="16"
+            android:layout_column="2"
+            android:layout_marginTop="10dp"
+            />-->
+    </GridLayout>
+</LinearLayout>
