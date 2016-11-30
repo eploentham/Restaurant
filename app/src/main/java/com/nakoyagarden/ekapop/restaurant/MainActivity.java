@@ -1,6 +1,8 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -24,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
     String ab;
     JSONObject jobj = null;
     JSONArray jarrA, jarrT, jarrR, jarrF;
-    Button btnMInt;
-    ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA;
+    //Button btnMInt;
+    ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA, btnMCloseDay, btnMInt;
     public RestaurantControl rs;
     ProgressDialog pd;
+    Boolean fileExit=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,25 +45,35 @@ public class MainActivity extends AppCompatActivity {
 //        btnMArea = (Button)findViewById(R.id.btnMArea);
 //        btnMRes = (Button)findViewById(R.id.btnMRes);
         btnMBill = (ImageButton)findViewById(R.id.btnMBill);
-        btnMOrderV = (ImageButton)findViewById(R.id.btnMOrderView);
+        //btnMOrderV = (ImageButton)findViewById(R.id.btnMOrderView);
+        btnMCloseDay = (ImageButton)findViewById(R.id.btnMCloseDay);
 //        btnMFt.setText(getResources().getString(R.string.add)+getResources().getString(R.string.type)+getResources().getString(R.string.foods));
 //        btnMTable.setText(getResources().getString(R.string.add)+getResources().getString(R.string.table));
 //        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
 //        btnMRes.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
-        btnMInt = (Button)findViewById(R.id.btnMInt);
+        btnMInt = (ImageButton)findViewById(R.id.btnMInt);
         //btnMBill.setText(R.string.billcheck);
 
         btnOrderA.setBackgroundResource(R.mipmap.menu_icon1);
         btnCookV.setBackgroundResource(R.mipmap.menu_cook);
         btnMBill.setBackgroundResource(R.mipmap.menu_bill);
-        btnMOrderV.setBackgroundResource(R.mipmap.menu_bill);
+//        btnMOrderV.setBackgroundResource(R.mipmap.menu_bill);
+        btnMCloseDay.setBackgroundResource(R.mipmap.menu_closeday);
+        btnMInt.setBackgroundResource(R.mipmap.menu_int);
         //btnMFoodsType.setText(Re);
         rs = new RestaurantControl();
+        rs.pageLoad=false;
+        btnMInt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(view.getContext(), InitailActivity.class).putExtra("RestaurantControl",rs), 0);
+            }
+        });
+
         try {
             final int READ_BLOCK_SIZE = 100;
             FileInputStream fileIn=openFileInput("initial.cnf");
             InputStreamReader InputRead= new InputStreamReader(fileIn);
-
             char[] inputBuffer= new char[READ_BLOCK_SIZE];
             String s="";
             int charRead;
@@ -76,12 +90,22 @@ public class MainActivity extends AppCompatActivity {
                 rs.hostIP = p[0].replace("host=","");
 //                        txtIaPrint.setText(p[1].replace("printer=",""));
 //                        rs.hostIP = s;
+//                txtIaHost.setText(p[0].replace("host=",""));
+                //txtIaPrint.setText(p[1].replace("printer=",""));
+                rs.hostPORT =  p[4].replace("PortNumber=","").replace("\n","");
+                rs.hostWebDirectory =p[5].replace("WebDirectory=","").replace("\n","");
+//                txtIaTaxID.setText(p[3].replace("TaxID=",""));
+//                txtIaPortID.setText(p[4].replace("PortNumber=",""));
+//                txtIaWebDirectory.setText(p[5].replace("WebDirectory=",""));
             }
+            fileIn.close();
             rs.refresh();
-
+//            }
         } catch (Exception e) {
             e.printStackTrace();
+//            fileErr=true;
         }
+//        if(fileErr)
         //btnCookV.setText(R.string.kitchen);
         //btnOrderA.setText("");
 
@@ -108,36 +132,54 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(new Intent(view.getContext(), BillAddActivity.class).putExtra("RestaurantControl",rs), 0);
             }
         });
-        btnMOrderV.setOnClickListener(new View.OnClickListener() {
+//        btnMOrderV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivityForResult(new Intent(view.getContext(), OrderViewActivity.class).putExtra("RestaurantControl",rs), 0);
+//            }
+//        });
+        btnMCloseDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(view.getContext(), OrderViewActivity.class).putExtra("RestaurantControl",rs), 0);
+                startActivityForResult(new Intent(view.getContext(), CloseDayAddActivity.class).putExtra("RestaurantControl",rs), 0);
             }
+
         });
-        btnMInt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(view.getContext(), InitailActivity.class).putExtra("RestaurantControl",rs), 0);
-            }
-        });
+
         ArrayList<ItemData> list=new ArrayList<>();
         list.add(new ItemData("Khr",R.drawable.idel_blue));
         list.add(new ItemData("Usd",R.drawable.idel_red));
         list.add(new ItemData("Jpy",R.drawable.menu_icon));
         list.add(new ItemData("Aud",R.drawable.menu_icon));
 
-        new retrieveArea().execute();
-        new retrieveTable().execute();
-        new retrieveRes().execute();
-        new retrieveFoods().execute();
-        new retrievePrinterName().execute();
-        new retrieveFoodsType().execute();
+//        String txt = rs.hostIP;
+//        txt = txt.replace("http://","").trim();
+        if(!rs.hostIP.equals("")) {
+            new retrieveArea().execute();
+            new retrieveTable().execute();
+            new retrieveRes().execute();
+            new retrieveFoods().execute();
+            new retrievePrinterName().execute();
+            new retrieveFoodsType().execute();
+        }
 
+//        pageLoad=false;
 //        Spinner sp=(Spinner)findViewById(R.id.spinner);
 //        SpinnerAdapter adapter=new SpinnerAdapter(this,
 //                R.layout.spinner_layout,R.id.cbotxt,list);
 //        sp.setAdapter(adapter);
     }
+//    @Override
+//    protected void onResume(){
+//        if(!rs.hostIP.equals("") && rs.pageLoad) {
+//            new retrieveArea().execute();
+//            new retrieveTable().execute();
+//            new retrieveRes().execute();
+//            new retrieveFoods().execute();
+//            new retrievePrinterName().execute();
+//            new retrieveFoodsType().execute();
+//        }
+//    }
     class retrieveArea extends AsyncTask<String,String,String> {
 
         @Override
@@ -147,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 jarrA = jsonparser.getJSONFromUrl(rs.hostGetArea,params);
                 if(jarrA!=null){
+
                     rs.sCboArea.clear();
                     rs.sArea.clear();
                     //JSONArray categories = jobj.getJSONArray("area");
@@ -187,7 +230,9 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-
+//                if(!rs.hostIP.equals("")) {
+//
+//                }
                 jarrT = jsonparser.getJSONFromUrl(rs.hostGetTable,params);
                 if(jarrT!=null){
                     //JSONArray categories = jobj.getJSONArray("area");

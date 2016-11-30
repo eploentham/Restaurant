@@ -10,10 +10,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -22,18 +25,21 @@ import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
 import com.epson.epos2.printer.ReceiveListener;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
 public class InitailActivity extends AppCompatActivity implements ReceiveListener {
     public RestaurantControl rs;
-    TextView lbIaHost, lbIaPrint, lbIaPosID, lbIaTaxID;
-    EditText txtIaHost, txtIaPrint, txtIaPosID, txtIaTaxID;
+    TextView lbIaHost, lbIaPrint, lbIaPosID, lbIaTaxID, lbIaWebDirectory, lbIaPortID;
+    EditText txtIaHost, txtIaPrint, txtIaPosID, txtIaTaxID, txtIaWebDirectory, txtIaPortID;
     Button btnIaSave, btnIaPrint, btnIaTest,btnFoodsV;
     Button btnMFt, btnMTable,btnMArea, btnMRes, btnMBillVoid;
+    Spinner cboIaPrinter;
     InputStream is;
     String ab="";
 
@@ -58,7 +64,7 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
 
     private Printer mPrinter = null;
     private Context mContext = null;
-
+    private ArrayList<String> sCboPrinter = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +81,11 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
         txtIaPosID = (EditText) findViewById(R.id.txtIaPosID);
         lbIaTaxID = (TextView) findViewById(R.id.lbIaTaxID);
         txtIaTaxID = (EditText) findViewById(R.id.txtIaTaxID);
+        lbIaWebDirectory = (TextView) findViewById(R.id.lbIaWebDirectory);
+        txtIaWebDirectory = (EditText) findViewById(R.id.txtIaWebDirectory);
+        lbIaPortID = (TextView) findViewById(R.id.lbIaPortID);
+        txtIaPortID = (EditText) findViewById(R.id.txtIaPortID);
+        cboIaPrinter = (Spinner) findViewById(R.id.cboIaPrinter);
 
         btnIaSave = (Button) findViewById(R.id.btnIaSave);
         btnIaPrint = (Button) findViewById(R.id.btnIaPrint);
@@ -90,7 +101,9 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
         lbIaHost.setText("Host IP");
         lbIaPrint.setText("Printer IP");
         lbIaPosID.setText("POS ID");
+        lbIaWebDirectory.setText("Web Directory");
         lbIaTaxID.setText("Tax ID");
+        lbIaPortID.setText("Port Number");
 
         btnIaSave.setText(R.string.save);
         btnIaTest.setText("Test");
@@ -158,29 +171,51 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
                 startActivityForResult(new Intent(view.getContext(), BillVoidActivity.class).putExtra("RestaurantControl",rs), 0);
             }
         });
-        getText();
+        sCboPrinter.add("Epson T82");
+        sCboPrinter.add("Custom Kute II");
+        ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,sCboPrinter);
+        cboIaPrinter.setAdapter(adaArea);
+        cboIaPrinter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //txtIaPrint.setText(cboIaPrinter.getSelectedItem().toString());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        getText();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 //        InitEverything(savedInstanceState);
     }
     private void saveText(){
         FileOutputStream outputStream;
         String string = "host="+txtIaHost.getText().toString().trim()+";\n"
-        +"printer="+txtIaPrint.getText().toString().trim()+";\nPosID="+txtIaPrint.getText().toString().trim()+";\n" +
-                "TaxID="+txtIaPrint.getText().toString().trim()+";\n";
+            +"printer="+txtIaPrint.getText().toString().trim()+";\n"
+            +"PosID="+txtIaPosID.getText().toString().trim()+";\n"
+            +"TaxID="+txtIaTaxID.getText().toString().trim()+";\n"
+            +"PortNumber="+txtIaPortID.getText().toString().trim()+";\n"
+            +"WebDirectory="+txtIaWebDirectory.getText().toString().trim()+";\n";
         try {
+            File file =getFileStreamPath("initial.cnf");
             outputStream = openFileOutput("initial.cnf", Context.MODE_PRIVATE);
+//            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
             outputStream.write(string.getBytes());
             outputStream.close();
+            rs.pageLoad=true;
+            System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     private void getText(){
-
-
         try {
+            File file =getFileStreamPath("initial.cnf");
             final int READ_BLOCK_SIZE = 100;
             FileInputStream fileIn=openFileInput("initial.cnf");
+//            FileInputStream fileIn=openFileInput(file.getPath());
             InputStreamReader InputRead= new InputStreamReader(fileIn);
 
             char[] inputBuffer= new char[READ_BLOCK_SIZE];
@@ -196,12 +231,15 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
             String[] p = s.split(";");
             if(p.length>0){
                 txtIaHost.setText(p[0].replace("host=",""));
-                txtIaPrint.setText(p[1].replace("printer=",""));
-                txtIaPosID.setText(p[1].replace("PosID=",""));
-                txtIaTaxID.setText(p[1].replace("TaxID=",""));
+                txtIaPrint.setText(p[1].replace("printer=","").replace("\n",""));
+                txtIaPosID.setText(p[2].replace("PosID=","").replace("\n",""));
+                txtIaTaxID.setText(p[3].replace("TaxID=","").replace("\n",""));
+                txtIaPortID.setText(p[4].replace("PortNumber=","").replace("\n",""));
+                txtIaWebDirectory.setText(p[5].replace("WebDirectory=","").replace("\n",""));
 
                 rs.hostIP = txtIaHost.getText().toString();
             }
+            fileIn.close();
             rs.refresh();
 
         } catch (Exception e) {

@@ -36,51 +36,55 @@ public class RestaurantControl  extends Application implements Serializable {
 
     public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="";
 
-    public String hostIP="10.0.1.80";
+    public String hostIP="", hostWebDirectory ="", hostPORT="80";
     public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="";
-    public String hostSaveOrder="http://"+hostIP+":80/restaurant/saveTOrder.php";
+    public String hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
 
-    public String hostGetArea="http://"+hostIP+":80/restaurant/getArea.php";
-    public String hostGetTable="http://"+hostIP+":80/restaurant/getTable.php";
-    public String hostGetRes="http://"+hostIP+":80/restaurant/getRes.php";
-    public String hostGetFoodsType ="http://"+hostIP+":80/restaurant/getFoodsType.php";
-    public String hostGetPrinterName ="http://"+hostIP+":80/restaurant/getPrinterName.php";
-    public String hostGetFoods ="http://"+hostIP+":80/restaurant/getFoods.php";
+    public String hostGetArea="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getArea.php";
+    public String hostGetTable="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getTable.php";
+    public String hostGetRes="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getRes.php";
+    public String hostGetFoodsType ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoodsType.php";
+    public String hostGetPrinterName ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getPrinterName.php";
+    public String hostGetFoods ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoods.php";
 
-    public String hostOrderByTableCode ="http://"+hostIP+":80/restaurant/OrderByTableCode.php";
-    public String hostBillByTableId ="http://"+hostIP+":80/restaurant/BillByTableId.php";
-    public String hostBillByBillCode ="http://"+hostIP+":80/restaurant/BillByBillCode.php";
-    public String hostBillDetailByBillId ="http://"+hostIP+":80/restaurant/BillByBillCode.php";
+    public String hostOrderByTableCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"OrderByTableCode.php";
+    public String hostBillByTableId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByTableId.php";
+    public String hostBillByBillCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByBillCode.php";
+    public String hostBillDetailByBillId ="http://"+hostIP+":80/"+ hostWebDirectory +"BillByBillCode.php";
+    public String hostBillCloseDay ="http://"+hostIP+":80/"+ hostWebDirectory +"BillByCloseDay.php";
 
-    public String hostBillInsert ="http://"+hostIP+":80/restaurant/BillInsert.php";
-    public String hostBillUpdate ="http://"+hostIP+":80/restaurant/BillUpdate.php";
-    public String hostBillDetailInsert ="http://"+hostIP+":80/restaurant/BillDetailInsert.php";
-    public String hostBillDetailUpdate ="http://"+hostIP+":80/restaurant/BillDetailUpdate.php";
-    public String hostBillVoid ="http://"+hostIP+":80/restaurant/BillVoid.php";
+    public String hostBillInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillInsert.php";
+    public String hostBillUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillUpdate.php";
+    public String hostBillDetailInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailInsert.php";
+    public String hostBillDetailUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailUpdate.php";
+    public String hostBillVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillVoid.php";
 
-    public String hostFoodsInsert ="http://"+hostIP+":80/restaurant/FoodsInsert.php";
-    public String hostFoodsUpdate ="http://"+hostIP+":80/restaurant/FoodsUpdate.php";
-    public String hostFoodsSearch ="http://"+hostIP+":80/restaurant/FoodsSearch.php";
-    public String hostAreaInsert ="http://"+hostIP+":80/restaurant/AreaInsert.php";
-    public String hostAreaUpdate ="http://"+hostIP+":80/restaurant/AreaUpdate.php";
-    public String hostAreaSelectByID ="http://"+hostIP+":80/restaurant/AreaSelectByID.php";
-    public String hostTableInsert ="http://"+hostIP+":80/restaurant/TableInsert.php";
-    public String hostTableUpdate ="http://"+hostIP+":80/restaurant/TableUpdate.php";
-    public String hostTableSelectByID ="http://"+hostIP+":80/restaurant/TableSelectByID.php";
-    public String hostResInsert ="http://"+hostIP+":80/restaurant/ResInsert.php";
-    public String hostResUpdate ="http://"+hostIP+":80/restaurant/ResUpdate.php";
-    public String hostResSelectByID ="http://"+hostIP+":80/restaurant/ResSelectByID.php";
-    public String hostFoodsTypeInsert ="http://"+hostIP+":80/restaurant/FoodsTypeInsert.php";
-    public String hostFoodsTypeUpdate ="http://"+hostIP+":80/restaurant/FoodsTypeUpdate.php";
-    public String hostFoodsTypeSelectByID ="http://"+hostIP+":80/restaurant/FoodsTypeSelectByID.php";
-    public String hostSelectFoods="http://"+hostIP+":80/restaurant/selectFoods.php";
-    public String hostSelectFoodsByID="http://"+hostIP+":80/restaurant/selectFoodsByID.php";
-    public String hostSelectFoodsByCode="http://"+hostIP+":80/restaurant/selectFoodsByCode.php";
+    public String hostCloseDayInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayInsert.php";
+
+        public String hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
+    public String hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
+    public String hostFoodsSearch ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsSearch.php";
+    public String hostAreaInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaInsert.php";
+    public String hostAreaUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaUpdate.php";
+    public String hostAreaSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaSelectByID.php";
+    public String hostTableInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableInsert.php";
+    public String hostTableUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableUpdate.php";
+    public String hostTableSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableSelectByID.php";
+    public String hostResInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResInsert.php";
+    public String hostResUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResUpdate.php";
+    public String hostResSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResSelectByID.php";
+    public String hostFoodsTypeInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeInsert.php";
+    public String hostFoodsTypeUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeUpdate.php";
+    public String hostFoodsTypeSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeSelectByID.php";
+    public String hostSelectFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoods.php";
+    public String hostSelectFoodsByID="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByID.php";
+    public String hostSelectFoodsByCode="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByCode.php";
 
     public String discount="0.0", SC="0.0", vat="0.0";
 
     public ArrayList<Foods> lFoo = new ArrayList<Foods>();
     public String jarrA, jarrT, jarrR, jarrF;
+    public Boolean pageLoad=false;
     //JSONArray jarrF1;
     //public List<Ta> lFoo = new ArrayList<Foods>();
     public RestaurantControl(){
@@ -88,44 +92,47 @@ public class RestaurantControl  extends Application implements Serializable {
         refresh();
     }
     public void refresh(){
-        hostSaveOrder="http://"+hostIP+":80/restaurant/saveTOrder.php";
+        hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
 
-        hostGetArea="http://"+hostIP+":80/restaurant/getArea.php";
-        hostGetTable="http://"+hostIP+":80/restaurant/getTable.php";
-        hostGetRes="http://"+hostIP+":80/restaurant/getRes.php";
-        hostGetFoodsType ="http://"+hostIP+":80/restaurant/getFoodsType.php";
-        hostGetPrinterName ="http://"+hostIP+":80/restaurant/getPrinterName.php";
-        hostGetFoods ="http://"+hostIP+":80/restaurant/getFoods.php";
+        hostGetArea="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getArea.php";
+        hostGetTable="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getTable.php";
+        hostGetRes="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getRes.php";
+        hostGetFoodsType ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoodsType.php";
+        hostGetPrinterName ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getPrinterName.php";
+        hostGetFoods ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoods.php";
 
-        hostOrderByTableCode ="http://"+hostIP+":80/restaurant/OrderByTableCode.php";
-        hostBillByTableId ="http://"+hostIP+":80/restaurant/BillByTableId.php";
-        hostBillByBillCode ="http://"+hostIP+":80/restaurant/BillByBillCode.php";
-        hostBillDetailByBillId ="http://"+hostIP+":80/restaurant/BillDetailByBillId.php";
+        hostOrderByTableCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"OrderByTableCode.php";
+        hostBillByTableId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByTableId.php";
+        hostBillByBillCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByBillCode.php";
+        hostBillDetailByBillId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailByBillId.php";
 
-        hostBillInsert ="http://"+hostIP+":80/restaurant/BillInsert.php";
-        hostBillUpdate ="http://"+hostIP+":80/restaurant/BillUpdate.php";
-        hostBillDetailInsert ="http://"+hostIP+":80/restaurant/BillDetailInsert.php";
-        hostBillDetailUpdate ="http://"+hostIP+":80/restaurant/BillDetailUpdate.php";
-        hostBillVoid ="http://"+hostIP+":80/restaurant/BillVoid.php";
+        hostBillInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillInsert.php";
+        hostBillUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillUpdate.php";
+        hostBillDetailInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailInsert.php";
+        hostBillDetailUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailUpdate.php";
+        hostBillVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillVoid.php";
+        hostBillCloseDay ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByCloseDay.php";
 
-        hostFoodsInsert ="http://"+hostIP+":80/restaurant/FoodsInsert.php";
-        hostFoodsUpdate ="http://"+hostIP+":80/restaurant/FoodsUpdate.php";
-        hostFoodsSearch ="http://"+hostIP+":80/restaurant/FoodsSearch.php";
-        hostAreaInsert ="http://"+hostIP+":80/restaurant/AreaInsert.php";
-        hostAreaUpdate ="http://"+hostIP+":80/restaurant/AreaUpdate.php";
-        hostAreaSelectByID ="http://"+hostIP+":80/restaurant/AreaSelectByID.php";
-        hostTableInsert ="http://"+hostIP+":80/restaurant/TableInsert.php";
-        hostTableUpdate ="http://"+hostIP+":80/restaurant/TableUpdate.php";
-        hostTableSelectByID ="http://"+hostIP+":80/restaurant/TableSelectByID.php";
-        hostResInsert ="http://"+hostIP+":80/restaurant/ResInsert.php";
-        hostResUpdate ="http://"+hostIP+":80/restaurant/ResUpdate.php";
-        hostResSelectByID ="http://"+hostIP+":80/restaurant/ResSelectByID.php";
-        hostFoodsTypeInsert ="http://"+hostIP+":80/restaurant/FoodsTypeInsert.php";
-        hostFoodsTypeUpdate ="http://"+hostIP+":80/restaurant/FoodsTypeUpdate.php";
-        hostFoodsTypeSelectByID ="http://"+hostIP+":80/restaurant/FoodsTypeSelectByID.php";
-        hostSelectFoods="http://"+hostIP+":80/restaurant/selectFoods.php";
-        hostSelectFoodsByID="http://"+hostIP+":80/restaurant/selectFoodsByID.php";
-        hostSelectFoodsByCode="http://"+hostIP+":80/restaurant/selectFoodsByCode.php";
+        hostCloseDayInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayInsert.php";
+
+        hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
+        hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
+        hostFoodsSearch ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsSearch.php";
+        hostAreaInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaInsert.php";
+        hostAreaUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaUpdate.php";
+        hostAreaSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaSelectByID.php";
+        hostTableInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableInsert.php";
+        hostTableUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableUpdate.php";
+        hostTableSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableSelectByID.php";
+        hostResInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResInsert.php";
+        hostResUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResUpdate.php";
+        hostResSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResSelectByID.php";
+        hostFoodsTypeInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeInsert.php";
+        hostFoodsTypeUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeUpdate.php";
+        hostFoodsTypeSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeSelectByID.php";
+        hostSelectFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoods.php";
+        hostSelectFoodsByID="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByID.php";
+        hostSelectFoodsByCode="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByCode.php";
     }
     private void setCboTable(){
         //sCboTable.add("โต๊ะ 1");
@@ -294,6 +301,14 @@ public class RestaurantControl  extends Application implements Serializable {
         }
         return ab;
     }
+//    public String getResNameDefault(){
+//        String ab="";
+//        for(int i=0;i<sRes.size();i++){
+//            String[] aa = sRes.get(i).split("@");
+//            aa
+//        }
+//        return ab;
+//    }
     public void setInitial(FileOutputStream ot,String node, String data) {
         String xmlFile = "initial.xml";
         String userNAme = "username";
@@ -415,4 +430,18 @@ public class RestaurantControl  extends Application implements Serializable {
 //            return "" ;
 //        }
 //    }
+    public String chkNumber(String txt){
+        if(txt.equals("")){
+            return "0.0";
+        }else{
+            return txt.trim();
+        }
+    }
+    public String StringNull(String txt){
+        if(txt.equals("null")){
+            return "";
+        }else{
+            return txt.trim();
+        }
+    }
 }

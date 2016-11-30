@@ -77,7 +77,14 @@
             android:layout_row="1"
             android:layout_column="1"
             android:layout_columnSpan="2"/>
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMClear"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_gravity="bottom|right" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,14 +92,6 @@
             android:id="@+id/lbFoodsRemark"
             android:layout_row="3"
             android:layout_column="0" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtMFoodsRemark"
-            android:ems="10"
-            android:layout_row="3"
-            android:layout_column="1" />
 
         <Button
             android:layout_width="wrap_content"
@@ -136,6 +135,14 @@
             android:layout_row="15"
             android:layout_column="2"
             android:layout_gravity="bottom|right" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtMFoodsRemark"
+            android:ems="10"
+            android:layout_row="3"
+            android:layout_column="1" />
 
     </GridLayout>
 

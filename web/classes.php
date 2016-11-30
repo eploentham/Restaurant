@@ -136,7 +136,7 @@ class Table1
 }
 class Restaurant 
 {
-	var $id,$code,$name,$sort1,$active,$remark,$table,$pkfield;
+	var $id,$code,$name,$sort1,$active,$remark,$rh1,$rh2,$rf1,$rf2,$billcode,$taxid,$defaultres,$prnf1,$prnf2,$prnf3,$prnw1,$prnw2,$prnw3,$table,$pkfield;
 	function __construct()
 	{
 		# code...
@@ -147,6 +147,19 @@ class Restaurant
 		$active="";
 		$remark="";
 		$datecreate="";
+		$rh1="";
+		$rh2="";
+		$rf1="";
+		$rf2="";
+		$billcode="";
+		$taxid="";
+		$defaultres="";
+		$prnf1="";
+		$prnf2="";
+		$prnf3="";
+		$prnw1="";
+		$prnw2="";
+		$prnw3="";
 		
 		$table="";
 		$pkfield="";
@@ -196,5 +209,9 @@ class BillDetail{
 		$lotid="";
 		$active="";
 	}
+}
+class Closeday{
+	var $id, $closeday_date, $res_id, $amount, $discount, $total, $service_charge, $vat, $nettotal, $remark, $active, $status_void, $void_date, $void_user, $cnt_bill, $bill_amount, $cnt_order, $amount_order, $closeday_user;
+	var $cash_receive1, $cash_receive2, $cash_receive3, $cash_draw1, $cash_draw2, $cash_draw3, $cash_receive1_remark, $cash_receive2_remark, $cash_receive3_remark, $cash_draw1_remark, $cash_draw2_remark, $cash_draw3_remark;
 }
 ?>

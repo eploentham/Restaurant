@@ -21,16 +21,18 @@
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/btnOrderAdd"
-            android:layout_marginBottom ="10dp"
+            android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/orderadd" />
+            android:background="@drawable/orderadd"
+            />
+
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/btnCookView"
-            android:layout_marginBottom ="10dp"
+            android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal" />
 
         <ImageButton
@@ -38,22 +40,30 @@
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/btnMBill"
-            android:layout_marginBottom ="10dp"
+            android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal" />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/btnMOrderView"
-            android:layout_marginBottom ="10dp"
+            android:id="@+id/btnMCloseDay"
+            android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal"
             android:elevation="0dp" />
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/btnMInt"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginBottom ="20dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="0dp" />
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMInt"
+            android:layout_gravity="center_horizontal" />-->
 
     </LinearLayout>
 </RelativeLayout>

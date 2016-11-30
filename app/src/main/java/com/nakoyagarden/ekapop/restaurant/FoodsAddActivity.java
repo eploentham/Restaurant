@@ -78,6 +78,7 @@ public class FoodsAddActivity extends AppCompatActivity {
         chkFoodsActive.setChecked(true);
         txtFoodsCode.setEnabled(false);
         txtFoodsName.setSelected(true);
+        chkFoodsActive.setText(R.string.activeon);
 
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboRes);
         cboRes.setAdapter(adaArea);
@@ -236,11 +237,11 @@ public class FoodsAddActivity extends AppCompatActivity {
                     foo = new Foods();
                     foo.ID = catObj.getString("foods_id");
                     foo.Code = catObj.getString("foods_code");
-                    foo.Name = catObj.getString("foods_name");
-                    foo.Remark = catObj.getString("remark");
+                    foo.Name = rs.StringNull(catObj.getString("foods_name"));
+                    foo.Remark = rs.StringNull(catObj.getString("remark"));
                     foo.ResCode = catObj.getString("res_code");
                     foo.Price = catObj.getString("foods_price");
-                    foo.PrinterName = catObj.getString("printer_name");
+                    foo.PrinterName = rs.StringNull(catObj.getString("printer_name"));
                     foo.Active = catObj.getString("active");
                     foo.ResId = catObj.getString("res_id");
                     foo.StatusFoods = catObj.getString("status_foods");

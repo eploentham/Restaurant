@@ -74,6 +74,23 @@
     <string name="nettotal">เป็นเงินสุทธิ</string>
     <string name="qty">จน.</string>
     <string name="hostIP"></string>
+    <string name="TaxID">เลขที่ผู้เสียภาษี</string>
+    <string name="PosID">เPOS ID</string>
+    <string name="CashReceive1">เงินสดรับ1</string>
+    <string name="CashReceive2">เงินสดรับ2</string>
+    <string name="CashReceive3">เงินสดรับ3</string>
+    <string name="CashDraw1">เบิกเงินสด1</string>
+    <string name="CashDraw2">เบิกเงินาด2</string>
+    <string name="CashDraw3">เบิกเงินสด3</string>
+    <string name="CaCntBill">จำนวนบิล</string>
+    <string name="CaCntOrder">จำนวนรายการ</string>
+    <string name="RaRH1">Receipt Header1</string>
+    <string name="RaRH2">Receipt Header2</string>
+    <string name="RaRF1">Receipt Footer1</string>
+    <string name="RaRF2">Receipt Footer2</string>
+    <string name="RaDefaultRes">ร้านอาหาร default</string>
+    <string name="RaTaxID">Tax ID</string>
+    <string name="RaBillCode">เลขที่ใบเสร็จ</string>
 
     <string name="title_warnings">Printer Warnings</string>
     <string name="print_job_id">ABC123</string>

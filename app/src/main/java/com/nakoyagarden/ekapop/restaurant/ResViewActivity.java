@@ -120,14 +120,18 @@ public class ResViewActivity extends AppCompatActivity {
                     Restaurant a = new Restaurant();
                     a.ID = catObj.getString("res_id");
                     a.Code = catObj.getString("res_code");
-                    a.Name = catObj.getString("res_name");
-                    a.Remark = catObj.getString("remark");
+                    a.Name = rs.StringNull(catObj.getString("res_name")).trim();
+                    a.Remark = rs.StringNull(catObj.getString("remark")).trim();
                     a.Active = catObj.getString("active");
+                    a.RH1 = rs.StringNull(catObj.getString("receipt_header1")).trim();
+                    a.RH2 = rs.StringNull(catObj.getString("receipt_header2")).trim();
+                    a.RF1 = rs.StringNull(catObj.getString("receipt_footer1")).trim();
+                    a.RF2 = rs.StringNull(catObj.getString("receipt_footer2")).trim();
                     //a.AreaID = catObj.getString("area_id");
                     //a.Sort1 = catObj.getString("sort1");
                     lRes.add(a);
                     //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
-                    arrayList.add(a.Code+" "+a.Name+" "+a.Remark);
+                    arrayList.add(a.Code+" "+a.Name+" "+a.Remark+" "+a.RH1+" "+a.RH2+" "+a.RF1+" "+a.RF2);
                 }
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
                     @Override

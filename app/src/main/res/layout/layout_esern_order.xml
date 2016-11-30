@@ -659,7 +659,8 @@
             android:text="New Button"
             android:id="@+id/btnSave"
             android:layout_row="16"
-            android:layout_column="2" />
+            android:layout_column="2"
+            android:layout_gravity="bottom"/>
 
         <!--<com.hrules.horizontalnumberpicker.HorizontalNumberPicker
             android:id="@+id/horizontal_number_picker2"

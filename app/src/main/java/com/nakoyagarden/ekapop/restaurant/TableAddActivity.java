@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
@@ -25,6 +27,7 @@ public class TableAddActivity extends AppCompatActivity {
     EditText txtTaCode, txtTaName, txtTaRemark, txtTaSort1;
     Spinner cboTaArea;
     Button btnTaSave;
+    Switch chkTaActive;
 
     Table ta;
     private RestaurantControl rs;
@@ -52,6 +55,7 @@ public class TableAddActivity extends AppCompatActivity {
         txtTaSort1 = (EditText)findViewById(R.id.txtTaSort1);
         btnTaSave = (Button)findViewById(R.id.btnTaSave);
         cboTaArea = (Spinner)findViewById(R.id.cboTaArea);
+        chkTaActive = (Switch) findViewById(R.id.chkTaActive);
 
         lbTaCode.setText(R.string.code);
         lbTaName.setText(R.string.name);
@@ -66,6 +70,17 @@ public class TableAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getTable();
                 new insertTable().execute();
+            }
+        });
+        chkTaActive.setText(R.string.activeon);
+        chkTaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    chkTaActive.setText(R.string.activeon);
+                }else{
+                    chkTaActive.setText(R.string.activeoff);
+                }
             }
         });
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboArea);
@@ -95,17 +110,26 @@ public class TableAddActivity extends AppCompatActivity {
                     cboTaArea.setSelection(i);
                 }
             }
+            if(ta.Active.equals("1")){
+                chkTaActive.setChecked(true);
+            }else{
+                chkTaActive.setChecked(false);
+            }
         }
     }
     private void getTable(){
         ta = new Table();
         ta.ID = rs.taID;
-        ta.Sort1=txtTaSort1.getText().toString();
+        ta.Sort1=txtTaSort1.getText().toString().trim();
         ta.Active="1";
-        ta.Code=txtTaCode.getText().toString();
-        ta.Name=txtTaName.getText().toString();
-        ta.Remark=txtTaRemark.getText().toString();
-
+        ta.Code=txtTaCode.getText().toString().trim();
+        ta.Name=txtTaName.getText().toString().trim();
+        ta.Remark=txtTaRemark.getText().toString().trim();
+        if(chkTaActive.isChecked()){
+            ta.Active="1";
+        }else{
+            ta.Active="3";
+        }
     }
     class insertTable extends AsyncTask<String,String,String> {
         @Override
@@ -161,11 +185,11 @@ public class TableAddActivity extends AppCompatActivity {
                     ta = new Table();
                     ta.ID = catObj.getString("table_id");
                     ta.Code = catObj.getString("table_code");
-                    ta.Name = catObj.getString("table_name");
-                    ta.Remark = catObj.getString("remark");
+                    ta.Name = rs.StringNull(catObj.getString("table_name")).trim();
+                    ta.Remark = rs.StringNull(catObj.getString("remark")).trim();
                     ta.Sort1 = catObj.getString("sort1");
-                    ta.Active = catObj.getString("active");
-                    ta.AreaID = catObj.getString("area_id");
+                    ta.Active = rs.StringNull(catObj.getString("active")).trim();
+                    ta.AreaID = rs.StringNull(catObj.getString("area_id")).trim();
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block

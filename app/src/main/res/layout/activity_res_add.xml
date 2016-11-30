@@ -40,15 +40,13 @@
             android:id="@+id/lbRaName"
             android:layout_row="1"
             android:layout_column="0" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtRaName"
-            android:ems="10"
+            android:ems="15"
             android:layout_row="1"
             android:layout_column="1" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,14 +55,119 @@
             android:id="@+id/lbRaRemark"
             android:layout_row="2"
             android:layout_column="0" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtRaRemark"
-            android:ems="10"
+            android:ems="15"
             android:layout_row="2"
             android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaDefaultRes"
+            android:layout_row="3"
+            android:layout_column="0" />
+        <CheckBox
+            android:text="CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkRaDefaultRes"
+            android:layout_row="3"
+            android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaRH1"
+            android:layout_row="4"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRaRH1"
+            android:ems="15"
+            android:layout_row="4"
+            android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaRH2"
+            android:layout_row="5"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRaRH2"
+            android:ems="15"
+            android:layout_row="5"
+            android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaRF1"
+            android:layout_row="6"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRaRF1"
+            android:ems="15"
+            android:layout_row="6"
+            android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaRF2"
+            android:layout_row="7"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRaRF2"
+            android:ems="15"
+            android:layout_row="7"
+            android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaTaxID"
+            android:layout_row="8"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRaTaxID"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:layout_row="8"
+            android:layout_column="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Text"
+            android:id="@+id/lbRaBillCode"
+            android:layout_row="9"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRaBillCode"
+            android:ems="10"
+            android:layout_row="9"
+            android:layout_column="1" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,7 +175,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
             android:id="@+id/lbRaActive"
-            android:layout_row="3"
+            android:layout_row="16"
             android:layout_column="0" />
 
         <Switch
@@ -80,7 +183,7 @@
             android:layout_height="wrap_content"
             android:text="New Switch"
             android:id="@+id/chkRaActive"
-            android:layout_row="3"
+            android:layout_row="16"
             android:layout_column="1" />
 
         <TextView
@@ -89,15 +192,15 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
             android:id="@+id/lbRaSort1"
-            android:layout_row="4"
+            android:layout_row="17"
             android:layout_column="0" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtRaSort1"
             android:ems="10"
-            android:layout_row="4"
+            android:inputType="numberSigned"
+            android:layout_row="17"
             android:layout_column="1" />
 
         <Button
@@ -105,7 +208,8 @@
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/btnRaSave"
-            android:layout_row="5"
+            android:layout_row="18"
             android:layout_column="1" />
+
     </GridLayout>
 </RelativeLayout>

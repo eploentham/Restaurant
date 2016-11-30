@@ -25,21 +25,24 @@ public class OrderAddActivity extends Activity {
         tabHost.setup(mLocalActivityManager);
         Intent s1 = new Intent(this, EsernOrderAdd.class);
         s1.putExtra("RestaurantControl",rs);
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("tab11")
-                .setIndicator(getResources().getString(R.string.esern))
-                .setContent(s1);
+
+//        TabHost.TabSpec tabSpec = tabHost.newTabSpec("tab11")
+//                .setIndicator(getResources().getString(R.string.esern))
+//                .setContent(s1);
+
         Intent s2 = new Intent(this, MailarapOrderAdd.class);
         s2.putExtra("RestaurantControl",rs);
         TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("tab22")
-                .setIndicator(getResources().getString(R.string.mailarap))
+                .setIndicator(rs.ResName)
                 .setContent(s2);
+
         Intent s3 = new Intent(this, WaterBarOrderAdd.class);
         s3.putExtra("RestaurantControl",rs);
         TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("tab33")
                 .setIndicator(getResources().getString(R.string.waterbar))
                 .setContent(s3);
 
-        tabHost.addTab(tabSpec);
+//        tabHost.addTab(tabSpec);
         tabHost.addTab(tabSpec2);
         tabHost.addTab(tabSpec3);
 

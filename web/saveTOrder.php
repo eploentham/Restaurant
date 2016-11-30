@@ -38,6 +38,9 @@ $or->printername="printer_name";
 $or->row1="row1";
 $or->foodsname="foods_name";
 $or->statustogo="status_to_go";
+$or->orderuser="order_user";
+$or->statuscloseday="status_closeday";
+$or->closedayid="closeday_id";
 
 $or->table="t_order";
 
@@ -47,19 +50,22 @@ $or->table="t_order";
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Insert into ".$or->table."(".$or->id.",".$or->foodscode.",".$or->orderdate.",".$or->price.",".$or->qty.",".$or->lotid.",".$or->rescode.",".$or->tablecode.","
 .$or->areacode.",".$or->statusfoods1.",".$or->statusfoods2.",".$or->statusfoods3.",".$or->active.",".$or->statusvoid.",".$or->statusbill.",".$or->statuscook.",".$or->datecreate.","
-.$or->printername.",".$or->remark.",".$or->row1.",".$or->foodsid.",".$or->foodsname.",".$or->statustogo.")".
+.$or->printername.",".$or->remark.",".$or->row1.",".$or->foodsid.",".$or->foodsname.",".$or->statustogo.","
+.$or->orderuser.",".$or->statuscloseday.",".$or->closedayid.")".
 " value (UUID(),'".$_POST['foods_code']."',now(),'".$_POST['price']."','".$_POST['qty']."','".$_POST['lot_id']."','".$_POST['res_code']."','".$_POST['table_code']."','"
 .$_POST['area_code']."','".$_POST['status_foods_1']."','".$_POST['status_foods_2']."','".$_POST['status_foods_3']."','1','0','0','0',NOW(),'"
-.$_POST['printer_name']."','".$_POST['remark']."','".$_POST['row1']."','".$_POST['foods_id']."','".$_POST['foods_name']."','".$_POST['status_to_go']."')";
+.$_POST['printer_name']."','".$_POST['remark']."','".$_POST['row1']."','".$_POST['foods_id']."','".$_POST['foods_name']."','".$_POST['status_to_go']."','"
+.$_POST['order_user']."','0','')";
 $objQuery = mysql_query($sql);
 
-$sql = "Update b_table Set status_use ='1' Where table_code ='".$_POST['table_code']."'";
-$objQuery = mysql_query($sql);
+//$sql = "Update b_table Set status_use ='1' Where table_code ='".$_POST['table_code']."'";
+//$objQuery = mysql_query($sql);
 
 $response = array();
 $resultArray = array();
 $response["success"] = 1;
 $response["message"] = "insert Order success";
+$response["sql"] = $sql;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

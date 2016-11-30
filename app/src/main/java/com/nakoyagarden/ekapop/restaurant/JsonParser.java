@@ -35,16 +35,44 @@ public class JsonParser {
     public JSONArray getJSONFromUrl(String url, List<NameValuePair> params) {
         // make HTTP request
         try {
+            String txt = url;
+            txt = txt.replace("http://","").trim();
+            if(txt.indexOf(":")!=0) {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost(url);
+                //httpPost.setEntity(new UrlEncodedFormEntity(params));
+                httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
 
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
-            //httpPost.setEntity(new UrlEncodedFormEntity(params));
-            httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                is = httpEntity.getContent();
+                try {
 
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            is = httpEntity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    is.close();
+                    json = sb.toString();
+                    //json = json.replace("[","");
+                    //json = json.replace("]","");
+                } catch (Exception e) {
+                    Log.e(TAG, "Error converting result " + e.toString());
+                }
 
+                // try parse the string to a JSON object
+                try {
+                    //jObj = new JSONObject(json);
+                    if(json.toString().indexOf("DOCTYPE")>=0) return new JSONArray();
+                    if(json == null) return  new JSONArray();
+                    jarr = new JSONArray(json);
+                    //jObj = new JSONObject("{\"code\":\"1000\",\"name\":\"\\u0e43\\u0e19\\u0e23\\u0e49\\u0e32\\u0e19\"},{\"code\":\"1001\",\"name\":\"\\u0e1f\\u0e38\\u0e15\\u0e1a\\u0e32\\u0e17\"},{\"code\":\"1002\",\"name\":\"\\u0e43\\u0e19\\u0e2a\\u0e27\\u0e19\"}");
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error parsing data " + e.toString());
+                }
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -53,31 +81,7 @@ public class JsonParser {
             e.printStackTrace();
         }
 
-        try {
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            is.close();
-            json = sb.toString();
-            //json = json.replace("[","");
-            //json = json.replace("]","");
-        } catch (Exception e) {
-            Log.e(TAG, "Error converting result " + e.toString());
-        }
-
-        // try parse the string to a JSON object
-        try {
-            //jObj = new JSONObject(json);
-            if(json.toString().indexOf("DOCTYPE")>=0) return new JSONArray();
-            jarr = new JSONArray(json);
-            //jObj = new JSONObject("{\"code\":\"1000\",\"name\":\"\\u0e43\\u0e19\\u0e23\\u0e49\\u0e32\\u0e19\"},{\"code\":\"1001\",\"name\":\"\\u0e1f\\u0e38\\u0e15\\u0e1a\\u0e32\\u0e17\"},{\"code\":\"1002\",\"name\":\"\\u0e43\\u0e19\\u0e2a\\u0e27\\u0e19\"}");
-        } catch (JSONException e) {
-            Log.e(TAG, "Error parsing data " + e.toString());
-        }
 
         // return JSON String
         return jarr;

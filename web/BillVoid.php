@@ -9,9 +9,9 @@ $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 //$objQuery = mysql_query("Select * From t_bill Where active = '1' and bill_code = '".$_POST['bill_code']."' ");
 $objQuery = mysql_query("Select password1 From b_user Where password1 = '".$_POST['password']."' ");
-$intNumField = mysql_num_fields($objQuery);
+$intNumRows = mysql_num_rows($objQuery);
 
-if($intNumField==0){
+if($intNumRows==0){
     $tmp = array();
     $tmp["status"] = "3";
     $tmp["message"] = "Password ไม่ถูกต้อง";

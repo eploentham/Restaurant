@@ -52,7 +52,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     Spinner cboTable, cboArea;
     TextView lbMFoodsname,lbMFoodsRemark, lbMQty, lbMToGo;
     EditText txtMFoodsCode, txtMFoodsRemark;
-    Button btnMailarapAdd, btnMSave;
+    Button btnMailarapAdd, btnMSave, btnMClear;
     RadioButton chkMToGo, chkMInRes;
 //    SwipeListView sv;
     com.hrules.horizontalnumberpicker.HorizontalNumberPicker txtMQty;
@@ -128,7 +128,10 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 
         btnMailarapAdd = (Button)findViewById(R.id.btnMailarapAdd);
         btnMSave = (Button)findViewById(R.id.btnMSave);
+        btnMClear = (Button)findViewById(R.id.btnMClear);
         btnMSave.setText(R.string.save);
+        btnMClear.setText("สั่งใหม่");
+        btnMClear.setVisibility(View.INVISIBLE);
         btnMailarapAdd.setText(getResources().getString(R.string.order1)+" "+getResources().getString(R.string.foods));
         btnMailarapAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,6 +181,13 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 //
         //    }
         //});
+        btnMClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnMSave.setEnabled(true);
+                txtMFoodsCode.setEnabled(true);
+            }
+        });
         btnMSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -207,6 +217,9 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         btnMSave.setEnabled(false);
+                        txtMFoodsCode.setEnabled(false);
+                        btnMClear.setVisibility(View.VISIBLE);
+                        lorder.clear();
                     }
                 }).create().show();
             }
@@ -360,7 +373,6 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         chkMToGo.setTextSize(textSize);
         chkMInRes.setTextSize(textSize);
         alvMOrder = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList1);
-
     }
 
     private void setLFoods(){
@@ -385,7 +397,6 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 arraycboMFoods.add(f.Code + " " + f.Name + " " + f.Price + " " + f.Remark + " " + f.PrinterName);
             }
             //adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
-
         } catch (JSONException e){
             // TODO Auto-generated catch block
             e.printStackTrace();

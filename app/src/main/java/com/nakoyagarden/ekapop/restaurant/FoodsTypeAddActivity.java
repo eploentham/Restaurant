@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         txtFtaRemark = (EditText)findViewById(R.id.txtFtaRemark);
         txtFtaSort1 = (EditText)findViewById(R.id.txtFtaSort1);
         btnFtaSave = (Button)findViewById(R.id.btnFtaSave);
+        chkFtaActive = (Switch)findViewById(R.id.chkFtaActive);
 
         lbFtaCode.setText(R.string.code);
         lbFtaName.setText(R.string.name);
@@ -62,6 +64,17 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getFoodsType();
                 new insertFoodsType().execute();
+            }
+        });
+        chkFtaActive.setText(R.string.activeon);
+        chkFtaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    chkFtaActive.setText(R.string.activeon);
+                }else{
+                    chkFtaActive.setText(R.string.activeoff);
+                }
             }
         });
         new retrieveFoodsType().execute();
@@ -146,8 +159,8 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
                     ft = new FoodsType();
                     ft.ID = catObj.getString("foods_type_id");
                     ft.Code = catObj.getString("foods_type_code");
-                    ft.Name = catObj.getString("foods_type_name");
-                    ft.Remark = catObj.getString("remark");
+                    ft.Name = rs.StringNull(catObj.getString("foods_type_name"));
+                    ft.Remark = rs.StringNull(catObj.getString("remark"));
                     ft.Sort1 = catObj.getString("sort1");
                     ft.Active = catObj.getString("active");
                 }

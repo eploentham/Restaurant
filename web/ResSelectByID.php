@@ -16,8 +16,15 @@ while($row = mysql_fetch_array($objQuery)){
     $tmp["res_code"] = $row["res_code"];
     $tmp["res_name"] = $row["res_name"];
     $tmp["active"] = $row["active"];
-    //$tmp["sort1"] = $row["sort1"];
+    $tmp["sort1"] = $row["sort1"];
     $tmp["remark"] = $row["remark"];
+    $tmp["default_res"] = $row["default_res"];
+    $tmp["receipt_header1"] = $row["receipt_header1"];
+    $tmp["receipt_header2"] = $row["receipt_header2"];
+    $tmp["receipt_footer1"] = $row["receipt_footer1"];
+    $tmp["receipt_footer2"] = $row["receipt_footer2"];
+    $tmp["bill_code"] = $row["bill_code"];
+    $tmp["tax_id"] = $row["tax_id"];
     //$tmp["area_id"] = $row["area_id"];
    
 	array_push($resultArray,$tmp);

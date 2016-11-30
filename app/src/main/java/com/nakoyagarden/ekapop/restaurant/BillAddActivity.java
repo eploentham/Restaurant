@@ -117,6 +117,7 @@ public class BillAddActivity extends AppCompatActivity {
                 new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
                         lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID);
                 for(int i=0;i<lOrderT.size();i++){
+
                     Order ord = (Order)lOrderT.get(i);
                     new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
 

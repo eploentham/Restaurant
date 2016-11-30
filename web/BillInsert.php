@@ -9,9 +9,9 @@ mysql_query("SET NAMES UTF8");
 
 
 $objQuery = mysql_query("Select month(now()) as month, year(now()) as year, ifnull(bill_code,'000000000') as bill_code From b_restaurant Where default_res = '1' and bill_month = month(now()) ");
-$intNumField = mysql_num_fields($objQuery);
+$intNumRow = mysql_num_rows($objQuery);
 //echo $intNumField;
-if($intNumField==0){
+if($intNumRow==0){
     mysql_query("update b_restaurant set bill_month = date_format(now(),'%m'), bill_code = null where default_res = '1' ");
 }
 $res_id = "";

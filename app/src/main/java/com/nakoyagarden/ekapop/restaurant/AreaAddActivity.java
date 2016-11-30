@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -63,11 +64,21 @@ public class AreaAddActivity extends AppCompatActivity {
         btnAaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getArea();
-                new insertArea().execute();
+            getArea();
+            new insertArea().execute();
             }
         });
-
+        chkAaActive.setText(R.string.activeon);
+        chkAaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if(b){
+                chkAaActive.setText(R.string.activeon);
+            }else{
+                chkAaActive.setText(R.string.activeoff);
+            }
+            }
+        });
         new retrieveArea().execute();
         setTheme();
     }
@@ -152,8 +163,8 @@ public class AreaAddActivity extends AppCompatActivity {
                     ar = new Area();
                     ar.ID = catObj.getString("area_id");
                     ar.Code = catObj.getString("area_code");
-                    ar.Name = catObj.getString("area_name");
-                    ar.Remark = catObj.getString("remark");
+                    ar.Name = rs.StringNull(catObj.getString("area_name"));
+                    ar.Remark = rs.StringNull(catObj.getString("remark"));
                     ar.Sort1 = catObj.getString("sort1");
                     ar.Active = catObj.getString("active");
                 }

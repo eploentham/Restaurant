@@ -42,7 +42,8 @@
         <activity android:name=".BillAddActivity" />
         <activity android:name=".OrderViewActivity" />
         <activity android:name=".InitailActivity" />
-        <activity android:name=".BillVoidActivity"></activity>
+        <activity android:name=".BillVoidActivity" />
+        <activity android:name=".CloseDayAddActivity"></activity>
     </application>
 
 </manifest>

@@ -278,6 +278,8 @@ public class EsernOrderAdd  extends Activity implements HorizontalNumberPickerLi
         lbBambooShootSalad.setTextSize(textSize);
         lbBurnBeef.setTextSize(textSize);
 
+
+
         chkMincedPork.setTextSize(textSize1);
         chkMincedBeef.setTextSize(textSize1);
         chkMincedCatFish.setTextSize(textSize1);

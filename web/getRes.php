@@ -7,7 +7,7 @@ $resultArray = array();
 $objConnect = mysql_connect("localhost","root","Ekartc2c5");
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
-$objQuery = mysql_query("Select * From b_restaurant Where active = '1'");
+$objQuery = mysql_query("Select * From b_restaurant Where active = '1' Order By sort1");
 $intNumField = mysql_num_fields($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	//$arrCol = array();
@@ -22,6 +22,9 @@ while($row = mysql_fetch_array($objQuery)){
     $tmp["receipt_header2"] = $row["receipt_header2"];
     $tmp["receipt_footer1"] = $row["receipt_footer1"];
     $tmp["receipt_footer2"] = $row["receipt_footer2"];
+    $tmp["bill_code"] = $row["bill_code"];
+    $tmp["tax_id"] = $row["tax_id"];
+    $tmp["sort1"] = $row["sort1"];
 	//for($i=0;$i<$intNumField;$i++)
 	//{
 	//	$arrCol[mysql_field_name($objQuery,$i)] = $obResult[$i];

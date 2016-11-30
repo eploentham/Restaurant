@@ -13,6 +13,8 @@ import com.epson.epos2.printer.ReceiveListener;
 import com.nakoyagarden.ekapop.restaurant.R;
 import com.nakoyagarden.ekapop.restaurant.ShowMsgEpson;
 
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +26,7 @@ public class PrintBillEpson extends Activity implements ReceiveListener {
     private Printer mPrinter = null;
     private Context mContext = null;
 //    private RestaurantControl rs;
+    public String TaxID ="", PosID="";
     public PrintBillEpson(Context c){
         mContext = c;
     }
@@ -170,7 +173,42 @@ public class PrintBillEpson extends Activity implements ReceiveListener {
 
         return msg;
     }
+    private void getText(){
 
+
+        try {
+            final int READ_BLOCK_SIZE = 100;
+            FileInputStream fileIn=openFileInput("initial.cnf");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            String[] p = s.split(";");
+            if(p.length>0){
+//                txtIaHost.setText(p[0].replace("host=",""));
+//                txtIaPrint.setText(p[1].replace("printer=",""));
+                PosID = p[2].replace("PosID=","");
+                TaxID = p[3].replace("TaxID=","");
+//                txtIaPortID.setText(p[4].replace("PortNumber=",""));
+//                txtIaWebDirectory.setText(p[5].replace("WebDirectory=",""));
+
+//                rs.hostIP = txtIaHost.getText().toString();
+            }
+            fileIn.close();
+//            rs.refresh();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Call this Method for Print Epson
      * @return
@@ -233,10 +271,12 @@ public class PrintBillEpson extends Activity implements ReceiveListener {
             mPrinter.addTextSize(2, 2);
             mPrinter.addText(resname+"\n");
             mPrinter.addTextSize(1, 1);
-            if(!header1.equals("")) mPrinter.addText(header1+"\n");
-            if(!header1.equals("null")) mPrinter.addText(header1+"\n");
-            if(!header2.equals(""))  mPrinter.addText(header2+"\n");
-            if(!header2.equals("null")) mPrinter.addText(header2+"\n");
+            if(!header1.equals("") && !header1.equals("null")) mPrinter.addText(header1+"\n");
+//            if(!header1.equals("null")) mPrinter.addText(header1+"\n");
+            if(!header2.equals("") && !header2.equals("null"))  mPrinter.addText(header2+"\n");
+//            if(!header2.equals("null"))  mPrinter.addText(header2+"\n");
+            if(!TaxID.equals("")) mPrinter.addText(R.string.TaxID+" "+TaxID+"     ");
+            if(!PosID.equals(""))  mPrinter.addText(R.string.PosID+" "+PosID+"\n");
 
 
 
@@ -278,10 +318,10 @@ public class PrintBillEpson extends Activity implements ReceiveListener {
             mPrinter.addText(alignText("sc",sc)+"\n");
             mPrinter.addText(alignText("ภาษี",vat)+"\n");
             mPrinter.addText(alignText("สุทธิ",nettotal)+"\n");
-            if(!footer1.equals("")) mPrinter.addText(footer1+"\n");
-            if(!footer1.equals("null")) mPrinter.addText(footer1+"\n");
-            if(!footer2.equals("")) mPrinter.addText(footer2+"\n");
-            if(!footer2.equals("null")) mPrinter.addText(footer2+"\n");
+            if(!footer1.equals("") && !footer1.equals("null")) mPrinter.addText(footer1+"\n");
+//            if(!footer1.equals("null")) mPrinter.addText(footer1+"\n");
+            if(!footer2.equals("")&&!footer2.equals("null")) mPrinter.addText(footer2+"\n");
+//            if(!footer2.equals("null")) mPrinter.addText(footer2+"\n");
 //            mPrinter.addFeedLine(1);
             mPrinter.addFeedLine(1);
             method = "addCut";
