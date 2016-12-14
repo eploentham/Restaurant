@@ -4,7 +4,7 @@
 //$conn = new ConnectDB();
 $resultArray = array();
 //$resultArray["area"] = array();
-$objConnect = mysql_connect("localhost","root","Ekartc2c5");
+$objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select * From t_bill Where active = '1' and table_id = '".$_POST['table_id']."' and bill_date >= '".$_POST['bill_date1']."' and bill_date <= '".$_POST['bill_date2']."' Order By bill_date");

@@ -137,6 +137,8 @@ public class TableAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("ID", ta.ID));
                 params.add(new BasicNameValuePair("Code", ta.Code));
                 params.add(new BasicNameValuePair("Name", ta.Name));

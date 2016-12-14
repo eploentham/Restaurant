@@ -4,7 +4,7 @@
 //$conn = new ConnectDB();
 $resultArray = array();
 //$resultArray["area"] = array();
-$objConnect = mysql_connect("localhost","root","Ekartc2c5");
+$objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $date1 = $_POST['closeday_date']." 00:00:00";

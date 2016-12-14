@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,8 +87,10 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
             //try {
-            //List<NameValuePair> params = new ArrayList<NameValuePair>();
-            jarrFt = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,new ArrayList<NameValuePair>());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrFt = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,params);
             //rs.jarrF = jarrF.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block

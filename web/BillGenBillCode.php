@@ -4,7 +4,7 @@
 //$conn = new ConnectDB();
 $resultArray = array();
 //$resultArray["area"] = array();
-$objConnect = mysql_connect("localhost","root","Ekartc2c5");
+$objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select month(now()) as month, year(now()) as year, ifnull(bill_code,'000000000') as bill_code From b_restaurant Where default_res = '1' and bill_month = month(now()) ");

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +88,9 @@ public class TableViewActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             //try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            jarrT = jsonparser.getJSONFromUrl(rs.hostGetTable,new ArrayList<NameValuePair>());
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrT = jsonparser.getJSONFromUrl(rs.hostGetTable,params);
             //rs.jarrF = jarrT.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block

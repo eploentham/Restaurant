@@ -1,7 +1,6 @@
 package com.nakoyagarden.ekapop.restaurant;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -171,6 +170,8 @@ public class FoodsAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("ID", foo.ID));
                 params.add(new BasicNameValuePair("Code", foo.Code));
                 params.add(new BasicNameValuePair("Name", foo.Name));
@@ -229,6 +230,8 @@ public class FoodsAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("foods_id", rs.fooID));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByID,params);
@@ -274,6 +277,8 @@ public class FoodsAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             //try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,new ArrayList<NameValuePair>());
             rs.jarrF = jarrF.toString();
             //jarrF = jsonparser.getJSONFromUrl(rs.hostGetRes,params);

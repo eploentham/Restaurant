@@ -10,14 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.hrules.horizontalnumberpicker.*;
 import com.hrules.horizontalnumberpicker.HorizontalNumberPicker;
 import com.hrules.horizontalnumberpicker.HorizontalNumberPickerListener;
 
@@ -427,6 +424,8 @@ public class EsernOrderAdd  extends Activity implements HorizontalNumberPickerLi
             // TODO Auto-generated method stub
             //lbMessage = (TextView) findViewById(R.id.lbMessage);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             //String uniqueID = UUID.randomUUID().toString();
             //row = Integer.parseInt(arg0[0]);
             //params.add(new BasicNameValuePair("order_id", uniqueID));

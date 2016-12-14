@@ -2,7 +2,7 @@
 <?php
 include "classes.php";
 
-$objConnect = mysql_connect("localhost","root","Ekartc2c5");
+$objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 

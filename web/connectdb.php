@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
- $conn = mysql_connect("localhost","root","123456");
+ $conn = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
  if($conn )
  {
   echo "เชื่อมต่อฐานข้อมูลเรียบร้อย.";

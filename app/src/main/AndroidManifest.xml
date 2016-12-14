@@ -43,7 +43,10 @@
         <activity android:name=".OrderViewActivity" />
         <activity android:name=".InitailActivity" />
         <activity android:name=".BillVoidActivity" />
-        <activity android:name=".CloseDayAddActivity"></activity>
+        <activity android:name=".CloseDayAddActivity" />
+        <activity android:name=".UserAddActivity" />
+        <activity android:name=".UserViewActivity" />
+        <activity android:name=".Initial2Activity"></activity>
     </application>
 
 </manifest>

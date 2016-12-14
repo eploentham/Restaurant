@@ -1,7 +1,6 @@
 package com.nakoyagarden.ekapop.restaurant;
 
 import android.content.Intent;
-import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,6 +93,8 @@ public class AreaViewActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             //try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrR = jsonparser.getJSONFromUrl(rs.hostGetArea,new ArrayList<NameValuePair>());
             //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {

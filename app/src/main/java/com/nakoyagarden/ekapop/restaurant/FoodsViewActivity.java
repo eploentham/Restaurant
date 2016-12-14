@@ -1,7 +1,6 @@
 package com.nakoyagarden.ekapop.restaurant;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,13 +9,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,9 +97,11 @@ public class FoodsViewActivity extends AppCompatActivity {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
             //try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,new ArrayList<NameValuePair>());
-                rs.jarrF = jarrF.toString();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
+            rs.jarrF = jarrF.toString();
             //} catch (JSONException e) {
                 // TODO Auto-generated catch block
             //    e.printStackTrace();

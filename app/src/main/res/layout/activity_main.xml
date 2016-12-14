@@ -23,9 +23,7 @@
             android:id="@+id/btnOrderAdd"
             android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/orderadd"
-            />
-
+            android:background="@drawable/orderadd"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -33,7 +31,8 @@
             android:text="New Button"
             android:id="@+id/btnCookView"
             android:layout_marginBottom ="20dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/btnOrderAdd"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -41,7 +40,8 @@
             android:text="New Button"
             android:id="@+id/btnMBill"
             android:layout_marginBottom ="20dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/btnCookView"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,8 @@
             android:id="@+id/btnMCloseDay"
             android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal"
-            android:elevation="0dp" />
+            android:elevation="0dp"
+            android:layout_below="@+id/btnMBill"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,13 +58,16 @@
             android:id="@+id/btnMInt"
             android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal"
-            android:elevation="0dp" />
-        <!--<Button
+            android:elevation="0dp"
+            android:layout_below="@+id/btnMCloseDay"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/btnMInt"
-            android:layout_gravity="center_horizontal" />-->
+            android:id="@+id/lbMMessage"
+            android:layout_gravity="center_horizontal"
+            android:gravity="bottom"
+            android:layout_below="@+id/btnMInt"/>
 
     </LinearLayout>
 </RelativeLayout>

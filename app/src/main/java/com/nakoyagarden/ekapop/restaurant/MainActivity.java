@@ -1,24 +1,28 @@
 package com.nakoyagarden.ekapop.restaurant;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
     JsonParser jsonparser = new JsonParser();
     String ab;
     JSONObject jobj = null;
-    JSONArray jarrA, jarrT, jarrR, jarrF;
+    JSONArray jarrA, jarrT, jarrR, jarrF,jarrU;
     //Button btnMInt;
     ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA, btnMCloseDay, btnMInt;
+    TextView lbMMessage;
     public RestaurantControl rs;
     ProgressDialog pd;
     Boolean fileExit=false;
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //        btnMFt = (Button)findViewById(R.id.btnMFoodsType);
 //        btnMTable = (Button)findViewById(R.id.btnMTable);
 //        btnMArea = (Button)findViewById(R.id.btnMArea);
-//        btnMRes = (Button)findViewById(R.id.btnMRes);
+        lbMMessage = (TextView)findViewById(R.id.lbMMessage);
         btnMBill = (ImageButton)findViewById(R.id.btnMBill);
         //btnMOrderV = (ImageButton)findViewById(R.id.btnMOrderView);
         btnMCloseDay = (ImageButton)findViewById(R.id.btnMCloseDay);
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //        btnMOrderV.setBackgroundResource(R.mipmap.menu_bill);
         btnMCloseDay.setBackgroundResource(R.mipmap.menu_closeday);
         btnMInt.setBackgroundResource(R.mipmap.menu_int);
+        lbMMessage.setVisibility(View.INVISIBLE);
         //btnMFoodsType.setText(Re);
         rs = new RestaurantControl();
         rs.pageLoad=false;
@@ -94,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 //txtIaPrint.setText(p[1].replace("printer=",""));
                 rs.hostPORT =  p[4].replace("PortNumber=","").replace("\n","");
                 rs.hostWebDirectory =p[5].replace("WebDirectory=","").replace("\n","");
+                rs.UserDB =p[6].replace("UserDB=","").replace("\n","");
+                rs.PasswordDB =p[7].replace("PasswordDB=","").replace("\n","");
 //                txtIaTaxID.setText(p[3].replace("TaxID=",""));
 //                txtIaPortID.setText(p[4].replace("PortNumber=",""));
 //                txtIaWebDirectory.setText(p[5].replace("WebDirectory=",""));
@@ -154,13 +162,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        String txt = rs.hostIP;
 //        txt = txt.replace("http://","").trim();
+
         if(!rs.hostIP.equals("")) {
-            new retrieveArea().execute();
-            new retrieveTable().execute();
-            new retrieveRes().execute();
-            new retrieveFoods().execute();
-            new retrievePrinterName().execute();
-            new retrieveFoodsType().execute();
+            new chkServerReachable().execute();
         }
 
 //        pageLoad=false;
@@ -187,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 jarrA = jsonparser.getJSONFromUrl(rs.hostGetArea,params);
                 if(jarrA!=null){
 
@@ -213,15 +219,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             String aaa = ab;
-            pd = new ProgressDialog(MainActivity.this);
-            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            pd.setTitle("Loading...");
-            pd.setMessage("Loading images...");
-            pd.setCancelable(false);
-            pd.setIndeterminate(false);
-            pd.setMax(100);
-            pd.setProgress(0);
-            pd.show();
+
         }
     }
     public class retrieveTable extends AsyncTask<String,String,String>{
@@ -230,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
 //                if(!rs.hostIP.equals("")) {
 //
 //                }
@@ -266,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
                 if(jarrR!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
@@ -310,9 +312,11 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
             //try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                jarrF = jsonparser.getJSONFromUrl(rs.hostGetFoods,new ArrayList<NameValuePair>());
-                rs.jarrF = jarrF.toString();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrF = jsonparser.getJSONFromUrl(rs.hostGetFoods,new ArrayList<NameValuePair>());
+            rs.jarrF = jarrF.toString();
                 //jarrF = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
 
             //} catch (JSONException e) {
@@ -337,6 +341,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 jarrR = jsonparser.getJSONFromUrl(rs.hostGetPrinterName,params);
                 if(jarrR!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
@@ -368,11 +374,14 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 jarrR = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,params);
                 if(jarrR!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
                     //JSONArray json = new JSONArray(jobj);
                     rs.sCboFoodsType.clear();
+                    rs.sFoodsType.clear();
                     for (int i = 0; i < jarrR.length(); i++) {
                         JSONObject catObj = (JSONObject) jarrR.get(i);
                         rs.sCboFoodsType.add(catObj.getString("foods_type_name"));
@@ -391,6 +400,107 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPreExecute() {
+
+        }
+    }
+    class retrieveUser extends AsyncTask<String,String,String>{
+        @Override
+        protected String doInBackground(String... arg0) {
+            //Log.d("Login attempt", jobj.toString());
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+                jarrU = jsonparser.getJSONFromUrl(rs.hostGetUser,params);
+                if(jarrU!=null){
+                    rs.sCboUser.clear();
+                    rs.sUser.clear();
+                    for (int i = 0; i < jarrU.length(); i++) {
+                        JSONObject catObj = (JSONObject) jarrU.get(i);
+                        rs.sCboUser.add(catObj.getString("user_name"));
+                        rs.sUser.add(catObj.getString("user_id")+"@"+catObj.getString("user_login")+"@"+catObj.getString("user_name")+"@"+
+                                catObj.getString("password")+"@"+catObj.getString("privilege")+"@"+catObj.getString("remark"));
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+            pd.dismiss();
+        }
+        @Override
+        protected void onPreExecute() {
+
+        }
+    }
+    class chkServerReachable extends AsyncTask<String,String,String>{
+        Boolean chk = false;
+        @Override
+        protected String doInBackground(String... arg0) {
+            //Log.d("Login attempt", jobj.toString());
+            Socket socket;
+//            final String host = "10.0.1.51";
+            final int port = 80;
+            final int timeout = 20000;   // 10 seconds
+
+            try {
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(rs.hostIP, port), timeout);
+                chk=true;
+            }
+            catch (UnknownHostException uhe) {
+                chk = false;
+                Log.e("ServerSock", "I couldn't resolve the host you've provided!");
+                pd.dismiss();
+                ab = "ServerSock I couldn't resolve the host you've provided!";
+            }
+            catch (SocketTimeoutException ste) {
+                chk = false;
+                Log.e("ServerSock", "After a reasonable amount of time, I'm not able to connect, Server is probably down!");
+                pd.dismiss();
+                ab = "ServerSock After a reasonable amount of time, I'm not able to connect, Server is probably down!" ;
+            }
+            catch (IOException ioe) {
+                chk = false;
+                Log.e("ServerSock", "Hmmm... Sudden disconnection, probably you should start again!");
+                pd.dismiss();
+                ab = "ServerSock Hmmm... Sudden disconnection, probably you should start again!";
+            }
+            return ab+ rs.hostIP;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+//            chk=true;
+            if(chk){
+                new retrieveArea().execute();
+                new retrieveTable().execute();
+                new retrieveRes().execute();
+                new retrieveFoods().execute();
+                new retrievePrinterName().execute();
+                new retrieveFoodsType().execute();
+                new retrieveUser().execute();
+            }else{
+                lbMMessage.setVisibility(View.VISIBLE);
+                lbMMessage.setText(ab);
+            }
+            pd.dismiss();
+
+        }
+        @Override
+        protected void onPreExecute() {
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setTitle("Loading...");
+            pd.setMessage("Loading information...");
+            pd.setCancelable(false);
+            pd.setIndeterminate(false);
+            pd.setMax(100);
+            pd.setProgress(0);
+            pd.show();
 
         }
     }

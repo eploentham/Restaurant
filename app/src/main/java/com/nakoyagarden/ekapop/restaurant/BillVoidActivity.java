@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -116,10 +117,22 @@ public class BillVoidActivity extends AppCompatActivity {
                         }
                     }).create().show();
                 }else{
-                    new retrieveBillVoid().execute(txtBvPassword.getText().toString(), bill.ID);
+                    if(rs.chkPasswordVoid(txtBvPassword.getText().toString())){
+                        new retrieveBillVoid().execute(txtBvPassword.getText().toString(), bill.ID);
+                    }else{
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
+                        builder1.setMessage("Password ไม่ถูกต้อง");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtBvPassword.setSelection(0,txtBvPassword.getText().length());
+                                txtBvPassword.setFocusable(true);
+                            }
+                        }).create().show();
+                    }
                 }
             }
-
         });
         txtBvBillCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -157,6 +170,7 @@ public class BillVoidActivity extends AppCompatActivity {
             }
         });
         pageLoad=false;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     class retrieveOrderByTable extends AsyncTask<String,String,String> {
         @Override
@@ -169,6 +183,8 @@ public class BillVoidActivity extends AppCompatActivity {
             c.add(Calendar.DATE, 1);
             String output = sdf.format(c.getTime());
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("table_id", arg0[0]));
             params.add(new BasicNameValuePair("bill_date1",currentDate));
             params.add(new BasicNameValuePair("bill_date2",output));
@@ -200,6 +216,8 @@ public class BillVoidActivity extends AppCompatActivity {
 //            c.add(Calendar.DATE, 1);
 //            String output = sdf.format(c.getTime());
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("bill_id", arg0[0]));
 //            params.add(new BasicNameValuePair("bill_date1",currentDate));
 //            params.add(new BasicNameValuePair("bill_date2",output));
@@ -232,6 +250,8 @@ public class BillVoidActivity extends AppCompatActivity {
             c.add(Calendar.DATE, 1);
             String output = sdf.format(c.getTime());
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("password", arg0[0]));
             params.add(new BasicNameValuePair("bill_id",arg0[1]));
 //            params.add(new BasicNameValuePair("bill_date2",output));

@@ -1,6 +1,8 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +16,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,22 +37,22 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class InitailActivity extends AppCompatActivity implements ReceiveListener {
+public class InitailActivity extends Activity implements ReceiveListener {
     public RestaurantControl rs;
-    TextView lbIaHost, lbIaPrint, lbIaPosID, lbIaTaxID, lbIaWebDirectory, lbIaPortID;
-    EditText txtIaHost, txtIaPrint, txtIaPosID, txtIaTaxID, txtIaWebDirectory, txtIaPortID;
-    Button btnIaSave, btnIaPrint, btnIaTest,btnFoodsV;
-    Button btnMFt, btnMTable,btnMArea, btnMRes, btnMBillVoid;
+    TextView lbIaHost, lbIaPrint, lbIaPosID, lbIaTaxID, lbIaWebDirectory, lbIaPortID, lbIaUserDB, lbIaPasswordDB;
+    EditText txtIaHost, txtIaPrint, txtIaPosID, txtIaTaxID, txtIaWebDirectory, txtIaPortID, txtIaUserDB, txtIaPasswordDB;
+    Button btnIaSave, btnIaPrint, btnIaTest,btnFoodsV, btnMUser;
+    Button btnMFt, btnMBillVoid;
+    ImageButton btnMTable,btnMArea, btnMRes;
     Spinner cboIaPrinter;
+    CheckBox chkPrintOrder, chkPrintBill, chkPrintCloseDay;
     InputStream is;
     String ab="";
 
     private int INT_SELECT_PICTURE = 1;
 
     private int GETSTATUS_TIME = 1000;		//1sec
-
     public String selectedImagePath = "";
-
     static String[] ethDeviceList = null;
 
     static ListView listDevicesView ;
@@ -61,15 +65,17 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
 
     static Handler hGetStatus = new Handler();
 
-
     private Printer mPrinter = null;
     private Context mContext = null;
     private ArrayList<String> sCboPrinter = new ArrayList<String>();
+    LocalActivityManager mLocalActivityManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initail);
-
+        mLocalActivityManager = new LocalActivityManager(this, false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mContext = this;
 //        Intent intent = getIntent();
         rs = (RestaurantControl) getIntent().getSerializableExtra("RestaurantControl");
@@ -86,16 +92,25 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
         lbIaPortID = (TextView) findViewById(R.id.lbIaPortID);
         txtIaPortID = (EditText) findViewById(R.id.txtIaPortID);
         cboIaPrinter = (Spinner) findViewById(R.id.cboIaPrinter);
+        txtIaUserDB = (EditText) findViewById(R.id.txtIaUserDB);
+        txtIaPasswordDB = (EditText) findViewById(R.id.txtIaPasswordDB);
 
         btnIaSave = (Button) findViewById(R.id.btnIaSave);
         btnIaPrint = (Button) findViewById(R.id.btnIaPrint);
         btnIaTest = (Button) findViewById(R.id.btnIaTest);
         btnFoodsV = (Button)findViewById(R.id.btnFoodsView);
         btnMFt = (Button)findViewById(R.id.btnMFoodsType);
-        btnMTable = (Button)findViewById(R.id.btnMTable);
-        btnMArea = (Button)findViewById(R.id.btnMArea);
-        btnMRes = (Button)findViewById(R.id.btnMRes);
+        btnMTable = (ImageButton)findViewById(R.id.btnMTable);
+        btnMArea = (ImageButton)findViewById(R.id.btnMArea);
+        btnMRes = (ImageButton)findViewById(R.id.btnMRes);
         btnMBillVoid = (Button)findViewById(R.id.btnMBillVoid);
+        btnMUser = (Button)findViewById(R.id.btnMUser);
+
+        lbIaUserDB = (TextView)findViewById(R.id.lbIaUserDB);
+        lbIaPasswordDB = (TextView)findViewById(R.id.lbIaPasswordDB);
+        chkPrintOrder = (CheckBox)findViewById(R.id.chkPrintOrder);
+        chkPrintBill = (CheckBox)findViewById(R.id.chkPrintBill);
+        chkPrintCloseDay = (CheckBox)findViewById(R.id.chkPrintCloseDay);
 
         btnIaPrint.setText("Test Print");
         lbIaHost.setText("Host IP");
@@ -105,13 +120,24 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
         lbIaTaxID.setText("Tax ID");
         lbIaPortID.setText("Port Number");
 
+        lbIaUserDB.setText("User DB");
+        lbIaPasswordDB.setText("Password DB");
+        chkPrintOrder.setText("พิมพ์ใบสั่งอาหาร");
+        chkPrintBill.setText("พิมพ์ใบคิดเงิน");
+        chkPrintCloseDay.setText("พิมพ์ใบปิดวัน");
+
+        btnMTable.setBackgroundResource(R.mipmap.menu_table);
+        btnMArea.setBackgroundResource(R.mipmap.menu_table);
+        btnMRes.setBackgroundResource(R.mipmap.menu_res);
+
         btnIaSave.setText(R.string.save);
         btnIaTest.setText("Test");
         btnMBillVoid.setText("ยกเลิกรับชำระ");
         btnMFt.setText(getResources().getString(R.string.add)+getResources().getString(R.string.type)+getResources().getString(R.string.foods));
-        btnMTable.setText(getResources().getString(R.string.add)+getResources().getString(R.string.table));
-        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
-        btnMRes.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
+//        btnMTable.setText(getResources().getString(R.string.add)+getResources().getString(R.string.table));
+//        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
+//        btnMRes.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
+        btnMUser.setText(R.string.user);
         btnIaSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -171,6 +197,12 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
                 startActivityForResult(new Intent(view.getContext(), BillVoidActivity.class).putExtra("RestaurantControl",rs), 0);
             }
         });
+        btnMUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(view.getContext(), UserViewActivity.class).putExtra("RestaurantControl",rs), 0);
+            }
+        });
         sCboPrinter.add("Epson T82");
         sCboPrinter.add("Custom Kute II");
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,sCboPrinter);
@@ -190,6 +222,18 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 //        InitEverything(savedInstanceState);
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLocalActivityManager.dispatchPause(!isFinishing());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLocalActivityManager.dispatchResume();
+    }
     private void saveText(){
         FileOutputStream outputStream;
         String string = "host="+txtIaHost.getText().toString().trim()+";\n"
@@ -197,7 +241,9 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
             +"PosID="+txtIaPosID.getText().toString().trim()+";\n"
             +"TaxID="+txtIaTaxID.getText().toString().trim()+";\n"
             +"PortNumber="+txtIaPortID.getText().toString().trim()+";\n"
-            +"WebDirectory="+txtIaWebDirectory.getText().toString().trim()+";\n";
+            +"WebDirectory="+txtIaWebDirectory.getText().toString().trim()+";\n"
+            +"UserDB="+txtIaUserDB.getText().toString().trim()+";\n"
+            +"PasswordDB="+txtIaPasswordDB.getText().toString().trim()+";\n";
         try {
             File file =getFileStreamPath("initial.cnf");
             outputStream = openFileOutput("initial.cnf", Context.MODE_PRIVATE);
@@ -236,6 +282,8 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
                 txtIaTaxID.setText(p[3].replace("TaxID=","").replace("\n",""));
                 txtIaPortID.setText(p[4].replace("PortNumber=","").replace("\n",""));
                 txtIaWebDirectory.setText(p[5].replace("WebDirectory=","").replace("\n",""));
+                txtIaUserDB.setText(p[6].replace("UserDB=","").replace("\n",""));
+                txtIaPasswordDB.setText(p[7].replace("PasswordDB=","").replace("\n",""));
 
                 rs.hostIP = txtIaHost.getText().toString();
             }
@@ -275,9 +323,6 @@ public class InitailActivity extends AppCompatActivity implements ReceiveListene
         dialogBuilder.show();
 
     }
-
-
-
     @Override
     public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
         runOnUiThread(new Runnable() {

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.hrules.horizontalnumberpicker.*;
@@ -38,7 +39,7 @@ public class WaterBarOrderAdd extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_waterbar_order);
 
-        GridLayout linearLayout = (GridLayout) findViewById(R.id.layoutWaterBarOrder);
+        RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.layout_waterbar_order);
         //linearLayout.setBackgroundColor(Color.parseColor("#3982d7"));
         linearLayout.setBackgroundColor(getResources().getColor(R.color.BackScreenWaterBar));
         cboTable = (Spinner)findViewById(R.id.cboWaterBarTable);
@@ -62,6 +63,8 @@ public class WaterBarOrderAdd extends Activity {
         chkIceGlass = (CheckBox)findViewById(R.id.chkIceGlass);
         chkIceJar = (CheckBox)findViewById(R.id.chkIceJar);
 
+        txtCoke = (com.hrules.horizontalnumberpicker.HorizontalNumberPicker)findViewById(R.id.txtQtyCoke);
+
         chkCoke.setText(R.string.coke);
         chkPapsi.setText(R.string.papsi);
         chkWaterOrange.setText(R.string.waterorange);
@@ -72,6 +75,7 @@ public class WaterBarOrderAdd extends Activity {
         chkBeerChiang.setText(R.string.beerchiang);
         chkIceGlass.setText(R.string.iceglass);
         chkIceJar.setText(R.string.icejar);
+        txtCoke.setValue(1);
         setTheme();
     }
     private void setTheme(){

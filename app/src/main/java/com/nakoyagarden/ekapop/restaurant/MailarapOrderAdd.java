@@ -2,33 +2,27 @@ package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.GestureDetector;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.epson.epos2.Epos2Exception;
 import com.epson.epos2.printer.Printer;
 import com.epson.epos2.printer.PrinterStatusInfo;
 import com.epson.epos2.printer.ReceiveListener;
@@ -39,9 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +43,7 @@ import java.util.UUID;
 public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     Spinner cboTable, cboArea;
     TextView lbMFoodsname,lbMFoodsRemark, lbMQty, lbMToGo;
-    EditText txtMFoodsCode, txtMFoodsRemark;
+    EditText txtMFoodsCode, txtMFoodsRemark, txtMPassword;
     Button btnMailarapAdd, btnMSave, btnMClear;
     RadioButton chkMToGo, chkMInRes;
 //    SwipeListView sv;
@@ -101,7 +93,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         alQty = new ArrayList<String>();
         arraycboMFoods = new ArrayList<String>();
 
-        GridLayout linearLayout = (GridLayout) findViewById(R.id.layoutMailarapOrder);
+        RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.layout_mailarap_order);
         linearLayout.setBackgroundColor(getResources().getColor(R.color.BackScreenMailarap));
 
         cboTable = (Spinner)findViewById(R.id.cboMailarapTable);
@@ -112,17 +104,19 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         lbMQty = (TextView)findViewById(R.id.lbMQty);
         txtMFoodsCode = (EditText) findViewById(R.id.txtMFoodsCode);
         txtMFoodsRemark = (EditText)findViewById(R.id.txtMFoodsRemark);
+        txtMPassword = (EditText)findViewById(R.id.txtMPassword);
         txtMQty = (com.hrules.horizontalnumberpicker.HorizontalNumberPicker)findViewById(R.id.txtMQty);
         lvMOrder = (ListView)findViewById(R.id.lvMOrder);
         chkMToGo = (RadioButton) findViewById(R.id.chkMToGo);
         chkMInRes = (RadioButton) findViewById(R.id.chkMInRes);
         lbMToGo = (TextView) findViewById(R.id.lbMToGo);
 
-        lbMQty.setText(R.string.code);
+        lbMQty.setText(R.string.qty);
         lbMFoodsRemark.setText(R.string.remark);
         chkMInRes.setText(R.string.inres);
         chkMToGo.setText(R.string.togo);
         lbMToGo.setText(R.string.active);
+
 
 
 
@@ -131,7 +125,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         btnMClear = (Button)findViewById(R.id.btnMClear);
         btnMSave.setText(R.string.save);
         btnMClear.setText("สั่งใหม่");
-        btnMClear.setVisibility(View.INVISIBLE);
+//        btnMClear.setVisibility(View.INVISIBLE);
         btnMailarapAdd.setText(getResources().getString(R.string.order1)+" "+getResources().getString(R.string.foods));
         btnMailarapAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,37 +185,82 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         btnMSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lotID = UUID.randomUUID().toString();
-                String areacode = rs.getArea(cboArea.getSelectedItem().toString(),"code");
-                String tablecode = rs.getTable(cboTable.getSelectedItem().toString(),"code");
+                if(txtMPassword.getText().toString().equals("")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
+                    builder1.setMessage("Password ไม่ได้ป้อน");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtMPassword.setSelection(0,txtMPassword.getText().length());
+                            txtMPassword.setFocusable(true);
+                        }
+                    }).create().show();
+                }else{
+                    if(rs.chkPasswordOrder(txtMPassword.getText().toString())){
+                        String lotID = UUID.randomUUID().toString();
+                        String areacode = rs.getArea(cboArea.getSelectedItem().toString(),"code");
+                        String tablecode = rs.getTable(cboTable.getSelectedItem().toString(),"code");
 //                ItemData itemView = (ItemData) cboTable.getSelectedItem();
 //                itemView.text
 //                String tablecode = rs.getTable(itemView.text,"code");
-                String[] prn = new String[lorder.size()];
-                for(int i=0;i<lorder.size();i++){
-                    Order ord = (Order)lorder.get(i);
-                    new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                            ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo);
+                        String[] prn = new String[lorder.size()];
+                        for(int i=0;i<lorder.size();i++){
+                            Order ord = (Order)lorder.get(i);
+                            new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
+                                    ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo);
 //                    pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), ord.FoodsName,ord.Qty,ord.Remark);
-                    if(ord.Remark.equals("")) ord.Remark="-";
-                    prn[i] = ord.FoodsName+";"+ord.Qty+";"+ord.Remark+";";
-                }
-                pOE = new PrintOrderEpson(MailarapOrderAdd.this);
-                pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), prn);
-                pOE = null;
+                            if(ord.Remark.equals("")) ord.Remark="-";
+                            prn[i] = ord.FoodsName+";"+ord.Qty+";"+ord.Remark+";";
+                        }
+                        pOE = new PrintOrderEpson(MailarapOrderAdd.this);
+                        pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), prn);
+                        pOE = null;
 
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
-                builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        btnMSave.setEnabled(false);
-                        txtMFoodsCode.setEnabled(false);
-                        btnMClear.setVisibility(View.VISIBLE);
-                        lorder.clear();
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
+                        builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                btnMSave.setEnabled(false);
+                                txtMFoodsCode.setEnabled(false);
+                                btnMClear.setVisibility(View.VISIBLE);
+                                lorder.clear();
+                            }
+                        }).create().show();
+                    }else{
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
+                        builder1.setMessage("Password ไม่ถูกต้อง");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtMPassword.setSelection(0,txtMPassword.getText().length());
+                                txtMPassword.setFocusable(true);
+                            }
+                        }).create().show();
                     }
-                }).create().show();
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         });
         txtMFoodsCode.addTextChangedListener(new TextWatcher() {
@@ -348,6 +387,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_layout,R.id.cbotxt,list);
         cboTable.setAdapter(adapter);
         pageLoad=false;
+        txtMQty.setValue(1);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     public Foods getFoods(String code){
@@ -527,9 +568,11 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
             //try {
-            //List<NameValuePair> params = new ArrayList<NameValuePair>();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
             //params.add(new BasicNameValuePair("Code",Code));
-            jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,new ArrayList<NameValuePair>());
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
 
             //rs.jarrF = jarrF.toString();
             //} catch (JSONException e) {
@@ -554,6 +597,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             //Log.d("Login attempt", jobj.toString());
             //try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("Code",Code));
             //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByCode,params);
             jarrF = jsonparser.getJSONFromUrl(rs.hostFoodsSearch,params);
@@ -605,6 +650,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 //int row = Integer.parseInt(arg0[0]);
                 //Order ord = (Order)lorder.get(row);
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("lot_id", arg0[1]));
                 params.add(new BasicNameValuePair("foods_code", arg0[5]));
                 params.add(new BasicNameValuePair("foods_name", arg0[6]));
@@ -664,7 +711,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 jarrT = jsonparser.getJSONFromUrl(rs.hostGetTable,params);
                 if(jarrT!=null){
                     //JSONArray categories = jobj.getJSONArray("area");

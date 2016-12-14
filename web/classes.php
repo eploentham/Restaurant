@@ -54,6 +54,24 @@ class FoodsType
 		$pkfield="";
 	}
 }
+class User 
+{
+	var $id,$userlogin,$username,$password,$privilege,$active,$remark,$table,$pkfield;
+	function __construct()
+	{
+		# code...
+		$id="";
+		$userlogin="";
+		$username="";
+		$active="";
+		$password="";
+		$privilege="";
+		$remark="";
+		$sort1="";
+		$table="";
+		$pkfield="";
+	}
+}
 /**
 * 
 */

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_mailarap_order1">
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cboMailarapArea"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/chkMoMailarapTable"
+        android:layout_alignBaseline="@+id/cboMailarapArea"
+        android:layout_toEndOf="@+id/cboMailarapArea"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/lbMToGo"
+        android:layout_alignBaseline="@+id/cboMailarapArea"
+        android:layout_toEndOf="@+id/cboMailarapArea" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New RadioButton"
+        android:id="@+id/chkMToGo"
+        android:layout_alignBaseline="@+id/cboMailarapArea"
+        android:layout_toEndOf="@+id/lbMToGo"/>
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New RadioButton"
+        android:id="@+id/chkMInRes"
+        android:layout_alignBaseline="@+id/cboMailarapArea"
+        android:layout_toEndOf="@+id/chkMToGo"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cboMailarapTable"
+        android:layout_gravity="right"
+        android:layout_alignBaseline="@+id/cboMailarapArea"
+        android:layout_toEndOf="@+id/chkMInRes"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtMFoodsCode"
+        android:ems="5"
+        android:layout_below="@+id/cboMailarapArea"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:id="@+id/lbMFoodsName1"
+        android:ems="10"
+        android:layout_alignBaseline="@+id/txtMFoodsCode"
+        android:layout_toEndOf="@+id/txtMFoodsCode"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/btnMClear"
+        android:layout_gravity="right"
+        android:layout_alignBaseline="@+id/txtMFoodsCode"
+        android:layout_toEndOf="@+id/lbMFoodsName1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Small Text"
+        android:id="@+id/lbFoodsRemark"
+        android:layout_below="@+id/txtMFoodsCode"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtMFoodsRemark"
+        android:ems="10"
+        android:layout_alignBaseline="@+id/lbFoodsRemark"
+        android:layout_toEndOf="@+id/lbFoodsRemark"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/btnMailarapAdd"
+        android:layout_alignBaseline="@+id/lbFoodsRemark"
+        android:layout_gravity="right"
+        android:layout_toEndOf="@+id/txtMFoodsRemark"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/lbMQty"
+        android:layout_below="@+id/lbFoodsRemark" />
+    <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+        android:id="@+id/txtMQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lbMQty"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/lbMQty"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvMOrder"
+        android:layout_below="@+id/lbMQty"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtMPassword"
+        android:inputType="numberSigned"
+        android:ems="5"
+        android:layout_gravity="bottom|left"
+        android:layout_below="@+id/lvMOrder"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/btnMSave"
+        android:layout_gravity="bottom|right"
+        android:layout_alignBaseline="@+id/txtMPassword"
+        android:layout_toEndOf="@+id/txtMPassword"/>
+</RelativeLayout>

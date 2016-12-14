@@ -27,17 +27,20 @@ public class RestaurantControl  extends Application implements Serializable {
     public ArrayList<String> sCboRes = new ArrayList<String>();
     public ArrayList<String> sCboPrinter = new ArrayList<String>();
     public ArrayList<String> sCboFoodsType = new ArrayList<String>();
+    public ArrayList<String> sCboUser = new ArrayList<String>();
+    public ArrayList<String> sCboPrivilege = new ArrayList<String>();
 
     public ArrayList<String> sTable = new ArrayList<String>();
     public ArrayList<String> sArea = new ArrayList<String>();
     public ArrayList<String> sRes = new ArrayList<String>();
     //public ArrayList<String> sCboPrinter = new ArrayList<String>();
     public ArrayList<String> sFoodsType = new ArrayList<String>();
+    public ArrayList<String> sUser = new ArrayList<String>();
 
     public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="";
 
-    public String hostIP="", hostWebDirectory ="", hostPORT="80";
-    public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="";
+    public String hostIP="", hostWebDirectory ="", hostPORT="80", UserDB="", PasswordDB ="";
+    public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", UsID="";
     public String hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
 
     public String hostGetArea="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getArea.php";
@@ -46,6 +49,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public String hostGetFoodsType ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoodsType.php";
     public String hostGetPrinterName ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getPrinterName.php";
     public String hostGetFoods ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoods.php";
+    public String hostGetUser ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getUser.php";
 
     public String hostOrderByTableCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"OrderByTableCode.php";
     public String hostBillByTableId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByTableId.php";
@@ -61,7 +65,7 @@ public class RestaurantControl  extends Application implements Serializable {
 
     public String hostCloseDayInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayInsert.php";
 
-        public String hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
+    public String hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
     public String hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
     public String hostFoodsSearch ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsSearch.php";
     public String hostAreaInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaInsert.php";
@@ -80,6 +84,9 @@ public class RestaurantControl  extends Application implements Serializable {
     public String hostSelectFoodsByID="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByID.php";
     public String hostSelectFoodsByCode="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByCode.php";
 
+    public String hostUserSelectAll ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectAll.php";
+    public String hostUserSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectByID.php";
+
     public String discount="0.0", SC="0.0", vat="0.0";
 
     public ArrayList<Foods> lFoo = new ArrayList<Foods>();
@@ -89,6 +96,10 @@ public class RestaurantControl  extends Application implements Serializable {
     //public List<Ta> lFoo = new ArrayList<Foods>();
     public RestaurantControl(){
         setCboTable();
+        sCboPrivilege.add("All");
+        sCboPrivilege.add("Order");
+        sCboPrivilege.add("Order Bill");
+        sCboPrivilege.add("Order Bill Closeday");
         refresh();
     }
     public void refresh(){
@@ -100,6 +111,7 @@ public class RestaurantControl  extends Application implements Serializable {
         hostGetFoodsType ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoodsType.php";
         hostGetPrinterName ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getPrinterName.php";
         hostGetFoods ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getFoods.php";
+        hostGetUser ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getUser.php";
 
         hostOrderByTableCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"OrderByTableCode.php";
         hostBillByTableId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByTableId.php";
@@ -133,6 +145,9 @@ public class RestaurantControl  extends Application implements Serializable {
         hostSelectFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoods.php";
         hostSelectFoodsByID="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByID.php";
         hostSelectFoodsByCode="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByCode.php";
+
+        hostUserSelectAll ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectAll.php";
+        hostUserSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectByID.php";
     }
     private void setCboTable(){
         //sCboTable.add("โต๊ะ 1");
@@ -443,5 +458,90 @@ public class RestaurantControl  extends Application implements Serializable {
         }else{
             return txt.trim();
         }
+    }
+    public String chkUserPassword(String user, String password){
+        String ab="";
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                ab = aa[0];
+            }
+        }
+        return ab;
+    }
+    public Boolean chkPassword(String password){
+        String ab="";
+        Boolean chk=false;
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                chk=true;
+            }
+        }
+        return chk;
+    }
+    public Boolean chkPasswordOrder(String password){
+        String ab="";
+        Boolean chk=false;
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                if(aa[4].equals("1")){
+                    chk=true;
+                }else if (aa[4].equals("2")){
+                    chk = true;
+                }
+            }
+        }
+        return chk;
+    }
+    public Boolean chkPasswordBill(String password){
+        String ab="";
+        Boolean chk=false;
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                if(aa[4].equals("1")){
+                    chk=true;
+                }else if (aa[4].equals("2")){
+                    chk = true;
+                }else if (aa[4].equals("3")){
+                    chk = true;
+                }
+            }
+        }
+        return chk;
+    }
+    public Boolean chkPasswordCloseDay(String password){
+        String ab="";
+        Boolean chk=false;
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                if(aa[4].equals("1")){
+                    chk=true;
+                }else if (aa[4].equals("2")){
+                    chk = true;
+                }else if (aa[4].equals("3")){
+                    chk = true;
+                }else if (aa[4].equals("4")){
+                    chk = true;
+                }
+            }
+        }
+        return chk;
+    }
+    public Boolean chkPasswordVoid(String password){
+        String ab="";
+        Boolean chk=false;
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                if(aa[4].equals("1")){
+                    chk=true;
+                }
+            }
+        }
+        return chk;
     }
 }

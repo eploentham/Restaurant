@@ -117,6 +117,8 @@ public class AreaAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("ID", ar.ID));
                 params.add(new BasicNameValuePair("Code", ar.Code));
                 params.add(new BasicNameValuePair("Name", ar.Name));
@@ -155,6 +157,8 @@ public class AreaAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("area_id", rs.arID));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostAreaSelectByID,params);

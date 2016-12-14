@@ -1,6 +1,5 @@
 package com.nakoyagarden.ekapop.restaurant;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -159,6 +158,8 @@ public class OrderViewActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             //try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("table_code", arg0[0]));
             //params.add(new BasicNameValuePair("table_code",tableCode));
             jarr = jsonparser.getJSONFromUrl(rs.hostOrderByTableCode,params);

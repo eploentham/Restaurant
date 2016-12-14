@@ -5,6 +5,7 @@ import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.TabHost;
 
 public class OrderAddActivity extends Activity {
@@ -45,7 +46,7 @@ public class OrderAddActivity extends Activity {
 //        tabHost.addTab(tabSpec);
         tabHost.addTab(tabSpec2);
         tabHost.addTab(tabSpec3);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     @Override
     protected void onPause() {

@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -34,6 +36,7 @@ public class BillAddActivity extends AppCompatActivity {
     ListView lvBaAdd;
     RadioButton chkBaToGo, chkBaInRes;
     Button btnBaSave;
+    EditText txtBaUserPassword;
 
     JsonParser jsonparser = new JsonParser();
     JSONArray jarrBa;
@@ -75,6 +78,7 @@ public class BillAddActivity extends AppCompatActivity {
         chkBaToGo = (RadioButton) findViewById(R.id.chkBaToGo);
         chkBaInRes = (RadioButton)findViewById(R.id.chkBaInRes);
         btnBaSave = (Button) findViewById(R.id.btnBaSave);
+        txtBaUserPassword = (EditText) findViewById(R.id.txtBaUserPassword);
 
         chkBaInRes.setText(R.string.inres);
         chkBaToGo.setText(R.string.togo);
@@ -109,31 +113,40 @@ public class BillAddActivity extends AppCompatActivity {
         btnBaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"id");
-                String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"id");
-                String deviceid = "";
-                String billID = UUID.randomUUID().toString();
+                if(txtBaUserPassword.getText().toString().equals("")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
+                    builder1.setMessage("Password ไม่ได้ป้อน");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtBaUserPassword.setSelection(0,txtBaUserPassword.getText().length());
+                            txtBaUserPassword.setFocusable(true);
+                        }
+                    }).create().show();
+                }else{
+                    String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"id");
+                    String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"id");
+                    String deviceid = "";
+                    String billID = UUID.randomUUID().toString();
 
-                new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
-                        lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID);
-                for(int i=0;i<lOrderT.size();i++){
+                    new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
+                            lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID);
+                    for(int i=0;i<lOrderT.size();i++){
 
-                    Order ord = (Order)lOrderT.get(i);
-                    new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
-
-                }
-
-
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
-                builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        btnBaSave.setEnabled(false);
+                        Order ord = (Order)lOrderT.get(i);
+                        new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
                     }
-                }).create().show();
-
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
+                    builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnBaSave.setEnabled(false);
+                        }
+                    }).create().show();
+                }
             }
         });
         lvBaAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -177,6 +190,7 @@ public class BillAddActivity extends AppCompatActivity {
             }
         });
         setTheme();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     private void calOrder(){
         Double amt=0.0, total=0.0;
@@ -296,6 +310,8 @@ public class BillAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             //try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("table_code", arg0[1]));
             //params.add(new BasicNameValuePair("table_code",tableCode));
             jarrBa = jsonparser.getJSONFromUrl(rs.hostOrderByTableCode,params);
@@ -328,6 +344,8 @@ public class BillAddActivity extends AppCompatActivity {
                 //Order ord = (Order)lorder.get(row);
                 //String billID = UUID.randomUUID().toString();
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("bill_id", arg0[9]));
                 params.add(new BasicNameValuePair("table_id", arg0[0]));
                 params.add(new BasicNameValuePair("area_id", arg0[1]));
@@ -384,6 +402,8 @@ public class BillAddActivity extends AppCompatActivity {
                 //Order ord = (Order)lorder.get(row);
                 //String billID = UUID.randomUUID().toString();
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("bill_id", arg0[0]));
                 params.add(new BasicNameValuePair("lot_id", arg0[1]));
                 params.add(new BasicNameValuePair("qty", arg0[2]));
@@ -436,6 +456,8 @@ public class BillAddActivity extends AppCompatActivity {
                 //Order ord = (Order)lorder.get(row);
                 //String billID = UUID.randomUUID().toString();
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("bill_id", arg0[0]));
                 params.add(new BasicNameValuePair("lot_id", arg0[1]));
                 params.add(new BasicNameValuePair("qty", arg0[2]));

@@ -76,6 +76,11 @@
     <string name="hostIP"></string>
     <string name="TaxID">เลขที่ผู้เสียภาษี</string>
     <string name="PosID">เPOS ID</string>
+    <string name="user">ผู้ใช้งาน</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="privilege">สิทการใช้งาน</string>
+
     <string name="CashReceive1">เงินสดรับ1</string>
     <string name="CashReceive2">เงินสดรับ2</string>
     <string name="CashReceive3">เงินสดรับ3</string>

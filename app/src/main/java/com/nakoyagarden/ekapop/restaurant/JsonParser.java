@@ -47,7 +47,6 @@ public class JsonParser {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
                 try {
-
                     BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
                     StringBuilder sb = new StringBuilder();
                     String line = null;
@@ -71,7 +70,9 @@ public class JsonParser {
                     //jObj = new JSONObject("{\"code\":\"1000\",\"name\":\"\\u0e43\\u0e19\\u0e23\\u0e49\\u0e32\\u0e19\"},{\"code\":\"1001\",\"name\":\"\\u0e1f\\u0e38\\u0e15\\u0e1a\\u0e32\\u0e17\"},{\"code\":\"1002\",\"name\":\"\\u0e43\\u0e19\\u0e2a\\u0e27\\u0e19\"}");
                 } catch (JSONException e) {
                     Log.e(TAG, "Error parsing data " + e.toString());
+                    jarr = new JSONArray();
                 }
+
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -80,9 +81,6 @@ public class JsonParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
         // return JSON String
         return jarr;
     }

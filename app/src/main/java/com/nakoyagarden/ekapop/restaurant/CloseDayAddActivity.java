@@ -1,13 +1,16 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -143,13 +146,27 @@ public class CloseDayAddActivity extends AppCompatActivity {
         btnBaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setCloseDay();
-                new retrieveCloseDayInsert().execute();
+                if(txtCaUserPassword.getText().toString().equals("")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                    builder1.setMessage("Password ไม่ได้ป้อน");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtCaUserPassword.setSelection(0,txtCaUserPassword.getText().length());
+                            txtCaUserPassword.setFocusable(true);
+                        }
+                    }).create().show();
+                }else{
+                    setCloseDay();
+                    new retrieveCloseDayInsert().execute();
+                }
             }
         });
         String resid = rs.getRes(cboCaRes.getSelectedItem().toString(),"id");
         setControlNewCloseDay();
         new retrieveCloseDay().execute(year+"-"+(month+1)+"-"+day,resid);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -281,6 +298,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
 //            try {+
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("closeday_date", arg0[0]));
             params.add(new BasicNameValuePair("res_id", arg0[1]));
             jaCa = jsonparser.getJSONFromUrl(rs.hostBillCloseDay,params);
@@ -362,6 +381,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
 //            try {+
             String id = UUID.randomUUID().toString();
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair("closeday_id", id));
             params.add(new BasicNameValuePair("closeday_date", cd.CloseDayDate));
             params.add(new BasicNameValuePair("res_id", cd.ResId));

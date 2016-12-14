@@ -114,6 +114,8 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
             //Log.d("Login attempt", jobj.toString());
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 params.add(new BasicNameValuePair("ID", ft.ID));
                 params.add(new BasicNameValuePair("Code", ft.Code));
                 params.add(new BasicNameValuePair("Name", ft.Name));
@@ -151,6 +153,8 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("foods_type_id", rs.ftID));
+                params.add(new BasicNameValuePair("userdb",rs.UserDB));
+                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeSelectByID,params);
                 if((jarr!=null) && (!jarr.equals("[]"))){
