@@ -80,6 +80,8 @@
     <string name="login">login</string>
     <string name="password">password</string>
     <string name="privilege">สิทการใช้งาน</string>
+    <string name="cashreceive">รับเงิน</string>
+    <string name="cashton">เงินทอน</string>
 
     <string name="CashReceive1">เงินสดรับ1</string>
     <string name="CashReceive2">เงินสดรับ2</string>

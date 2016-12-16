@@ -44,7 +44,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
     Button btnIaSave, btnIaPrint, btnIaTest,btnFoodsV, btnMUser;
     Button btnMFt, btnMBillVoid;
     ImageButton btnMTable,btnMArea, btnMRes;
-    Spinner cboIaPrinter;
+    Spinner cboIaPrinter, cboIaTextSize;
     CheckBox chkPrintOrder, chkPrintBill, chkPrintCloseDay;
     InputStream is;
     String ab="";
@@ -68,6 +68,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
     private Printer mPrinter = null;
     private Context mContext = null;
     private ArrayList<String> sCboPrinter = new ArrayList<String>();
+    private ArrayList<String> sCboTextSize = new ArrayList<String>();
     LocalActivityManager mLocalActivityManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
         lbIaPortID = (TextView) findViewById(R.id.lbIaPortID);
         txtIaPortID = (EditText) findViewById(R.id.txtIaPortID);
         cboIaPrinter = (Spinner) findViewById(R.id.cboIaPrinter);
+        cboIaTextSize = (Spinner) findViewById(R.id.cboIaTextSize);
         txtIaUserDB = (EditText) findViewById(R.id.txtIaUserDB);
         txtIaPasswordDB = (EditText) findViewById(R.id.txtIaPasswordDB);
 
@@ -205,6 +207,13 @@ public class InitailActivity extends Activity implements ReceiveListener {
         });
         sCboPrinter.add("Epson T82");
         sCboPrinter.add("Custom Kute II");
+
+        sCboTextSize.add("Text Size 16");
+        sCboTextSize.add("Text Size 18");
+        sCboTextSize.add("Text Size 20");
+        sCboTextSize.add("Text Size 21");
+        ArrayAdapter<String> adaArea1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,sCboTextSize);
+        cboIaTextSize.setAdapter(adaArea1);
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,sCboPrinter);
         cboIaPrinter.setAdapter(adaArea);
         cboIaPrinter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -236,6 +245,20 @@ public class InitailActivity extends Activity implements ReceiveListener {
     }
     private void saveText(){
         FileOutputStream outputStream;
+        String textSize="",printOrder="",printBill="",printCloseDay="";
+//        textSize = chkPrintOrder.isChecked()?"ON":"Off";
+        printOrder = chkPrintOrder.isChecked()?"ON":"Off";
+        printBill = chkPrintBill.isChecked()?"ON":"Off";
+        printCloseDay = chkPrintCloseDay.isChecked()?"ON":"Off";
+        if(cboIaTextSize.getSelectedItem().toString().contains("16")){
+            textSize="16";
+        }else if(cboIaTextSize.getSelectedItem().toString().contains("18")){
+            textSize="18";
+        }else if(cboIaTextSize.getSelectedItem().toString().contains("20")){
+            textSize="20";
+        }else if(cboIaTextSize.getSelectedItem().toString().contains("21")){
+            textSize="21";
+        }
         String string = "host="+txtIaHost.getText().toString().trim()+";\n"
             +"printer="+txtIaPrint.getText().toString().trim()+";\n"
             +"PosID="+txtIaPosID.getText().toString().trim()+";\n"
@@ -243,7 +266,11 @@ public class InitailActivity extends Activity implements ReceiveListener {
             +"PortNumber="+txtIaPortID.getText().toString().trim()+";\n"
             +"WebDirectory="+txtIaWebDirectory.getText().toString().trim()+";\n"
             +"UserDB="+txtIaUserDB.getText().toString().trim()+";\n"
-            +"PasswordDB="+txtIaPasswordDB.getText().toString().trim()+";\n";
+            +"PasswordDB="+txtIaPasswordDB.getText().toString().trim()+";\n"
+            +"TextSize="+textSize+";\n"
+            +"PrintOrder="+printOrder+";\n"
+            +"PrintBill="+printBill+";\n"
+            +"PrintCloseDay="+printCloseDay+";\n";
         try {
             File file =getFileStreamPath("initial.cnf");
             outputStream = openFileOutput("initial.cnf", Context.MODE_PRIVATE);
@@ -276,6 +303,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
             InputRead.close();
             String[] p = s.split(";");
             if(p.length>0){
+                String textSize="",printOrder="",printBill="",printCloseDay="";
                 txtIaHost.setText(p[0].replace("host=",""));
                 txtIaPrint.setText(p[1].replace("printer=","").replace("\n",""));
                 txtIaPosID.setText(p[2].replace("PosID=","").replace("\n",""));
@@ -284,6 +312,27 @@ public class InitailActivity extends Activity implements ReceiveListener {
                 txtIaWebDirectory.setText(p[5].replace("WebDirectory=","").replace("\n",""));
                 txtIaUserDB.setText(p[6].replace("UserDB=","").replace("\n",""));
                 txtIaPasswordDB.setText(p[7].replace("PasswordDB=","").replace("\n",""));
+                txtIaPasswordDB.setText(p[7].replace("PasswordDB=","").replace("\n",""));
+
+                textSize = p[8].length()>0 ? p[8].replace("TextSize=","").replace("\n",""):"";
+                printOrder = p[9].length()>0 ? p[9].replace("PrintOrder=","").replace("\n",""):"";
+                printBill = p[10].length()>0 ? p[10].replace("PrintBill=","").replace("\n",""):"";
+                printCloseDay = p[11].length()>0 ? p[11].replace("PrintCloseDay=","").replace("\n",""):"";
+                if(textSize.contains("16")){
+                    cboIaTextSize.setSelection(0);
+                }else if(textSize.contains("18")){
+                    cboIaTextSize.setSelection(1);
+                }else if(textSize.contains("20")){
+                    cboIaTextSize.setSelection(2);
+                }else if(textSize.contains("21")){
+                    cboIaTextSize.setSelection(3);
+                }
+                chkPrintOrder.setChecked(printOrder.equals("ON"));
+                chkPrintBill.setChecked(printBill.equals("ON"));
+                chkPrintCloseDay.setChecked(printCloseDay.equals("ON"));
+                rs.PrnO = printOrder;
+                rs.PrnB = printBill;
+                rs.PrnC = printCloseDay;
 
                 rs.hostIP = txtIaHost.getText().toString();
             }

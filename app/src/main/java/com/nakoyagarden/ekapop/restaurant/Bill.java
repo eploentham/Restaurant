@@ -5,5 +5,5 @@ package com.nakoyagarden.ekapop.restaurant;
  */
 public class Bill {
     public String ID="", Code="", BillDate="", LotID="", Active="", Remark="", StatusVoid="", VoidDate="", TableId="", ResId="", AreaId="", DeviceId="", Amt="", Discount="", SC="";
-    public String Vat="", Total="", NetTotal="", Cnt="";
+    public String Vat="", Total="", NetTotal="", Cnt="", CashReceive="", CashTon="";
 }

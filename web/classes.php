@@ -185,7 +185,7 @@ class Restaurant
 }
 class Bill
 {
-	var $id, $billdate, $lotid, $active, $remark, $statusvoid, $voiddate, $tableid, $resid, $areaid, $deviceid, $amt, $discount, $servicecharge, $vat, $total, $nettotal,$datecreate,$datemodi,$billcode;
+	var $id, $billdate, $lotid, $active, $remark, $statusvoid, $voiddate, $tableid, $resid, $areaid, $deviceid, $amt, $discount, $servicecharge, $vat, $total, $nettotal,$datecreate,$datemodi,$billcode,$billuser, $statuscloseday,$closedayid,$hostid,$branchid, $cashreceive,$cashton;
 	function __construct(){
 		$id="";
 		$billdate="";
@@ -207,6 +207,13 @@ class Bill
 		$datecreate="";
 		$datemodi="";
 		$billcode="";
+		$billuser="";
+		$statuscloseday="";
+		$closedayid="";
+		$hostid=""
+		$branchid="";
+		$cashreceive="";
+		$cashton="";
 	}
 }
 class BillDetail{

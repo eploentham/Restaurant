@@ -26,6 +26,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public ArrayList<String> sCboArea = new ArrayList<String>();
     public ArrayList<String> sCboRes = new ArrayList<String>();
     public ArrayList<String> sCboPrinter = new ArrayList<String>();
+    public ArrayList<String> sCboTextSize = new ArrayList<String>();
     public ArrayList<String> sCboFoodsType = new ArrayList<String>();
     public ArrayList<String> sCboUser = new ArrayList<String>();
     public ArrayList<String> sCboPrivilege = new ArrayList<String>();
@@ -39,7 +40,7 @@ public class RestaurantControl  extends Application implements Serializable {
 
     public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="";
 
-    public String hostIP="", hostWebDirectory ="", hostPORT="80", UserDB="", PasswordDB ="";
+    public String hostIP="", hostWebDirectory ="", hostPORT="80", UserDB="", PasswordDB ="",TextSize="",PrnO="",PrnB="",PrnC="";
     public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", UsID="";
     public String hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
 
@@ -459,12 +460,22 @@ public class RestaurantControl  extends Application implements Serializable {
             return txt.trim();
         }
     }
-    public String chkUserPassword(String user, String password){
+    public String chkUserByPassword(String password){
         String ab="";
         for(int i=0;i<sUser.size();i++){
             String[] aa = sUser.get(i).split("@");
             if(password.equals(aa[3])){
                 ab = aa[0];
+            }
+        }
+        return ab;
+    }
+    public String chkUserByPassword1(String password){
+        String ab="";
+        for(int i=0;i<sUser.size();i++){
+            String[] aa = sUser.get(i).split("@");
+            if(password.equals(aa[3])){
+                ab = aa[2];
             }
         }
         return ab;

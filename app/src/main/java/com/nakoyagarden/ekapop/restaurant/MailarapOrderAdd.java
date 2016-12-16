@@ -109,13 +109,13 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         lvMOrder = (ListView)findViewById(R.id.lvMOrder);
         chkMToGo = (RadioButton) findViewById(R.id.chkMToGo);
         chkMInRes = (RadioButton) findViewById(R.id.chkMInRes);
-        lbMToGo = (TextView) findViewById(R.id.lbMToGo);
+//        lbMToGo = (TextView) findViewById(R.id.lbMToGo);
 
         lbMQty.setText(R.string.qty);
         lbMFoodsRemark.setText(R.string.remark);
         chkMInRes.setText(R.string.inres);
         chkMToGo.setText(R.string.togo);
-        lbMToGo.setText(R.string.active);
+//        lbMToGo.setText(R.string.active);
 
 
 
@@ -133,6 +133,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 //arrayList.add("55");
                 if(setOrder()){
                     setlvOrder();
+                    setShowBtnSave(true);
                 }else{
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
                     builder1.setMessage("Write your message here.");
@@ -180,6 +181,13 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             public void onClick(View view) {
                 btnMSave.setEnabled(true);
                 txtMFoodsCode.setEnabled(true);
+                lorder.clear();
+                txtMFoodsCode.setText("");
+                txtMPassword.setText("");
+                lbMFoodsname.setText("");
+                lbMFoodsRemark.setText("");
+                setlvOrder();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             }
         });
         btnMSave.setOnClickListener(new View.OnClickListener() {
@@ -213,9 +221,12 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                             if(ord.Remark.equals("")) ord.Remark="-";
                             prn[i] = ord.FoodsName+";"+ord.Qty+";"+ord.Remark+";";
                         }
-                        pOE = new PrintOrderEpson(MailarapOrderAdd.this);
-                        pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), prn);
-                        pOE = null;
+                        if(rs.PrnO.equals("ON")){
+                            pOE = new PrintOrderEpson(MailarapOrderAdd.this);
+                            pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), prn);
+                            pOE = null;
+                        }
+
 
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
                         builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
@@ -225,8 +236,13 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                             public void onClick(DialogInterface dialog, int which) {
                                 btnMSave.setEnabled(false);
                                 txtMFoodsCode.setEnabled(false);
+                                txtMFoodsCode.setText("");
+                                txtMPassword.setText("");
+                                lbMFoodsname.setText("");
+                                lbMFoodsRemark.setText("");
                                 btnMClear.setVisibility(View.VISIBLE);
                                 lorder.clear();
+                                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                             }
                         }).create().show();
                     }else{
@@ -295,6 +311,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             public void onClick(View view) {
                 pageLoad=true;
                 pageSearchFoods=true;
+                setShowBtnSave(false);
                 txtMFoodsCode.setText("");
                 setlvFoods();
             }
@@ -410,10 +427,20 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         lbMQty.setTextSize(textSize);
         txtMFoodsCode.setTextSize(textSize);
         txtMFoodsRemark.setTextSize(textSize);
-        lbMToGo.setTextSize(textSize);
-        chkMToGo.setTextSize(textSize);
-        chkMInRes.setTextSize(textSize);
+//        lbMToGo.setTextSize(textSize);
+//        chkMToGo.setTextSize(textSize);
+//        chkMInRes.setTextSize(textSize);
         alvMOrder = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList1);
+    }
+    private void setShowBtnSave(Boolean chk){
+        if(chk){
+            txtMPassword.setVisibility(View.VISIBLE);
+            btnMSave.setVisibility(View.VISIBLE);
+        }else{
+            txtMPassword.setVisibility(View.INVISIBLE);
+            btnMSave.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void setLFoods(){

@@ -167,7 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtIaPosID"
         android:id="@+id/txtIaUserDB"
-        android:ems="10"
+        android:ems="7"
         android:layout_alignBaseline="@+id/lbIaUserDB"
         android:layout_toRightOf="@+id/lbIaUserDB"/>
 
@@ -189,46 +189,64 @@
         android:ems="7"
         android:layout_alignBaseline="@+id/lbIaPasswordDB"
         android:layout_toRightOf="@+id/lbIaPasswordDB"/>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cboIaTextSize"
+        android:layout_alignBaseline="@+id/lbIaPasswordDB"
+        android:layout_toRightOf="@+id/txtIaPasswordDB"
+        android:gravity="right"
+        android:layout_alignParentEnd="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:layout_below="@+id/lbIaPasswordDB"
-        android:id="@+id/btnIaPrint"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/layout6"
+        android:layout_below="@id/lbIaPasswordDB"
+        android:layout_marginTop="@dimen/default_gap">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:layout_below="@+id/lbIaPasswordDB"
+            android:id="@+id/btnIaPrint"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/btnIaPrint"
+            android:layout_alignBaseline="@+id/btnIaPrint"
+            android:text="New Button"
+            android:id="@+id/btnIaSave"
+            android:layout_weight="1"/>
+        <Button
+            android:text="Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnIaTest"
+            android:layout_toRightOf="@+id/btnIaSave"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/btnIaPrint"
-        android:layout_alignBaseline="@+id/btnIaPrint"
-        android:text="New Button"
-        android:id="@+id/btnIaSave"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnIaTest"
-        android:layout_alignBaseline="@+id/btnIaPrint"
-        android:layout_toRightOf="@+id/btnIaSave"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:layout_below="@+id/btnIaPrint"
-        android:id="@+id/btnFoodsView"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:layout_below="@+id/btnFoodsView"
-        android:id="@+id/btnMFoodsType"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
+        android:id="@+id/layout7"
+        android:layout_below="@id/layout6">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnFoodsView"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMFoodsType"
+            android:layout_weight="1"/>
+    </LinearLayout>
     <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -240,7 +258,7 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/btnMTable"
-        android:layout_below="@+id/btnMFoodsType"
+        android:layout_below="@+id/layout7"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"/>
     <!--<Button
@@ -256,7 +274,7 @@
         android:id="@+id/btnMArea"
         android:layout_alignBaseline="@+id/btnMTable"
         android:layout_toRightOf="@+id/btnMTable"
-        android:layout_below="@+id/btnMFoodsType"
+        android:layout_below="@+id/layout7"
         android:layout_marginLeft="@dimen/activity_vertical_margin"/>
     <!--<Button
         android:layout_width="wrap_content"
@@ -272,24 +290,27 @@
         android:id="@+id/btnMRes"
         android:layout_alignBaseline="@+id/btnMTable"
         android:layout_toRightOf="@+id/btnMArea"
-        android:layout_below="@+id/btnMFoodsType"
+        android:layout_below="@+id/layout7"
         android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMUser"
-        android:layout_marginBottom ="10dp"
-        android:layout_below="@+id/btnMRes"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMBillVoid"
-        android:layout_marginBottom ="10dp"
-        android:layout_below="@+id/btnMUser"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-
+        android:id="@+id/layout8"
+        android:layout_below="@id/btnMTable"
+        android:gravity="bottom">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMUser"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMBillVoid"
+            android:layout_toEndOf="@+id/btnMUser"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </RelativeLayout>

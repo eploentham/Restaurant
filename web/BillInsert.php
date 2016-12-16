@@ -37,9 +37,6 @@ while($row = mysql_fetch_array($objQuery)){
 mysql_query("update b_restaurant set bill_code = '".$code."' Where res_id  = '".$res_id."'");
 
 
-
-
-
 $bi = new Bill();
 //$footy = new FoodsType();
 //$ord = new Order();
@@ -62,6 +59,13 @@ $bi->total="total";
 $bi->nettotal="nettotal";
 $bi->datecreate="date_create";
 $bi->billcode = "bill_code";
+$bi->$billuser="bill_user";
+$bi->$statuscloseday="status_closeday";
+$bi->$closedayid="closeday_id";
+$bi->$hostid="host_id";
+$bi->$branchid="branch_id";
+$bi->$cashreceive="cash_receive";
+$bi->$cashton="cash_ton";
 
 $bi->table="t_bill";
 
@@ -70,9 +74,11 @@ $bi->table="t_bill";
 //$sql = "Insert into ".$or->table."(".$or->id.",".$or->foodsid.",".$or->orderdate.",".$or->price.",".$or->qty.",".$or->remark.")".
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Insert into ".$bi->table."(".$bi->id.",".$bi->billdate.",".$bi->datecreate.",".$bi->remark.",".$bi->statusvoid.",".$bi->tableid.",".$bi->resid.","
-.$bi->areaid.",".$bi->deviceid.",".$bi->amt.",".$bi->discount.",".$bi->active.",".$bi->servicecharge.",".$bi->vat.",".$bi->total.",".$bi->nettotal.",".$bi->billcode.")".
+.$bi->areaid.",".$bi->deviceid.",".$bi->amt.",".$bi->discount.",".$bi->active.",".$bi->servicecharge.",".$bi->vat.",".$bi->total.",".$bi->nettotal.","
+.$bi->billcode.",".$bi->billuser.",".$bi->cashreceive.",".$bi->cashton.")".
 " value ('".$_POST['bill_id']."',now(),now(),'".$_POST['remark']."','0','".$_POST['table_id']."','".$_POST['res_id']."','"
-.$_POST['area_id']."','".$_POST['device_id']."',".$_POST['amt'].",".$_POST['discount'].",'1',".$_POST['service_charge'].",".$_POST['vat'].",".$_POST['total'].",".$_POST['nettotal'].",'".$code1."')";
+.$_POST['area_id']."','".$_POST['device_id']."',".$_POST['amt'].",".$_POST['discount'].",'1',".$_POST['service_charge'].",".$_POST['vat'].",".$_POST['total'].",".$_POST['nettotal'].",'"
+.$code1."','".$_POST['billuser']."',".$_POST['cash_receive'].",".$_POST['cash_ton'].")";
 $objQuery = mysql_query($sql);
 
 $sql = "Update b_table Set status_use ='0' Where table_id ='".$_POST['table_id']."'";

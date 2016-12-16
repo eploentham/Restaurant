@@ -6,14 +6,14 @@
         android:id="@+id/cboimg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:paddingLeft="4dp"
         android:layout_gravity="center_vertical"
         />
     <TextView
         android:id="@+id/cbotxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingRight="2dp"
         android:layout_gravity="center_vertical"
         >
     </TextView>

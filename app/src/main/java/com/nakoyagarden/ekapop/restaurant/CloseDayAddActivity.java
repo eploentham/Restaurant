@@ -3,6 +3,7 @@ package com.nakoyagarden.ekapop.restaurant;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -60,12 +61,14 @@ public class CloseDayAddActivity extends AppCompatActivity {
     private int day;
 
     static final int DATE_DIALOG_ID = 0;
-
+    LocalActivityManager mLocalActivityManager;
     Boolean pageLoad=Boolean.FALSE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_close_day_add);
+        mLocalActivityManager = new LocalActivityManager(this, false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState);
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
@@ -135,7 +138,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adaRes = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboRes);
         cboCaRes.setAdapter(adaRes);
-        setTheme();
+//        setTheme();
         lbCaCloseDayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,8 +161,11 @@ public class CloseDayAddActivity extends AppCompatActivity {
                         }
                     }).create().show();
                 }else{
-                    setCloseDay();
-                    new retrieveCloseDayInsert().execute();
+                    if(rs.chkPasswordCloseDay(txtCaUserPassword.getText().toString())){
+                        setCloseDay();
+                        new retrieveCloseDayInsert().execute();
+                    }
+
                 }
             }
         });
