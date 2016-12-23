@@ -10,4 +10,12 @@
     <color name="BackScreenWaterBar">#FF0000</color>
     <color name="BackScreenSearch">#EBF8A4</color>
     <color name="BackScreenSearchOK">#5FBA7D</color>
+    <color name="amt">#9976AE</color>
+    <color name="total">#C5ABD0</color>
+    <color name="nettotal">#482356</color>
+    <color name="vat">#978DC0</color>
+    <color name="closedayamt">#B5B6D4</color>
+    <color name="closedaytotal">#7F5897</color>
+    <color name="closedaynettotal">#BC97C3</color>
+    <color name="closedaycnt">#472255</color>
 </resources>

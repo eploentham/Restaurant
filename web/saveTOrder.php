@@ -57,15 +57,23 @@ $sql = "Insert into ".$or->table."(".$or->id.",".$or->foodscode.",".$or->orderda
 .$_POST['printer_name']."','".$_POST['remark']."','".$_POST['row1']."','".$_POST['foods_id']."','".$_POST['foods_name']."','".$_POST['status_to_go']."','"
 .$_POST['order_user']."','0','')";
 $objQuery = mysql_query($sql);
-
-//$sql = "Update b_table Set status_use ='1' Where table_code ='".$_POST['table_code']."'";
-//$objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+	$ok="0";
+	$err= mysql_error();
+}else{
+	$ok="1";
+}
+$sql = "Update b_table Set status_use ='1' Where table_id ='".$_POST['table_id']."'";
+$objQuery = mysql_query($sql);
 
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert Order success";
 $response["sql"] = $sql;
+$response["error"] = $err;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

@@ -2,6 +2,7 @@ package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -33,6 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +63,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     public ArrayList<String> sCboTable = new ArrayList<String>();
     public ArrayList<String> sCboArea = new ArrayList<String>();
     public ArrayList<Order> lorder = new ArrayList<Order>();
+    public ArrayList<String> table1 = new ArrayList<String>();
     public ArrayList<Foods> lFoo = new ArrayList<Foods>();
     ListView lvMOrder;
     private ArrayAdapter<String> acboMFoods, alvMOrder, alvMFoods;
@@ -67,8 +74,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     Integer row1=0;
     Boolean pageLoad=false, pageLoadFromlvmClick=false, pageSearchFoods=true,flagDel=false;
     String lotID="";
-    int textSize=20,textSize1=18, row,rowDel=0;
-
+    int textSize=20,textSize1=18, row=0,rowDel=0, insertErr=0, insertSucc=0;
+    ArrayList<ItemData> listTable=new ArrayList<>();
 //    private Printer mPrinter = null;
 //    private Context mContext = null;
 //    MainActivity ma;
@@ -130,6 +137,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         btnMailarapAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pageSearchFoods = false;
                 //arrayList.add("55");
                 if(setOrder()){
                     setlvOrder();
@@ -179,14 +187,24 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         btnMClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                row=0;
+                insertErr=0;
+                insertSucc=0;
                 btnMSave.setEnabled(true);
                 txtMFoodsCode.setEnabled(true);
+                btnMailarapAdd.setEnabled(true);
+
+
+
+
+                lbMFoodsname.setFocusable(true);
                 lorder.clear();
                 txtMFoodsCode.setText("");
                 txtMPassword.setText("");
                 lbMFoodsname.setText("");
                 lbMFoodsRemark.setText("");
                 setlvOrder();
+
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             }
         });
@@ -209,14 +227,17 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                         String lotID = UUID.randomUUID().toString();
                         String areacode = rs.getArea(cboArea.getSelectedItem().toString(),"code");
                         String tablecode = rs.getTable(cboTable.getSelectedItem().toString(),"code");
+                        String tableid = rs.getTable(cboTable.getSelectedItem().toString(),"id");
 //                ItemData itemView = (ItemData) cboTable.getSelectedItem();
 //                itemView.text
 //                String tablecode = rs.getTable(itemView.text,"code");
                         String[] prn = new String[lorder.size()];
+                        String user = rs.chkUserByPassword(txtMPassword.getText().toString());
+                        row = lorder.size();
                         for(int i=0;i<lorder.size();i++){
                             Order ord = (Order)lorder.get(i);
                             new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                                    ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo);
+                                    ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid);
 //                    pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), ord.FoodsName,ord.Qty,ord.Remark);
                             if(ord.Remark.equals("")) ord.Remark="-";
                             prn[i] = ord.FoodsName+";"+ord.Qty+";"+ord.Remark+";";
@@ -226,25 +247,9 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                             pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), prn);
                             pOE = null;
                         }
+                        setCboTable(tablecode);
+                        setTable(tablecode);
 
-
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
-                        builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                btnMSave.setEnabled(false);
-                                txtMFoodsCode.setEnabled(false);
-                                txtMFoodsCode.setText("");
-                                txtMPassword.setText("");
-                                lbMFoodsname.setText("");
-                                lbMFoodsRemark.setText("");
-                                btnMClear.setVisibility(View.VISIBLE);
-                                lorder.clear();
-                                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                            }
-                        }).create().show();
                     }else{
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
                         builder1.setMessage("Password ไม่ถูกต้อง");
@@ -306,9 +311,11 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 pageLoad=false;
             }
         });
-        txtMFoodsCode.setOnClickListener(new View.OnClickListener() {
+//        txtMFoodsCode.setOnClickListener(new View.OnClickListener() {
+        lbMFoodsname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 pageLoad=true;
                 pageSearchFoods=true;
                 setShowBtnSave(false);
@@ -333,10 +340,15 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                     if(pageSearchFoods){
                         String[] txt = ((TextView)view).getText().toString().split(" ");
                         Foods foo1 = getFoods(txt[0].trim());
+                        foo = lFoo.get(i);
                         txtMFoodsCode.setText(foo1.Code);
                         lbMFoodsname.setText(foo1.Name);
                         foo.ID = foo1.ID;
+//                        foo.Name = foo1.Name;
                     }else{
+                        if(!btnMSave.isEnabled()){
+                            return;
+                        }
                         flagDel = true;
                         rowDel = i;
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
@@ -365,7 +377,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                             }
                         }).create().show();
                     }
-                    pageSearchFoods = false;
+//                    pageSearchFoods = false;
                     pageLoad=false;
                     pageLoadFromlvmClick=false;
                 }
@@ -374,6 +386,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         ArrayAdapter<String> adaTable = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboTable);
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboArea);
         alvMOrder = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,arrayList1);
@@ -392,17 +405,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         chkMInRes.setChecked(true);
         lvMOrder.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext(), lvMOrder));
 
-        ArrayList<ItemData> list=new ArrayList<>();
-        for(int i=0;i<rs.sTable.size();i++){
-            String[] aa = rs.sTable.get(i).split("@");
-            if(aa[3].equals("1")){
-                list.add(new ItemData(aa[2],R.drawable.idel_red));
-            }else{
-                list.add(new ItemData(aa[2],R.drawable.idel_blue));
-            }
-        }
-        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_layout,R.id.cbotxt,list);
-        cboTable.setAdapter(adapter);
+        setCboTable("");
+        getTable();
         pageLoad=false;
         txtMQty.setValue(1);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -421,12 +425,99 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         }
         return foo1;
     }
+    private void getTable(){
+        try {
+            table1.clear();
+            File file =getFileStreamPath("table.cnf");
+            final int READ_BLOCK_SIZE = 100;
+            FileInputStream fileIn=openFileInput("table.cnf");
+//            FileInputStream fileIn=openFileInput(file.getPath());
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            String[] p = s.split(";");
+            if(p.length>0){
+                for(int i=0;i<p.length;i++){
+                    table1.add(p[i].replace("\n",""));
+                }
+            }
+            fileIn.close();
+            rs.refresh();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void setTable(String id){
+        String table="";
+        for(int i=0;i<table1.size();i++) {
+            String[] bb = table1.get(i).split("=");
+            if(bb[0].length()==0) continue;
+            if(id.equals(bb[0])){
+                table +=bb[0]+"=1;\n";
+            }else{
+                table +=bb[0]+"="+bb[1]+";\n";
+            }
+        }
+        try {
+            FileOutputStream outputStream;
+//                    File file =getFileStreamPath("table.cnf");
+            outputStream = openFileOutput("table.cnf", Context.MODE_PRIVATE);
+//            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
+            outputStream.write(table.getBytes());
+            outputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void setCboTable(String id){
+
+        listTable.clear();
+        getTable();
+        String table="";
+        for(int i=0;i<table1.size();i++){
+            String[] aa = table1.get(i).split("=");
+            if(aa[0].length()==0) continue;
+            String[] bb = rs.sTable.get(i).split("@");
+//            table +=aa[1]+"="+aa[3]+";\n";
+            if(id.equals(aa[0])){
+//                aa[3] = "1";
+                listTable.add(new ItemData(bb[2],R.drawable.idel_red));
+            }else{
+                if(aa[1].equals("1")){
+                    listTable.add(new ItemData(bb[2],R.drawable.idel_red));
+                }else{
+                    listTable.add(new ItemData(bb[2],R.drawable.idel_blue));
+                }
+            }
+        }
+        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_layout,R.id.cbotxt,listTable);
+        cboTable.setAdapter(adapter);
+    }
     private void setTheme(){
         lbMFoodsname.setTextSize(textSize);
         lbMFoodsRemark.setTextSize(textSize);
         lbMQty.setTextSize(textSize);
         txtMFoodsCode.setTextSize(textSize);
         txtMFoodsRemark.setTextSize(textSize);
+        txtMPassword.setTextSize(textSize);
+        btnMSave.setTextSize(textSize);
+        btnMClear.setTextSize(textSize);
+        btnMailarapAdd.setTextSize(textSize);
+        lbMQty.setTextSize(textSize);
+
+
+
 //        lbMToGo.setTextSize(textSize);
 //        chkMToGo.setTextSize(textSize);
 //        chkMInRes.setTextSize(textSize);
@@ -507,7 +598,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     private void setControl(){
         pageLoad=true;
         setLFoods();
-        setCboMFoods();
+//        setCboMFoods();
         //pageLoad=false;
     }
     private void setlvOrder(){
@@ -562,6 +653,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         }
         row1++;
         //String lotID = UUID.randomUUID().toString();
+
         Order ord = new Order();
         ord.ID="";
         ord.LotId=lotID;
@@ -665,6 +757,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         }catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            Log.e("MailarapOrderAdd",e.getMessage());
         }
     }
     class insertOrder extends AsyncTask<String,String,String> {
@@ -696,6 +789,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 params.add(new BasicNameValuePair("status_foods_2", ""));
                 params.add(new BasicNameValuePair("status_foods_3", ""));
                 params.add(new BasicNameValuePair("status_to_go", arg0[12]));
+                params.add(new BasicNameValuePair("order_user", arg0[13]));
+                params.add(new BasicNameValuePair("table_id", arg0[14]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostSaveOrder, params);
 
@@ -718,6 +813,42 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         @Override
         protected void onPostExecute(String ab1){
             String[] aaa = ab1.split(";");
+
+            for (int i = 0; i < jarr.length(); i++) {
+                try {
+                    JSONObject catObj = (JSONObject) jarr.get(i);
+                    Log.d("sql",catObj.getString("sql"));
+                    if(!catObj.getString("success").equals("1")){
+                        insertErr++;
+                    }else{
+                        insertSucc++;
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+            if((insertSucc+insertErr)==row){
+
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
+                builder1.setMessage("บันทึกข้อมูลทั้งหมด"+(insertSucc+insertErr)+"รายการ  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        lvMOrder.setBackgroundColor(Color.GRAY);
+                        btnMSave.setEnabled(false);
+                        txtMFoodsCode.setEnabled(false);
+                        txtMFoodsCode.setText("");
+                        txtMPassword.setText("");
+                        lbMFoodsname.setText("");
+                        lbMFoodsRemark.setText("");
+                        btnMClear.setVisibility(View.VISIBLE);
+                        btnMailarapAdd.setEnabled(false);
+                        lorder.clear();
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                    }
+                }).create().show();
+            }
             //new retrieveFoods1().execute();
 //            if(aaa.length>=5){
 //                runPrintReceiptSequenceEpson(rs.getAreaToName(aaa[0],"code"),rs.getTableToName(aaa[1],"code"), aaa[2],aaa[3],aaa[4]);

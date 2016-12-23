@@ -1,6 +1,7 @@
 package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 rs.hostWebDirectory =p[5].replace("WebDirectory=","").replace("\n","");
                 rs.UserDB =p[6].replace("UserDB=","").replace("\n","");
                 rs.PasswordDB =p[7].replace("PasswordDB=","").replace("\n","");
+                rs.TextSize =p[8].replace("TextSize=","").replace("\n","");
 //                txtIaTaxID.setText(p[3].replace("TaxID=",""));
 //                txtIaPortID.setText(p[4].replace("PortNumber=",""));
 //                txtIaWebDirectory.setText(p[5].replace("WebDirectory=",""));
@@ -226,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
+//            try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
@@ -234,6 +238,17 @@ public class MainActivity extends AppCompatActivity {
 //
 //                }
                 jarrT = jsonparser.getJSONFromUrl(rs.hostGetTable,params);
+
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+            String table="";
+            try {
                 if(jarrT!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
                     //JSONArray json = new JSONArray(jobj);
@@ -243,16 +258,23 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject catObj = (JSONObject) jarrT.get(i);
                         rs.sCboTable.add(catObj.getString("table_name"));
                         rs.sTable.add(catObj.getString("table_id")+"@"+catObj.getString("table_code")+"@"+catObj.getString("table_name")+"@"+catObj.getString("status_use"));
+                        table += catObj.getString("table_code")+"="+catObj.getString("status_use")+";\n";
                     }
+                }
+                try {
+                    FileOutputStream outputStream;
+//                    File file =getFileStreamPath("table.cnf");
+                    outputStream = openFileOutput("table.cnf", Context.MODE_PRIVATE);
+//            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
+                    outputStream.write(table.getBytes());
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return ab;
-        }
-        @Override
-        protected void onPostExecute(String ab){
 
         }
         @Override

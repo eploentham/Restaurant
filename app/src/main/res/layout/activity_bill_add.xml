@@ -47,20 +47,27 @@
             </RadioGroup>
 
     </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout11"
+        android:layout_below="@id/layout1">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="320dp"
+            android:id="@+id/lvBaAdd"
+            android:layout_below="@id/layout1"
+            android:layout_alignParentLeft="true"/>
+    </LinearLayout>
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="320dp"
-        android:id="@+id/lvBaAdd"
-        android:layout_below="@id/layout1"
-        android:layout_alignParentLeft="true"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout2"
-        android:layout_below="@id/lvBaAdd">
+        android:layout_below="@id/layout11">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -231,11 +238,10 @@
             android:id="@+id/lbBaCashTon"
             android:layout_gravity="left"
             android:layout_weight="1"/>
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:inputType="numberSigned"
             android:text="Small Text"
             android:id="@+id/txtBaCashTon"
             android:layout_weight="1"
@@ -245,7 +251,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout10"
+        android:id="@+id/layoutba10"
         android:layout_below="@id/layout9"
         android:gravity="bottom">
         <EditText

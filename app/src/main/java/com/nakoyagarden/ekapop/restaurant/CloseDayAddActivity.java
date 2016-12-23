@@ -7,16 +7,21 @@ import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
@@ -33,18 +38,20 @@ import java.util.UUID;
 
 public class CloseDayAddActivity extends AppCompatActivity {
     public RestaurantControl rs;
-    private PrintBillEpson pBE;
+    private PrintCloseDayEpson pBE;
 
-    Button btnBaSave;
+    Button btnCaSave, btnCaVoid;
     TextView lbCaAmt,lbCaCloseDayDate, lbCaDiscount, lbCaTotal, lbCaSC, lbCaVat, lbCaNetTotal, lbCaRemark, lbCaCashReceive1, lbCaCashReceive2, lbCaCashReceive3, lbCaCashDraw1;
     TextView lbCaCashDraw2, lbCaCashDraw3,lbCaCntBill, lbCaCntOrder;
 
     TextView txtCaAmt, txtCaDiscount, txtCaTotal, txtCaSC, txtCaVat, txtCaNetTotal;
     EditText txtCaRemark, txtCaCashReceive1, txtCaCashReceive2, txtCaCashReceive3, txtCaCashDraw1;
     EditText txtCaCashDraw2, txtCaCashDraw3, txtCaCashReceive1Remark, txtCaCashReceive2Remark, txtCaCashReceive3Remark, txtCaCashDraw1Remark, txtCaCashDraw2Remark;
-    EditText txtCaCashDraw3Remark, txtCaUserPassword;
+    EditText txtCaCashDraw3Remark, txtCaUserPassword,txtCaPasswordVoid;
     Spinner cboCaRes;
     DatePicker dpCloseDayDate;
+    LinearLayout layout16, layout17;
+    Switch chkCaActive;
 
     String ID="";
 
@@ -72,6 +79,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         cboCaRes = (Spinner)findViewById(R.id.cboCaRes);
         lbCaAmt = (TextView) findViewById(R.id.lbCaAmt);
@@ -110,7 +118,12 @@ public class CloseDayAddActivity extends AppCompatActivity {
         txtCaCashDraw2Remark = (EditText) findViewById(R.id.txtCaCashDraw2Remark);
         txtCaCashDraw3Remark = (EditText) findViewById(R.id.txtCaCashDraw3Remark);
         txtCaUserPassword = (EditText) findViewById(R.id.txtCaUserPassword);
-        btnBaSave = (Button) findViewById(R.id.btnCaSave);
+        txtCaPasswordVoid = (EditText) findViewById(R.id.txtCaPasswordVoid);
+        btnCaSave = (Button) findViewById(R.id.btnCaSave);
+        btnCaVoid = (Button) findViewById(R.id.btnCaVoid);
+        layout16 = (LinearLayout) findViewById(R.id.layout16);
+        layout17 = (LinearLayout) findViewById(R.id.layout17);
+        chkCaActive = (Switch) findViewById(R.id.chkCaActive);
 
         lbCaAmt.setText(R.string.amt);
 //        lbCaCntBill.setText(R.string.discount);
@@ -127,6 +140,10 @@ public class CloseDayAddActivity extends AppCompatActivity {
         lbCaCashDraw2.setText(R.string.CashDraw2);
         lbCaCashDraw3.setText(R.string.CashDraw3);
         lbCaCloseDayDate.setText("ไม่ระบุวัยที่");
+        btnCaSave.setText(R.string.save);
+        btnCaVoid.setText(R.string.void1);
+        chkCaActive.setChecked(true);
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
 //        lbCaCloseDayDate.setText(currentDateandTime);
@@ -135,10 +152,19 @@ public class CloseDayAddActivity extends AppCompatActivity {
         year = dt.getYear()+1900;
         month = dt.getMonth();
         day = dt.getDate();
-
+        chkCaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    chkCaActive.setText(R.string.activeon);
+                }else{
+                    chkCaActive.setText(R.string.activeoff);
+                }
+            }
+        });
         ArrayAdapter<String> adaRes = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboRes);
         cboCaRes.setAdapter(adaRes);
-//        setTheme();
+        setTheme();
         lbCaCloseDayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,29 +172,61 @@ public class CloseDayAddActivity extends AppCompatActivity {
                 showDialog(DATE_DIALOG_ID);
             }
         });
-        btnBaSave.setOnClickListener(new View.OnClickListener() {
+        btnCaVoid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(txtCaUserPassword.getText().toString().equals("")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
-                    builder1.setMessage("Password ไม่ได้ป้อน");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            txtCaUserPassword.setSelection(0,txtCaUserPassword.getText().length());
-                            txtCaUserPassword.setFocusable(true);
-                        }
-                    }).create().show();
-                }else{
-                    if(rs.chkPasswordCloseDay(txtCaUserPassword.getText().toString())){
-                        setCloseDay();
-                        new retrieveCloseDayInsert().execute();
-                    }
+                if(btnCaVoid.getText().toString().equals(getResources().getString(R.string.void1))){
+                    txtCaPasswordVoid.setVisibility(View.VISIBLE);
+                    btnCaVoid.setText(R.string.void1confrim);
+                }else if(btnCaVoid.getText().toString().equals(getResources().getString(R.string.void1confrim))){
+                    if(txtCaPasswordVoid.getText().toString().equals("")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                        builder1.setMessage("Password ไม่ได้ป้อน");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtCaPasswordVoid.setSelection(0,txtCaPasswordVoid.getText().length());
+                                txtCaPasswordVoid.setFocusable(true);
+                            }
+                        }).create().show();
+                    }else{
+                        if(rs.chkPasswordVoid(txtCaPasswordVoid.getText().toString())){
 
+                        }
+                    }
                 }
             }
         });
+        btnCaSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btnCaSave.getText().toString().equals(getResources().getString(R.string.save))){
+                    txtCaUserPassword.setVisibility(View.VISIBLE);
+                    btnCaSave.setText(R.string.closedayconfirm);
+                }else if(btnCaSave.getText().toString().equals(getResources().getString(R.string.closedayconfirm))){
+                    if(txtCaUserPassword.getText().toString().equals("")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                        builder1.setMessage("Password ไม่ได้ป้อน");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtCaUserPassword.setSelection(0,txtCaUserPassword.getText().length());
+                                txtCaUserPassword.setFocusable(true);
+                            }
+                        }).create().show();
+                    }else{
+                        if(rs.chkPasswordCloseDay(txtCaUserPassword.getText().toString())){
+                            setCloseDay();
+                            new retrieveCloseDayInsert().execute();
+                        }
+                    }
+                }
+            }
+        });
+        txtCaUserPassword.setVisibility(View.INVISIBLE);
+        layout17.setVisibility(View.INVISIBLE);
         String resid = rs.getRes(cboCaRes.getSelectedItem().toString(),"id");
         setControlNewCloseDay();
         new retrieveCloseDay().execute(year+"-"+(month+1)+"-"+day,resid);
@@ -229,7 +287,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         lbCaTotal.setTextSize(textSize);
         lbCaSC.setTextSize(textSize);
         lbCaVat.setTextSize(textSize);
-        lbCaNetTotal.setTextSize(textSize);
+        lbCaNetTotal.setTextSize(textSize+2);
         lbCaRemark.setTextSize(textSize);
         lbCaCashReceive1.setTextSize(textSize);
         lbCaCashReceive2.setTextSize(textSize);
@@ -239,12 +297,13 @@ public class CloseDayAddActivity extends AppCompatActivity {
         lbCaCashDraw3.setTextSize(textSize);
         lbCaCntBill.setTextSize(textSize);
         lbCaCntOrder.setTextSize(textSize);
+
         txtCaAmt.setTextSize(textSize);
         txtCaDiscount.setTextSize(textSize);
         txtCaTotal.setTextSize(textSize);
         txtCaSC.setTextSize(textSize);
         txtCaVat.setTextSize(textSize);
-        txtCaNetTotal.setTextSize(textSize);
+        txtCaNetTotal.setTextSize(textSize+2);
         txtCaRemark.setTextSize(textSize);
         txtCaCashReceive1.setTextSize(textSize);
         txtCaCashReceive2.setTextSize(textSize);
@@ -259,6 +318,17 @@ public class CloseDayAddActivity extends AppCompatActivity {
         txtCaCashDraw2Remark.setTextSize(textSize);
         txtCaCashDraw3Remark.setTextSize(textSize);
         txtCaUserPassword.setTextSize(textSize);
+
+        lbCaAmt.setBackgroundColor(getResources().getColor(R.color.amt));
+        txtCaAmt.setBackgroundColor(getResources().getColor(R.color.amt));
+        lbCaTotal.setBackgroundColor(getResources().getColor(R.color.total));
+        txtCaTotal.setBackgroundColor(getResources().getColor(R.color.total));
+        lbCaNetTotal.setBackgroundColor(getResources().getColor(R.color.nettotal));
+        txtCaNetTotal.setBackgroundColor(getResources().getColor(R.color.nettotal));
+        lbCaCntBill.setBackgroundColor(getResources().getColor(R.color.closedayamt));
+        lbCaCntOrder.setBackgroundColor(getResources().getColor(R.color.closedayamt));
+        lbCaNetTotal.setTextColor(Color.WHITE);
+        txtCaNetTotal.setTextColor(Color.WHITE);
 //        lbCaAmt.setTextSize(textSize);
 //        lbCaAmt.setTextSize(textSize);
 //        lbCaAmt.setTextSize(textSize);
@@ -280,7 +350,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         cd.CashR2Remark = txtCaCashReceive2Remark.getText().toString();
         cd.CashR3 = rs.chkNumber(txtCaCashReceive3.getText().toString());
         cd.CashR3Remark = txtCaCashReceive3Remark.getText().toString();
-        cd.CloseDayDate = year+""+(month+1)+""+day;
+        cd.CloseDayDate = year+"-"+(month+1)+"-"+day;
         cd.CloseDayUser = txtCaUserPassword.getText().toString();
         cd.Cnt = rs.chkNumber(lbCaCntBill.getText().toString().replace("จำนวนบิล",""));
         cd.CntOrder = rs.chkNumber(lbCaCntOrder.getText().toString());
@@ -309,7 +379,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("closeday_date", arg0[0]));
             params.add(new BasicNameValuePair("res_id", arg0[1]));
             jaCa = jsonparser.getJSONFromUrl(rs.hostBillCloseDay,params);
-
+            Log.d("closeday_date",arg0[0]);
+            Log.d("res_id",arg0[1]);
 //            } catch (JSONException e) {
 //                // TODO Auto-generated catch block
 //                e.printStackTrace();
@@ -321,10 +392,12 @@ public class CloseDayAddActivity extends AppCompatActivity {
             String aaa = ab;
             try {
                 if(jaCa!=null){
+                    Log.d("jaCa",jaCa.toString());
                     JSONObject catObj = (JSONObject) jaCa.get(0);
                     bill = new Bill();
                     ID = catObj.getString("closeday_id");
                     if(!ID.equals("")){
+
                         txtCaAmt.setText(catObj.getString("amt"));
                         txtCaDiscount.setText(catObj.getString("discount"));
                         txtCaTotal.setText(catObj.getString("total"));
@@ -347,6 +420,10 @@ public class CloseDayAddActivity extends AppCompatActivity {
                         txtCaCashDraw2Remark.setText(catObj.getString("cash_draw2_remark"));
                         txtCaCashDraw3Remark.setText(catObj.getString("cash_draw3_remark"));
                         txtCaUserPassword.setText("");
+                        layout17.setVisibility(View.VISIBLE);
+                        layout16.setVisibility(View.INVISIBLE);
+                        chkCaActive.setChecked(true);
+
                     }else{
                         txtCaAmt.setText(catObj.getString("amt"));
                         txtCaDiscount.setText(catObj.getString("discount"));
@@ -355,28 +432,32 @@ public class CloseDayAddActivity extends AppCompatActivity {
                         txtCaNetTotal.setText(catObj.getString("nettotal"));
                         txtCaSC.setText(catObj.getString("sc"));
                         lbCaCntBill.setText("จำนวนบิล "+catObj.getString("cnt_bill"));
+                        layout17.setVisibility(View.INVISIBLE);
+                        layout16.setVisibility(View.VISIBLE);
                     }
 //                    bill.SC = catObj.getString("sc");
                 }
             } catch (JSONException e){
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                Log.e("retrieveCloseDay",e.getMessage());
             }
 //            setControlNewCloseDay();
-//            pd.dismiss();
+            pd.dismiss();
         }
         @Override
         protected void onPreExecute() {
+
             String aaa = ab;
-//            pd = new ProgressDialog(CloseDayAddActivity.this);
-//            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//            pd.setTitle("Loading...");
-//            pd.setMessage("Loading images...");
-//            pd.setCancelable(false);
-//            pd.setIndeterminate(false);
-//            pd.setMax(100);
-//            pd.setProgress(0);
-//            pd.show();
+            pd = new ProgressDialog(CloseDayAddActivity.this);
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setTitle("Loading...");
+            pd.setMessage("Loading Close day...");
+            pd.setCancelable(false);
+            pd.setIndeterminate(false);
+            pd.setMax(100);
+            pd.setProgress(0);
+            pd.show();
         }
     }
     class retrieveCloseDayInsert extends AsyncTask<String,String,String> {
@@ -427,48 +508,34 @@ public class CloseDayAddActivity extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
             return ab;
-        }
+        }//50663
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
             try {
                 if(jaCa!=null){
                     JSONObject catObj = (JSONObject) jaCa.get(0);
-                    bill = new Bill();
-                    ID = catObj.getString("closeday_id");
-                    if(!ID.equals("")){
-                        txtCaAmt.setText(catObj.getString("amt"));
-                        txtCaDiscount.setText(catObj.getString("discount"));
-                        txtCaTotal.setText(catObj.getString("total"));
-                        txtCaVat.setText(catObj.getString("vat"));
-                        txtCaNetTotal.setText(catObj.getString("nettotal"));
-                        txtCaSC.setText(catObj.getString("sc"));
-                        lbCaCntBill.setText("จำนวนบิล "+catObj.getString("cnt_bill"));
-                        lbCaCntOrder.setText("จำนวนบิล "+catObj.getString("cnt_order"));
-                        txtCaRemark.setText(catObj.getString("remark"));
-                        txtCaCashReceive1.setText(catObj.getString("cash_receive1"));
-                        txtCaCashReceive2.setText(catObj.getString("cash_receive2"));
-                        txtCaCashReceive3.setText(catObj.getString("cash_receive3"));
-                        txtCaCashDraw1.setText(catObj.getString("cash_draw1"));
-                        txtCaCashDraw2.setText(catObj.getString("cash_draw2"));
-                        txtCaCashDraw3.setText(catObj.getString("cash_draw3"));
-                        txtCaCashReceive1Remark.setText(catObj.getString("cash_receive1_remark"));
-                        txtCaCashReceive2Remark.setText(catObj.getString("cash_receive2_remark"));
-                        txtCaCashReceive3Remark.setText(catObj.getString("cash_receive3_remark"));
-                        txtCaCashDraw1Remark.setText(catObj.getString("cash_draw1_remark"));
-                        txtCaCashDraw2Remark.setText(catObj.getString("cash_draw2_remark"));
-                        txtCaCashDraw3Remark.setText(catObj.getString("cash_draw3_remark"));
+
+                    Log.d("sql",catObj.getString("sql"));
+                    if(!catObj.getString("success").equals("1")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                        builder1.setMessage("บันทึกข้อมูล  เรียบร้อย")
+                        ;
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                btnCaSave.setEnabled(false);
+                            }
+                        }).create().show();
                         txtCaUserPassword.setText("");
-                    }else{
-                        txtCaAmt.setText(catObj.getString("amt"));
-                        txtCaDiscount.setText(catObj.getString("discount"));
-                        txtCaTotal.setText(catObj.getString("total"));
-                        txtCaVat.setText(catObj.getString("vat"));
-                        txtCaNetTotal.setText(catObj.getString("nettotal"));
-                        txtCaSC.setText(catObj.getString("sc"));
-                        lbCaCntBill.setText("จำนวนบิล "+catObj.getString("cnt_bill"));
                     }
-//                    bill.SC = catObj.getString("sc");
+                    if(rs.PrnC.equals("ON")){
+                        pBE = new PrintCloseDayEpson(CloseDayAddActivity.this);
+//                        pBE.runPrintCloseDayEpson(getResources(), ab, rs.ResName, rs.ReceiptH1,rs.ReceiptH2,rs.ReceiptF1,rs.ReceiptF2, cboBaArea.getSelectedItem().toString(),cboBaTable.getSelectedItem().toString(), prn,lbBaAmt1.getText().toString(),
+//                                lbBaDiscount1.getText().toString(),lbBaTotal1.getText().toString(), lbBaSC1.getText().toString(),lbBaVat1.getText().toString(),lbBaNetTotal1.getText().toString());
+                        pBE = null;
+                    }
                 }
             } catch (JSONException e){
                 // TODO Auto-generated catch block
@@ -489,6 +556,68 @@ public class CloseDayAddActivity extends AppCompatActivity {
 //            pd.setMax(100);
 //            pd.setProgress(0);
 //            pd.show();
+        }
+    }
+    class retrieveCloseDayVoid extends AsyncTask<String,String,String> {
+
+        @Override
+        protected String doInBackground(String... arg0) {
+            //Log.d("Login attempt", jobj.toString());
+//            try {+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair("closeday_id", arg0[0]));
+            jaCa = jsonparser.getJSONFromUrl(rs.hostCloseDayVoid,params);
+            Log.d("closeday_id",arg0[0]);
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+            String aaa = ab;
+            try {
+                if(jaCa!=null){
+                    Log.d("jaCa",jaCa.toString());
+                    JSONObject catObj = (JSONObject) jaCa.get(0);
+                    if(catObj.getString("success").equals("1")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                        builder1.setMessage("ยกเลิกข้อมูล  เรียบร้อย");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                btnCaVoid.setEnabled(false);
+                            }
+                        }).create().show();
+                    }
+//                    ID = catObj.getString("closeday_id");
+//                    bill.SC = catObj.getString("sc");
+                }
+            } catch (JSONException e){
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                Log.e("retrieveCloseDay",e.getMessage());
+            }
+//            setControlNewCloseDay();
+            pd.dismiss();
+        }
+        @Override
+        protected void onPreExecute() {
+
+            String aaa = ab;
+            pd = new ProgressDialog(CloseDayAddActivity.this);
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setTitle("Loading...");
+            pd.setMessage("Loading Close day...");
+            pd.setCancelable(false);
+            pd.setIndeterminate(false);
+            pd.setMax(100);
+            pd.setProgress(0);
+            pd.show();
         }
     }
 }

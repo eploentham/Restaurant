@@ -210,10 +210,11 @@ class Bill
 		$billuser="";
 		$statuscloseday="";
 		$closedayid="";
-		$hostid=""
+		$hostid="";
 		$branchid="";
 		$cashreceive="";
 		$cashton="";
+		$billuser="";
 	}
 }
 class BillDetail{

@@ -312,7 +312,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
                 txtIaWebDirectory.setText(p[5].replace("WebDirectory=","").replace("\n",""));
                 txtIaUserDB.setText(p[6].replace("UserDB=","").replace("\n",""));
                 txtIaPasswordDB.setText(p[7].replace("PasswordDB=","").replace("\n",""));
-                txtIaPasswordDB.setText(p[7].replace("PasswordDB=","").replace("\n",""));
+//                txtIaPasswordDB.setText(p[7].replace("PasswordDB=","").replace("\n",""));
 
                 textSize = p[8].length()>0 ? p[8].replace("TextSize=","").replace("\n",""):"";
                 printOrder = p[9].length()>0 ? p[9].replace("PrintOrder=","").replace("\n",""):"";

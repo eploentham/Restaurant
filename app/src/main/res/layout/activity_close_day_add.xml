@@ -72,33 +72,13 @@
             android:textAlignment="textEnd"
             android:layout_weight="1"/>
     </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout4"
         android:layout_below="@id/layout3">
-        <TextView
-            android:text="TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/lbCaCntBill"
-            android:layout_gravity="left"
-            android:layout_weight="1"/>
-        <TextView
-            android:text="TextView111111"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/lbCaCntOrder"
-            android:layout_weight="1"
-            android:textAlignment="textEnd"/>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout5"
-        android:layout_below="@id/layout4">
         <TextView
             android:text="TextView"
             android:layout_width="0dp"
@@ -118,8 +98,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout6"
-        android:layout_below="@id/layout5">
+        android:id="@+id/layout5"
+        android:layout_below="@id/layout4">
         <TextView
             android:text="TextView"
             android:layout_width="0dp"
@@ -139,8 +119,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout7"
-        android:layout_below="@id/layout6">
+        android:id="@+id/layout6"
+        android:layout_below="@id/layout5">
         <TextView
             android:text="TextView"
             android:layout_width="0dp"
@@ -158,10 +138,10 @@
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout8"
-        android:layout_below="@id/layout7">
+        android:id="@+id/layout7"
+        android:layout_below="@id/layout6">
         <TextView
             android:text="TextView"
             android:layout_width="0dp"
@@ -177,6 +157,29 @@
             android:layout_weight="1"
             android:textAlignment="textEnd"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout8"
+        android:layout_below="@id/layout7">
+        <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbCaCntBill"
+            android:layout_gravity="left"
+            android:layout_weight="1"/>
+        <TextView
+            android:text="TextView111111"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbCaCntOrder"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"/>
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -399,6 +402,34 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:id="@+id/btnCaSave"
+            android:layout_weight="2"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout17"
+        android:layout_below="@id/layout16"
+        android:layout_gravity="bottom">
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Switch"
+            android:id="@+id/chkCaActive" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="5"
+            android:id="@+id/txtCaPasswordVoid"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+        <Button
+            android:text="Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/btnCaVoid"
             android:layout_weight="1"/>
     </LinearLayout>
 

@@ -1,7 +1,5 @@
 <?php
-echo "Hello";
-return;
-$resultArray = array();
+echo "userdb ".$_GET['userdb'];
 
 
 

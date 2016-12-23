@@ -2,12 +2,18 @@ package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.AlertDialog;
 import android.app.LocalActivityManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,29 +21,36 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.codec.language.DoubleMetaphone;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class BillAddActivity extends AppCompatActivity {
     Spinner cboBaTable, cboBaArea;
-    TextView lbBaAmt, lbBaAmt1, lbBaDiscount, lbBaDiscount1, lbBaTotal, lbBaTotal1, lbBaVat, lbBaVat1, lbBaSC, lbBaSC1, lbBaNetTotal, lbBaNetTotal1, lbBaCashReceive, lbBaCashTon;
+    TextView lbBaAmt, lbBaAmt1, lbBaDiscount, lbBaDiscount1, lbBaTotal, lbBaTotal1, lbBaVat, lbBaVat1, lbBaSC, lbBaSC1, lbBaNetTotal, lbBaNetTotal1, lbBaCashReceive, lbBaCashTon,txtBaCashTon;
     ListView lvBaAdd;
     RadioButton chkBaToGo, chkBaInRes;
+    LinearLayout layout11, layoutba10;
     Button btnBaSave;
-    EditText txtBaUserPassword, txtBaCashReceive, txtBaCashTon;
+    EditText txtBaUserPassword, txtBaCashReceive;
 
     JsonParser jsonparser = new JsonParser();
     JSONArray jarrBa;
@@ -46,15 +59,17 @@ public class BillAddActivity extends AppCompatActivity {
     private PrintBillEpson pBE;
     public ArrayList<String> sCboTable = new ArrayList<String>();
     public ArrayList<String> sCboArea = new ArrayList<String>();
+    public ArrayList<String> table1 = new ArrayList<String>();
     public ArrayList<String> arrayList = new ArrayList<String>();
     public ArrayList<Order> lOrderT = new ArrayList<Order>();
     public ArrayList<Foods> lFoo = new ArrayList<Foods>();
     String[] prn ;
     Integer row1=0, rowDel=0;
     String lotID="";
-    int textSize=20,textSize1=18, row;
+    int textSize=20,textSize1=18, row=0, insertErr=0, insertSucc=0, insertSuccB=0;
     String ab;
     private ArrayAdapter<String> alvBaOrder;
+    ArrayList<ItemData> listTable=new ArrayList<>();
     LocalActivityManager mLocalActivityManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +100,9 @@ public class BillAddActivity extends AppCompatActivity {
         lbBaCashReceive = (TextView)findViewById(R.id.lbBaCashReceive);
         lbBaCashTon = (TextView)findViewById(R.id.lbBaCashTon);
         txtBaCashReceive = (EditText) findViewById(R.id.txtBaCashReceive);
-        txtBaCashTon = (EditText) findViewById(R.id.txtBaCashTon);
+        txtBaCashTon = (TextView) findViewById(R.id.txtBaCashTon);
+        layout11 = (LinearLayout)findViewById(R.id.layout11);
+        layoutba10 = (LinearLayout)findViewById(R.id.layoutba10);
 
         chkBaInRes.setText(R.string.inres);
         chkBaToGo.setText(R.string.togo);
@@ -98,12 +115,15 @@ public class BillAddActivity extends AppCompatActivity {
         btnBaSave.setText(R.string.billcheck);
         lbBaCashTon.setText(R.string.cashton);
         lbBaCashReceive.setText(R.string.cashreceive);
+        layoutba10.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
-        ArrayAdapter<String> adaTable = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboTable);
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
+
+        //ArrayAdapter<String> adaTable = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboTable);
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboArea);
-        cboBaTable.setAdapter(adaTable);
+        //cboBaTable.setAdapter(adaTable);
         cboBaArea.setAdapter(adaArea);
 
         cboBaTable.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -122,55 +142,54 @@ public class BillAddActivity extends AppCompatActivity {
         btnBaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(txtBaCashReceive.getText().toString().equals("")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
-                    builder1.setMessage("รับเงิน ไม่ได้ป้อน");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            txtBaCashReceive.setSelection(0,txtBaCashReceive.getText().length());
-                            txtBaCashReceive.setFocusable(true);
-                        }
-                    }).create().show();
-                    return;
-                }
-                if(txtBaUserPassword.getText().toString().equals("")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
-                    builder1.setMessage("Password ไม่ได้ป้อน");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            txtBaUserPassword.setSelection(0,txtBaUserPassword.getText().length());
-                            txtBaUserPassword.setFocusable(true);
-                        }
-                    }).create().show();
-                }else{
-                    if(rs.chkPasswordBill(txtBaUserPassword.getText().toString())){
-                        String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"id");
-                        String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"id");
-                        String deviceid = "";
-                        String user = rs.chkUserByPassword(txtBaUserPassword.getText().toString());
-                        String billID = UUID.randomUUID().toString();
-
-                        new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
-                                lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
-                                txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
-                        for(int i=0;i<lOrderT.size();i++){
-
-                            Order ord = (Order)lOrderT.get(i);
-                            new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
-                        }
+                if(btnBaSave.getText().toString().equals(getResources().getString(R.string.billcheck))){
+                    txtBaUserPassword.setVisibility(View.VISIBLE);
+                    btnBaSave.setText(R.string.cashreceive);
+                }else if(btnBaSave.getText().toString().equals(getResources().getString(R.string.cashreceive))){
+                    if(txtBaCashReceive.getText().toString().equals("")){
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
-                        builder1.setMessage("บันทึกข้อมูลเรียบร้อย");
+                        builder1.setMessage("รับเงิน ไม่ได้ป้อน");
                         builder1.setCancelable(true);
                         builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                btnBaSave.setEnabled(false);
+                                txtBaCashReceive.setSelection(0,txtBaCashReceive.getText().length());
+                                txtBaCashReceive.setFocusable(true);
                             }
                         }).create().show();
+                        return;
+                    }
+                    if(txtBaUserPassword.getText().toString().equals("")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
+                        builder1.setMessage("Password ไม่ได้ป้อน");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtBaUserPassword.setSelection(0,txtBaUserPassword.getText().length());
+                                txtBaUserPassword.setFocusable(true);
+                            }
+                        }).create().show();
+                    }else{
+                        if(rs.chkPasswordBill(txtBaUserPassword.getText().toString())){
+                            String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"id");
+                            String tablecode = rs.getTable(cboBaTable.getSelectedItem().toString(),"code");
+                            String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"id");
+                            String deviceid = "";
+                            String user = rs.chkUserByPassword(txtBaUserPassword.getText().toString());
+                            String billID = UUID.randomUUID().toString();
+                            row = lOrderT.size();
+                            new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
+                                    lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
+                                    txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
+                            for(int i=0;i<lOrderT.size();i++){
+
+                                Order ord = (Order)lOrderT.get(i);
+                                new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
+                            }
+                            setCboTable(tablecode);
+                            setTable(tablecode);
+                        }
                     }
                 }
             }
@@ -215,8 +234,38 @@ public class BillAddActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        setTheme();
+        txtBaCashReceive.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    calTon();
+                    layout11.setVisibility(View.VISIBLE);
+                    txtBaCashTon.setFocusable(true);
+                    layoutba10.setVisibility(View.VISIBLE);
+                    txtBaUserPassword.setVisibility(View.INVISIBLE);
+
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                }
+                return false;
+            }
+        });
+        txtBaCashReceive.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                txtBaCashReceive.setSelection(0,0);
+//                lvBaAdd.setVisibility(View.INVISIBLE);
+                layout11.setVisibility(View.GONE);
+
+                return false;
+            }
+        });
+        setTheme();
+        setCboTable("");
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+    private void calTon(){
+        txtBaCashTon.setText(String.valueOf(Double.parseDouble(txtBaCashReceive.getText().toString().equals("") ? "0.00" : txtBaCashReceive.getText().toString()) - (lbBaNetTotal1.getText().toString().equals("") ? Double.parseDouble("0.00"): Double.parseDouble(lbBaNetTotal1.getText().toString()))));
     }
     private void calOrder(){
         Double amt=0.0, total=0.0;
@@ -245,11 +294,110 @@ public class BillAddActivity extends AppCompatActivity {
         lbBaVat1.setTextSize(textSize);
         lbBaSC.setTextSize(textSize);
         lbBaSC1.setTextSize(textSize);
-        lbBaNetTotal.setTextSize(textSize);
-        lbBaNetTotal1.setTextSize(textSize);
+        lbBaNetTotal.setTextSize(textSize+2);
+        lbBaNetTotal1.setTextSize(textSize+2);
         chkBaInRes.setTextSize(textSize);
         chkBaToGo.setTextSize(textSize);
+        txtBaCashReceive.setTextSize(textSize);
+        txtBaCashTon.setTextSize(textSize);
+        lbBaCashReceive.setTextSize(textSize);
+        lbBaCashTon.setTextSize(textSize);
+        txtBaCashReceive.setTextSize(textSize);
+        txtBaCashTon.setTextSize(textSize);
+        lbBaAmt.setBackgroundColor(getResources().getColor(R.color.amt));
+        lbBaAmt1.setBackgroundColor(getResources().getColor(R.color.amt));
+        lbBaTotal.setBackgroundColor(getResources().getColor(R.color.total));
+        lbBaTotal1.setBackgroundColor(getResources().getColor(R.color.total));
+        lbBaVat.setBackgroundColor(getResources().getColor(R.color.vat));
+        lbBaVat1.setBackgroundColor(getResources().getColor(R.color.vat));
+
+        lbBaNetTotal.setBackgroundColor(getResources().getColor(R.color.nettotal));
+        lbBaNetTotal1.setBackgroundColor(getResources().getColor(R.color.nettotal));
+        lbBaNetTotal.setTextColor(Color.WHITE);
+        lbBaNetTotal1.setTextColor(Color.WHITE);
         //alvMOrder = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList1);
+    }
+    private void getTable(){
+        try {
+//            File file =getFileStreamPath("table.cnf");
+            table1.clear();
+            final int READ_BLOCK_SIZE = 100;
+            FileInputStream fileIn=openFileInput("table.cnf");
+//            FileInputStream fileIn=openFileInput(file.getPath());
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            String[] p = s.split(";");
+            if(p.length>0){
+                for(int i=0;i<p.length;i++){
+                    table1.add(p[i].replace("\n",""));
+                }
+            }
+            fileIn.close();
+            rs.refresh();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void setTable(String id){
+        String table="";
+        for(int i=0;i<table1.size();i++) {
+            String[] bb = table1.get(i).split("=");
+            if(bb[0].length()==0) continue;
+            if(id.equals(bb[0])){
+                table +=bb[0]+"=0;\n";
+            }else{
+                table +=bb[0]+"="+bb[1]+";\n";
+            }
+        }
+        try {
+            FileOutputStream outputStream;
+//                    File file =getFileStreamPath("table.cnf");
+            outputStream = openFileOutput("table.cnf", Context.MODE_PRIVATE);
+//            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
+            outputStream.write(table.getBytes());
+            outputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void setCboTable(String id){
+        String table="";
+        getTable();
+        listTable.clear();
+        for(int i=0;i<table1.size();i++){
+            String[] aa = table1.get(i).split("=");
+            if(aa[0].length()==0) continue;
+            String[] bb = rs.sTable.get(i).split("@");
+            if(id.equals(aa[0])) {
+                listTable.add(new ItemData(bb[2], R.drawable.idel_blue));
+//                table +=aa[1]+"=0;\n";
+            }else if(aa[1].equals("1")){
+                listTable.add(new ItemData(bb[2],R.drawable.idel_red));
+//                table +=aa[1]+"="+aa[3]+";\n";
+            }else{
+//                table +=aa[1]+"="+aa[3]+";\n";
+//                if(aa[3].equals("1")){
+//                    listTable.add(new ItemData(aa[2],R.drawable.idel_red));
+//                }else{
+                    listTable.add(new ItemData(bb[2],R.drawable.idel_blue));
+//                }
+            }
+        }
+
+        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_layout,R.id.cbotxt,listTable);
+        cboBaTable.setAdapter(adapter);
     }
     private void setControl(){
         lbBaAmt1.setText("0.00");
@@ -258,6 +406,8 @@ public class BillAddActivity extends AppCompatActivity {
         lbBaSC1.setText("0.00");
         lbBaVat1.setText("0.00");
         lbBaNetTotal1.setText("0.00");
+        txtBaCashReceive.setText("0.00");
+        txtBaCashTon.setText("0.00");
         setlvOrder();
     }
     private void setlvOrder(){
@@ -410,6 +560,19 @@ public class BillAddActivity extends AppCompatActivity {
         protected void onPostExecute(String ab){
             String aaa = ab;
             //new retrieveFoods1().execute();
+            for (int i = 0; i < jarr.length(); i++) {
+                try {
+                    JSONObject catObj = (JSONObject) jarr.get(i);
+                    Log.d("sql",catObj.getString("sql"));
+                    if(!catObj.getString("success").equals("1")){
+//                        insertErrB++;
+                    }else{
+                        insertSuccB++;
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
             if(rs.PrnB.equals("ON")){
                 pBE = new PrintBillEpson(BillAddActivity.this);
                 pBE.runPrintReceiptSequenceEpson(getResources(), ab, rs.ResName, rs.ReceiptH1,rs.ReceiptH2,rs.ReceiptF1,rs.ReceiptF2, cboBaArea.getSelectedItem().toString(),cboBaTable.getSelectedItem().toString(), prn,lbBaAmt1.getText().toString(),
@@ -468,8 +631,32 @@ public class BillAddActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String ab){
-            String aaa = ab;
-            //new retrieveFoods1().execute();
+            for (int i = 0; i < jarr.length(); i++) {
+                try {
+                    JSONObject catObj = (JSONObject) jarr.get(i);
+                    Log.d("sql",catObj.getString("sql"));
+                    if(!catObj.getString("success").equals("1")){
+                        insertErr++;
+                    }else{
+                        insertSucc++;
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+//            if(((insertSucc+insertErr)==row) && insertSuccB==1){
+            if(((insertSucc+insertErr)==row)){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล ทั้งหมก"+(insertSucc+insertErr)+"รายการ เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnBaSave.setEnabled(false);
+                    }
+                }).create().show();
+                txtBaUserPassword.setText("");
+            }
 
         }
         @Override

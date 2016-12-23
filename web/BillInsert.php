@@ -59,13 +59,13 @@ $bi->total="total";
 $bi->nettotal="nettotal";
 $bi->datecreate="date_create";
 $bi->billcode = "bill_code";
-$bi->$billuser="bill_user";
-$bi->$statuscloseday="status_closeday";
-$bi->$closedayid="closeday_id";
-$bi->$hostid="host_id";
-$bi->$branchid="branch_id";
-$bi->$cashreceive="cash_receive";
-$bi->$cashton="cash_ton";
+$bi->billuser="bill_user";
+$bi->statuscloseday="status_closeday";
+$bi->closedayid="closeday_id";
+$bi->hostid="host_id";
+$bi->branchid="branch_id";
+$bi->cashreceive="cash_receive";
+$bi->cashton="cash_ton";
 
 $bi->table="t_bill";
 
@@ -75,11 +75,19 @@ $bi->table="t_bill";
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Insert into ".$bi->table."(".$bi->id.",".$bi->billdate.",".$bi->datecreate.",".$bi->remark.",".$bi->statusvoid.",".$bi->tableid.",".$bi->resid.","
 .$bi->areaid.",".$bi->deviceid.",".$bi->amt.",".$bi->discount.",".$bi->active.",".$bi->servicecharge.",".$bi->vat.",".$bi->total.",".$bi->nettotal.","
-.$bi->billcode.",".$bi->billuser.",".$bi->cashreceive.",".$bi->cashton.")".
+.$bi->billcode.",".$bi->billuser.",".$bi->cashreceive.",".$bi->cashton.",".$bi->statuscloseday.",".$bi->closedayid.")".
 " value ('".$_POST['bill_id']."',now(),now(),'".$_POST['remark']."','0','".$_POST['table_id']."','".$_POST['res_id']."','"
 .$_POST['area_id']."','".$_POST['device_id']."',".$_POST['amt'].",".$_POST['discount'].",'1',".$_POST['service_charge'].",".$_POST['vat'].",".$_POST['total'].",".$_POST['nettotal'].",'"
-.$code1."','".$_POST['billuser']."',".$_POST['cash_receive'].",".$_POST['cash_ton'].")";
+.$code1."','".$_POST['billuser']."',".$_POST['cash_receive'].",".$_POST['cash_ton'].",'0','')";
 $objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
 
 $sql = "Update b_table Set status_use ='0' Where table_id ='".$_POST['table_id']."'";
 $objQuery = mysql_query($sql);
@@ -88,10 +96,11 @@ mysql_close($objConnect);
 
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert Bill success";
 $response["sql"] = $sql;
 $response["bill_code"] = $code1;
+$response["error"] = $err;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

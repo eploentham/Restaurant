@@ -21,7 +21,7 @@ $intNumRows = mysql_num_rows($obj);
 $tmp = array();
 if($intNumRows==0){
     
-    //echo "cccccccccccc";
+    //echo "cccccccccccc ".$sql;
     //return;
     $wheredate=" and bill_date >= '".$date1."' and bill_date <= '".$date2."'";
     $sql = "Select sum(amount) as amt, sum(discount) as discount, sum(total) as total, sum(service_charge) as sc, sum(vat) as vat, sum(nettotal) as nettotal, count(1) as cnt_bill From t_bill Where status_closeday <> '1' ".$wheredate." and active = '1'";
@@ -58,7 +58,7 @@ if($intNumRows==0){
         array_push($resultArray,$tmp);
     }
     $wheredate=" and order_date >= '".$date1."' and order_date <= '".$date2."'";
-    $sql = "Select count(1) as cnt_order, sum(nettotal) as amt_order From t_order Where status_closeday <> '1' ".$wheredate." and active = '1'";
+    $sql = "Select count(1) as cnt_order, sum(price*qty) as amt_order From t_order Where status_closeday <> '1' ".$wheredate." and active = '1'";
     $objQuery = mysql_query($sql);
     $intNumRows = mysql_num_rows($objQuery);
     while($row = mysql_fetch_array($objQuery)){
@@ -69,8 +69,8 @@ if($intNumRows==0){
     //echo "bbbbbbbbbbbb";
     //return;
     //$sql = "Select * From t_closeday Where ";
-    $intNumRows = mysql_num_rows($objQuery);
-    while($row = mysql_fetch_array($objQuery)){
+    $intNumRows = mysql_num_rows($obj);
+    while($row = mysql_fetch_array($obj)){
         //$arrCol = array();
         //$tmp = array();
         $tmp["closeday_id"] = $row["closeday_id"];

@@ -4,11 +4,14 @@
 //$conn = new ConnectDB();
 $resultArray = array();
 //$resultArray["area"] = array();
-$objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb'];
+$objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 //$objQuery = mysql_query("Select * From t_bill Where active = '1' and bill_code = '".$_POST['bill_code']."' ");
-$objQuery = mysql_query("Select t_bill_detail.*, b_foods.foods_name From t_bill_detail left join b_foods on t_bill_detail.foods_id = b_foods.foods_id Where t_bill_detail.active = '1' and t_bill_detail.bill_id = '".$_POST['bill_id']."' Order By t_bill_detail.row1");
+$objQuery = mysql_query("Select t_bill_detail.*, b_foods.foods_name, t_bill.bill_code, t_bill.table_id  "
+    ."From t_bill_detail left join b_foods on t_bill_detail.foods_id = b_foods.foods_id "
+    ." left join t_bill on t_bill.bill_id = t_bill_detail.bill_id "
+    ."Where t_bill_detail.active = '1' and t_bill_detail.bill_id = '".$_POST['bill_id']."' Order By t_bill_detail.row1");
 $intNumField = mysql_num_fields($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	//$arrCol = array();
@@ -29,6 +32,8 @@ while($row = mysql_fetch_array($objQuery)){
     $tmp["active"] = $row["active"];
     $tmp["foods_name"] = $row["foods_name"];
     $tmp["remark"] = $row["remark"];
+    $tmp["bill_code"] = $row["bill_code"];
+    $tmp["table_id"] = $row["table_id"];
 
 	array_push($resultArray,$tmp);
 }

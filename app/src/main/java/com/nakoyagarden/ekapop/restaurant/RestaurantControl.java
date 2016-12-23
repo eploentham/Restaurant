@@ -55,8 +55,10 @@ public class RestaurantControl  extends Application implements Serializable {
     public String hostOrderByTableCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"OrderByTableCode.php";
     public String hostBillByTableId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByTableId.php";
     public String hostBillByBillCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByBillCode.php";
-    public String hostBillDetailByBillId ="http://"+hostIP+":80/"+ hostWebDirectory +"BillByBillCode.php";
+    public String hostBillDetailByBillId ="http://"+hostIP+":80/"+ hostWebDirectory +"BillDetailByBillId.php";
+    public String hostBillDetailByBillCode ="http://"+hostIP+":80/"+ hostWebDirectory +"BillDetailByBillCode.php";
     public String hostBillCloseDay ="http://"+hostIP+":80/"+ hostWebDirectory +"BillByCloseDay.php";
+
 
     public String hostBillInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillInsert.php";
     public String hostBillUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillUpdate.php";
@@ -65,6 +67,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public String hostBillVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillVoid.php";
 
     public String hostCloseDayInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayInsert.php";
+    public String hostCloseDayVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayVoid.php";
 
     public String hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
     public String hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
@@ -118,6 +121,7 @@ public class RestaurantControl  extends Application implements Serializable {
         hostBillByTableId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByTableId.php";
         hostBillByBillCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByBillCode.php";
         hostBillDetailByBillId ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailByBillId.php";
+        hostBillDetailByBillCode ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillDetailByBillCode.php";
 
         hostBillInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillInsert.php";
         hostBillUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillUpdate.php";
@@ -127,6 +131,7 @@ public class RestaurantControl  extends Application implements Serializable {
         hostBillCloseDay ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"BillByCloseDay.php";
 
         hostCloseDayInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayInsert.php";
+        hostCloseDayVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ClosedayVoid.php";
 
         hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
         hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
@@ -215,9 +220,13 @@ public class RestaurantControl  extends Application implements Serializable {
         String ab="";
         for(int i=0;i<sTable.size();i++){
             String[] aa = sTable.get(i).split("@");
-            if(flag.equals("code")){
-                if(table.equals(aa[1])){
+            if(flag.equals("code")) {
+                if (table.equals(aa[1])) {
                     ab = aa[2];
+                }
+            }else if(flag.equals("idtocode")){
+                if (table.equals(aa[0])) {
+                    ab = aa[1];
                 }
             }else{
                 if(table.equals(aa[0])){

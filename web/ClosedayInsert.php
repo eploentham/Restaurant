@@ -7,7 +7,7 @@ mysql_query("SET NAMES UTF8");
 
 $date1 = $_POST['closeday_date']." 00:00:00";
 $date2 = $_POST['closeday_date']." 23:59:59";
-$wheredate=" and bill_date >= '".$date1."' and bill_date <= '".$date2."'";
+
 $cd = new Closeday();
 //$footy = new FoodsType();
 //$ord = new Order();
@@ -59,11 +59,13 @@ $sql1 = "Insert into ".$cd->table."(".$cd->id.",".$cd->closeday_date.",".$cd->re
 .$_POST['cash_receive1_remark']."','".$_POST['cash_receive2_remark']."','".$_POST['cash_receive3_remark']."','".$_POST['cash_draw1_remark']."','".$_POST['cash_draw2_remark']."','".$_POST['cash_draw3_remark']."')";
 $objQuery = mysql_query($sql1);
 
-//$sql = "Update t_bill Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
-//$objQuery = mysql_query($sql);
-//$wheredate=" and order_date >= '".$date1."' and order_date <= '".$date2."'";
-//$sql = "Update t_order Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
-//$objQuery = mysql_query($sql);
+$wheredate=" and bill_date >= '".$date1."' and bill_date <= '".$date2."'";
+$sql = "Update t_bill Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
+$objQuery = mysql_query($sql);
+
+$wheredate=" and order_date >= '".$date1."' and order_date <= '".$date2."'";
+$sql = "Update t_order Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
+$objQuery = mysql_query($sql);
 
 mysql_close($objConnect);
 
@@ -71,7 +73,7 @@ $response = array();
 $resultArray = array();
 $response["success"] = 1;
 $response["message"] = "insert Closeday success";
-$response["sql"] = $sql1;
+$response["sql"] = $sql;
 //$response["close"] = $code1;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
