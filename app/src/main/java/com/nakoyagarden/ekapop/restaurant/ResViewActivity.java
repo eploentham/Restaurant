@@ -1,5 +1,6 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ public class ResViewActivity extends AppCompatActivity {
     public ArrayList<Restaurant> lRes = new ArrayList<Restaurant>();
     private ArrayAdapter<String> adapter;
     private ArrayList<String> arrayList;
+    ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +104,19 @@ public class ResViewActivity extends AppCompatActivity {
         protected void onPostExecute(String ab){
             String a = ab;
             setLvRes();
+            pd.dismiss();
         }
         @Override
         protected void onPreExecute() {
-
+            pd = new ProgressDialog(ResViewActivity.this);
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setTitle("Loading...");
+            pd.setMessage("Loading Bill ...");
+            pd.setCancelable(false);
+            pd.setIndeterminate(false);
+            pd.setMax(100);
+            pd.setProgress(0);
+            pd.show();
         }
     }
     private void setLvRes(){

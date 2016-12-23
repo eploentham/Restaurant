@@ -102,6 +102,10 @@
     <string name="RaDefaultRes">ร้านอาหาร default</string>
     <string name="RaTaxID">Tax ID</string>
     <string name="RaBillCode">เลขที่ใบเสร็จ</string>
+    <string name="chkUaPermissionVoidBill">สิทธิการยกเลิก รับชำระ</string>
+    <string name="chkUaPermissionVoidBill">สิทธิการยกเลิก รับชำระ</string>
+    <string name="chkUaPermissionVoidCloseday">สิทธิการยกเลิก ปิดวัน</string>
+    <string name="chkUaPermissionVoidCloseday">สิทธิการยกเลิก ปิดวัน</string>
 
     <string name="title_warnings">Printer Warnings</string>
     <string name="print_job_id">ABC123</string>

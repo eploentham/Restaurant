@@ -24,7 +24,7 @@ public class UserAddActivity extends AppCompatActivity {
     TextView lbUaLogin, lbUaName, lbUaPassword, lbUaRemark, lbUaPrivilege, lbUaActive;
     EditText txtUaLogin, txtUaName, txtUaPassword, txtUaRemark;
     Spinner cboUaPrivilege;
-    Switch chkUaActive;
+    Switch chkUaActive,chkUaPermissionVoidBill,chkUaPermissionVoidCloseday;
 
     private RestaurantControl rs;
     JSONArray jarr;
@@ -48,6 +48,8 @@ public class UserAddActivity extends AppCompatActivity {
         lbUaPrivilege = (TextView)findViewById(R.id.lbUaPrivilege);
         lbUaActive = (TextView)findViewById(R.id.lbUaActive);
         chkUaActive = (Switch) findViewById(R.id.chkUaActive);
+        chkUaPermissionVoidBill = (Switch) findViewById(R.id.chkUaPermissionVoidBill);
+        chkUaPermissionVoidCloseday = (Switch) findViewById(R.id.chkUaPermissionVoidCloseday);
 
         txtUaLogin = (EditText) findViewById(R.id.txtUaLogin);
         txtUaName = (EditText)findViewById(R.id.txtUaName);
@@ -63,6 +65,8 @@ public class UserAddActivity extends AppCompatActivity {
         lbUaPrivilege.setText(R.string.privilege);
         lbUaActive.setText(R.string.active);
         chkUaActive.setText(R.string.activeon);
+        chkUaPermissionVoidBill.setText(R.string.chkUaPermissionVoidBill);
+        chkUaPermissionVoidCloseday.setText(R.string.chkUaPermissionVoidCloseday);
         chkUaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -70,6 +74,26 @@ public class UserAddActivity extends AppCompatActivity {
                     chkUaActive.setText(R.string.activeon);
                 }else{
                     chkUaActive.setText(R.string.activeoff);
+                }
+            }
+        });
+        chkUaPermissionVoidBill.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    chkUaPermissionVoidBill.setText(R.string.activeon);
+                }else{
+                    chkUaPermissionVoidBill.setText(R.string.activeoff);
+                }
+            }
+        });
+        chkUaPermissionVoidCloseday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    chkUaPermissionVoidCloseday.setText(R.string.activeon);
+                }else{
+                    chkUaPermissionVoidCloseday.setText(R.string.activeoff);
                 }
             }
         });
