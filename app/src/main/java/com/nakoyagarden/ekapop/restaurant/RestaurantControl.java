@@ -90,6 +90,8 @@ public class RestaurantControl  extends Application implements Serializable {
 
     public String hostUserSelectAll ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectAll.php";
     public String hostUserSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectByID.php";
+    public String hostUserInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserInsert.php";
+    public String hostUserUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserUpdate.php";
 
     public String discount="0.0", SC="0.0", vat="0.0";
 
@@ -154,6 +156,8 @@ public class RestaurantControl  extends Application implements Serializable {
 
         hostUserSelectAll ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectAll.php";
         hostUserSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectByID.php";
+        hostUserInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserInsert.php";
+        hostUserUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserUpdate.php";
     }
     private void setCboTable(){
         //sCboTable.add("โต๊ะ 1");
@@ -268,6 +272,7 @@ public class RestaurantControl  extends Application implements Serializable {
     }
     public String getRes(String resName, String flag){
         String ab="";
+        if(resName==null) return"";
         for(int i=0;i<sRes.size();i++){
             String[] aa = sRes.get(i).split("@");
             if(resName.equals(aa[2])){

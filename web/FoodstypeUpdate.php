@@ -26,22 +26,33 @@ $ft->table="b_foods_type";
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Update ".$ft->table." Set "
 //.$foo->id.","
-.$ft->code."='".$_POST['Code']."',"
-.$ft->name."='".$_POST['Name']."',"
-.$ft->active."='".$_POST['Active']."',"
-.$ft->sort1."='".$_POST['Sort1']."',"
-.$ft->remark."='".$_POST['Remark']."' "
+.$ft->code."='".$_POST['foods_type_code']."',"
+.$ft->name."='".$_POST['foods_type_name']."',"
+.$ft->active."='".$_POST['active']."',"
+.$ft->sort1."='".$_POST['sort1']."',"
+.$ft->remark."='".$_POST['remark']."' "
 //.$ft->areaid."='".$_POST['AreaID']."' "
-."Where ".$ft->id." ='".$_POST['ID']."'";
+."Where ".$ft->id." ='".$_POST['foods_type_id']."'";
 //.$foo->datecreate
 
 //" value (UUID(),'".$_POST['Code']."','".$_POST['Name']."','".$_POST['Active']."','".$_POST['TypeId']."','".$_POST['Remark']."','"
 //.$_POST['ResId']."','".$_POST['StatusFoods']."','".$_POST['PrinterName']."','".$_POST['ResCode']."','".$_POST['Price']."',NOW())";
 $objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
+
 $response = array();
 $resultArray = array();
 $response["success"] = 1;
 $response["message"] = "update FoodsType success";
+$response["error"] = $err;
+$response["sql"] = $sql;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

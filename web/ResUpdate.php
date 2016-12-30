@@ -38,10 +38,10 @@ $res->table="b_restaurant";
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Update ".$res->table." Set "
 //.$foo->id.","
-.$res->code."='".$_POST['Code']."',"
-.$res->name."='".$_POST['Name']."',"
-.$res->active."='".$_POST['Active']."',"
-.$res->sort1."='".$_POST['Sort1']."',"
+.$res->code."='".$_POST['res_code']."',"
+.$res->name."='".$_POST['res_name']."',"
+.$res->active."='".$_POST['active']."',"
+.$res->sort1."='".$_POST['sort1']."',"
 .$res->rf2."='".$_POST['receipt_footer2']."',"
 .$res->rh1."='".$_POST['receipt_header1']."',"
 .$res->rh2."='".$_POST['receipt_header2']."',"
@@ -54,19 +54,29 @@ $sql = "Update ".$res->table." Set "
 .$res->prnw2."='".$_POST['printer_waterbar2']."',"
 .$res->prnw3."='".$_POST['printer_waterbar3']."',"
 .$res->defaultres."='".$_POST['default_res']."',"
-.$res->remark."='".$_POST['Remark']."' "
+.$res->remark."='".$_POST['remark']."' "
 
-."Where ".$res->id." ='".$_POST['ID']."'";
+."Where ".$res->id." ='".$_POST['res_id']."'";
 //.$foo->datecreate
 
 //" value (UUID(),'".$_POST['Code']."','".$_POST['Name']."','".$_POST['Active']."','".$_POST['TypeId']."','".$_POST['Remark']."','"
 //.$_POST['ResId']."','".$_POST['StatusFoods']."','".$_POST['PrinterName']."','".$_POST['ResCode']."','".$_POST['Price']."',NOW())";
 $objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
+
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "update Restaurant success";
 $response["sql"] = $sql;
+$response["error"] = $err;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

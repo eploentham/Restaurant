@@ -42,7 +42,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
     TextView lbIaHost, lbIaPrint, lbIaPosID, lbIaTaxID, lbIaWebDirectory, lbIaPortID, lbIaUserDB, lbIaPasswordDB;
     EditText txtIaHost, txtIaPrint, txtIaPosID, txtIaTaxID, txtIaWebDirectory, txtIaPortID, txtIaUserDB, txtIaPasswordDB;
     Button btnIaSave, btnIaPrint, btnIaTest,btnFoodsV, btnMUser;
-    Button btnMFt, btnMBillVoid;
+    Button btnMFt, btnMBillVoid, btnFristRes;
     ImageButton btnMTable,btnMArea, btnMRes;
     Spinner cboIaPrinter, cboIaTextSize;
     CheckBox chkPrintOrder, chkPrintBill, chkPrintCloseDay;
@@ -107,6 +107,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
         btnMRes = (ImageButton)findViewById(R.id.btnMRes);
         btnMBillVoid = (Button)findViewById(R.id.btnMBillVoid);
         btnMUser = (Button)findViewById(R.id.btnMUser);
+        btnFristRes = (Button)findViewById(R.id.btnFristRes);
 
         lbIaUserDB = (TextView)findViewById(R.id.lbIaUserDB);
         lbIaPasswordDB = (TextView)findViewById(R.id.lbIaPasswordDB);
@@ -115,15 +116,15 @@ public class InitailActivity extends Activity implements ReceiveListener {
         chkPrintCloseDay = (CheckBox)findViewById(R.id.chkPrintCloseDay);
 
         btnIaPrint.setText("Test Print");
-        lbIaHost.setText("Host IP");
+        lbIaHost.setText(R.string.hostIP);
         lbIaPrint.setText("Printer IP");
         lbIaPosID.setText("POS ID");
         lbIaWebDirectory.setText("Web Directory");
         lbIaTaxID.setText("Tax ID");
         lbIaPortID.setText("Port Number");
 
-        lbIaUserDB.setText("User DB");
-        lbIaPasswordDB.setText("Password DB");
+        lbIaUserDB.setText(R.string.user);
+        lbIaPasswordDB.setText(R.string.password);
         chkPrintOrder.setText("พิมพ์ใบสั่งอาหาร");
         chkPrintBill.setText("พิมพ์ใบคิดเงิน");
         chkPrintCloseDay.setText("พิมพ์ใบปิดวัน");
@@ -140,6 +141,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
 //        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
 //        btnMRes.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
         btnMUser.setText(R.string.user);
+        //btnFristRes.setText(R.string.btnFristRes);
         btnIaSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -154,6 +156,12 @@ public class InitailActivity extends Activity implements ReceiveListener {
 //                new retrieveArea().execute();
                 saveText();
 
+            }
+        });
+        btnFristRes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(view.getContext(), FirstResActivity.class).putExtra("RestaurantControl",rs), 0);
             }
         });
         btnIaTest.setOnClickListener(new View.OnClickListener() {

@@ -9,7 +9,7 @@ $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 //$objQuery = mysql_query("Select * From t_bill Where active = '1' and bill_code = '".$_POST['bill_code']."' ");
 $objQuery = mysql_query("Select * From t_bill Where active = '1' and bill_code = '".$_POST['bill_code']."' Order By bill_date");
-$intNumField = mysql_num_fields($objQuery);
+$intNumRows = mysql_num_rows($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	//$arrCol = array();
 	$tmp = array();

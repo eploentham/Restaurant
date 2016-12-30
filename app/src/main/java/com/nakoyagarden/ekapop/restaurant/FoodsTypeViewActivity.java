@@ -134,13 +134,13 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
                 for (int i = 0; i < jarrFt.length(); i++) {
                     JSONObject catObj = (JSONObject) jarrFt.get(i);
                     FoodsType a = new FoodsType();
-                    a.ID = catObj.getString("foods_type_id");
-                    a.Code = catObj.getString("foods_type_code");
-                    a.Name = catObj.getString("foods_type_name");
-                    a.Remark = catObj.getString("remark");
-                    a.Active = catObj.getString("active");
+                    a.ID = catObj.getString(a.dbID);
+                    a.Code = catObj.getString(a.dbCode);
+                    a.Name = catObj.getString(a.dbName);
+                    a.Remark = catObj.getString(a.dbRemark);
+                    a.Active = catObj.getString(a.dbActive);
                     //a.AreaID = catObj.getString("area_id");
-                    a.Sort1 = catObj.getString("sort1");
+                    a.Sort1 = catObj.getString(a.dbSort1);
                     lRes.add(a);
                     //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                     arrayList.add(a.Code+" "+a.Name+" "+a.Remark);

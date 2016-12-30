@@ -138,6 +138,12 @@
             android:ems="5"
             android:layout_gravity="bottom|left"
             />
+        <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
+            android:id="@+id/txtMCntCust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_toRightOf="@+id/txtMPassword"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

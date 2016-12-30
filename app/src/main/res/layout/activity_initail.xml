@@ -292,6 +292,9 @@
         android:layout_toRightOf="@+id/btnMArea"
         android:layout_below="@+id/layout7"
         android:layout_marginLeft="@dimen/activity_vertical_margin"/>
+
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -312,5 +315,13 @@
             android:id="@+id/btnMBillVoid"
             android:layout_toEndOf="@+id/btnMUser"
             android:layout_weight="1"/>
+
     </LinearLayout>
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFristRes"
+        android:layout_weight="1"
+        android:layout_below="@id/layout8"/>
 </RelativeLayout>

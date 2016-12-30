@@ -51,16 +51,26 @@ $sql = "Insert into ".$res->table."(".$res->id.",".$res->code.",".$res->name.","
 	$res->remark.",".$res->datecreate.",".$res->rh1.",".$res->rh2.",".$res->rf1.",".$res->rf2.",".
 	$res->defaultres.",".$res->billcode.",".$res->taxid.",".
 	$res->prnf1.",".$res->prnf2.",".$res->prnf3.",".$res->prnw1.",".$res->prnw2.",".$res->prnw3.")".
-" value (UUID(),'".$Code."','".$_POST['Name']."','".$_POST['Active']."','".$_POST['Sort1']."','".
-	$_POST['Remark']."',NOW(),'".$_POST['receipt_header1']."','".$_POST['receipt_header2']."','".$_POST['receipt_footer1']."','".$_POST['receipt_footer2']."','".
+	" value (UUID(),'".$Code."','".$_POST['res_name']."','".$_POST['active']."','".$_POST['sort1']."','".
+	$_POST['remark']."',NOW(),'".$_POST['receipt_header1']."','".$_POST['receipt_header2']."','".$_POST['receipt_footer1']."','".$_POST['receipt_footer2']."','".
 	$_POST['default_res']."','".$_POST['bill_code']."','".$_POST['tax_id']."','".
 	$_POST['printer_foods1']."','".$_POST['printer_foods2']."','".$_POST['printer_foods3']."','".$_POST['printer_waterbar1']."','".$_POST['printer_waterbar2']."','".$_POST['printer_waterbar3']."')";
 $objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
+
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert Restaurant success";
 $response["sql"] = $sql;
+$response["error"] = $err;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

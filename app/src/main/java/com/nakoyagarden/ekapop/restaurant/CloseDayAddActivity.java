@@ -227,9 +227,13 @@ public class CloseDayAddActivity extends AppCompatActivity {
         });
         txtCaUserPassword.setVisibility(View.INVISIBLE);
         layout17.setVisibility(View.INVISIBLE);
-        String resid = rs.getRes(cboCaRes.getSelectedItem().toString(),"id");
+        if(cboCaRes.getChildCount()>0){
+            String resid = rs.getRes(cboCaRes.getSelectedItem().toString(),"id");
+            new retrieveCloseDay().execute(year+"-"+(month+1)+"-"+day,resid);
+        }
+
         setControlNewCloseDay();
-        new retrieveCloseDay().execute(year+"-"+(month+1)+"-"+day,resid);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     @Override
@@ -395,42 +399,42 @@ public class CloseDayAddActivity extends AppCompatActivity {
                     Log.d("jaCa",jaCa.toString());
                     JSONObject catObj = (JSONObject) jaCa.get(0);
                     bill = new Bill();
-                    ID = catObj.getString("closeday_id");
+                    ID = catObj.getString(cd.dbID);
                     if(!ID.equals("")){
 
-                        txtCaAmt.setText(catObj.getString("amt"));
-                        txtCaDiscount.setText(catObj.getString("discount"));
-                        txtCaTotal.setText(catObj.getString("total"));
-                        txtCaVat.setText(catObj.getString("vat"));
-                        txtCaNetTotal.setText(catObj.getString("nettotal"));
-                        txtCaSC.setText(catObj.getString("sc"));
-                        lbCaCntBill.setText("จำนวนบิล "+catObj.getString("cnt_bill"));
-                        lbCaCntOrder.setText("จำนวนบิล "+catObj.getString("cnt_order"));
-                        txtCaRemark.setText(catObj.getString("remark"));
-                        txtCaCashReceive1.setText(catObj.getString("cash_receive1"));
-                        txtCaCashReceive2.setText(catObj.getString("cash_receive2"));
-                        txtCaCashReceive3.setText(catObj.getString("cash_receive3"));
-                        txtCaCashDraw1.setText(catObj.getString("cash_draw1"));
-                        txtCaCashDraw2.setText(catObj.getString("cash_draw2"));
-                        txtCaCashDraw3.setText(catObj.getString("cash_draw3"));
-                        txtCaCashReceive1Remark.setText(catObj.getString("cash_receive1_remark"));
-                        txtCaCashReceive2Remark.setText(catObj.getString("cash_receive2_remark"));
-                        txtCaCashReceive3Remark.setText(catObj.getString("cash_receive3_remark"));
-                        txtCaCashDraw1Remark.setText(catObj.getString("cash_draw1_remark"));
-                        txtCaCashDraw2Remark.setText(catObj.getString("cash_draw2_remark"));
-                        txtCaCashDraw3Remark.setText(catObj.getString("cash_draw3_remark"));
+                        txtCaAmt.setText(catObj.getString(cd.dbAmt));
+                        txtCaDiscount.setText(catObj.getString(cd.dbDiscount));
+                        txtCaTotal.setText(catObj.getString(cd.dbTotal));
+                        txtCaVat.setText(catObj.getString(cd.dbVat));
+                        txtCaNetTotal.setText(catObj.getString(cd.dbNetTotal));
+                        txtCaSC.setText(catObj.getString(cd.dbSC));
+                        lbCaCntBill.setText("จำนวนบิล "+catObj.getString(cd.dbCntBill));
+                        lbCaCntOrder.setText("จำนวนบิล "+catObj.getString(cd.dbCntOrder));
+                        txtCaRemark.setText(catObj.getString(cd.dbRemark));
+                        txtCaCashReceive1.setText(catObj.getString(cd.dbCashR1));
+                        txtCaCashReceive2.setText(catObj.getString(cd.dbCashR2));
+                        txtCaCashReceive3.setText(catObj.getString(cd.dbCashR3));
+                        txtCaCashDraw1.setText(catObj.getString(cd.dbCashD1));
+                        txtCaCashDraw2.setText(catObj.getString(cd.dbCashD2));
+                        txtCaCashDraw3.setText(catObj.getString(cd.dbCashD3));
+                        txtCaCashReceive1Remark.setText(catObj.getString(cd.dbCashR1Remark));
+                        txtCaCashReceive2Remark.setText(catObj.getString(cd.dbCashR2Remark));
+                        txtCaCashReceive3Remark.setText(catObj.getString(cd.dbCashR3Remark));
+                        txtCaCashDraw1Remark.setText(catObj.getString(cd.dbCashD1Remark));
+                        txtCaCashDraw2Remark.setText(catObj.getString(cd.dbCashD2Remark));
+                        txtCaCashDraw3Remark.setText(catObj.getString(cd.dbCashD3Remark));
                         txtCaUserPassword.setText("");
                         layout17.setVisibility(View.VISIBLE);
                         layout16.setVisibility(View.INVISIBLE);
                         chkCaActive.setChecked(true);
 
                     }else{
-                        txtCaAmt.setText(catObj.getString("amt"));
-                        txtCaDiscount.setText(catObj.getString("discount"));
-                        txtCaTotal.setText(catObj.getString("total"));
-                        txtCaVat.setText(catObj.getString("vat"));
-                        txtCaNetTotal.setText(catObj.getString("nettotal"));
-                        txtCaSC.setText(catObj.getString("sc"));
+                        txtCaAmt.setText(catObj.getString(bill.dbAmt));
+                        txtCaDiscount.setText(catObj.getString(bill.dbDiscount));
+                        txtCaTotal.setText(catObj.getString(bill.dbTotal));
+                        txtCaVat.setText(catObj.getString(bill.dbVat));
+                        txtCaNetTotal.setText(catObj.getString(bill.dbNetTotal));
+                        txtCaSC.setText(catObj.getString(bill.dbSC));
                         lbCaCntBill.setText("จำนวนบิล "+catObj.getString("cnt_bill"));
                         layout17.setVisibility(View.INVISIBLE);
                         layout16.setVisibility(View.VISIBLE);
@@ -470,37 +474,37 @@ public class CloseDayAddActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            params.add(new BasicNameValuePair("closeday_id", id));
-            params.add(new BasicNameValuePair("closeday_date", cd.CloseDayDate));
-            params.add(new BasicNameValuePair("res_id", cd.ResId));
-            params.add(new BasicNameValuePair("amount", cd.Amt));
-            params.add(new BasicNameValuePair("discount", cd.Discount));
-            params.add(new BasicNameValuePair("total", cd.Total));
-            params.add(new BasicNameValuePair("sc", cd.SC));
-            params.add(new BasicNameValuePair("vat", cd.Vat));
-            params.add(new BasicNameValuePair("nettotal", cd.NetTotal));
-            params.add(new BasicNameValuePair("remark", cd.Remark));
-            params.add(new BasicNameValuePair("active", cd.Active));
-            params.add(new BasicNameValuePair("status_void", cd.StatusVoid));
-            params.add(new BasicNameValuePair("void_date", cd.VoidDate));
-            params.add(new BasicNameValuePair("void_user", cd.VoidUser));
-            params.add(new BasicNameValuePair("cnt_bill", cd.CntBill));
-            params.add(new BasicNameValuePair("cnt_order", cd.CntOrder));
-            params.add(new BasicNameValuePair("amount_order", cd.AmtOrder));
-            params.add(new BasicNameValuePair("bill_amount", cd.Amt));
-            params.add(new BasicNameValuePair("closeday_user", cd.CloseDayUser));
-            params.add(new BasicNameValuePair("cash_receive1", cd.CashR1));
-            params.add(new BasicNameValuePair("cash_receive2", cd.CashR2));
-            params.add(new BasicNameValuePair("cash_receive3", cd.CashR3));
-            params.add(new BasicNameValuePair("cash_draw1", cd.CashD1));
-            params.add(new BasicNameValuePair("cash_draw2", cd.CashD2));
-            params.add(new BasicNameValuePair("cash_draw3", cd.CashD3));
-            params.add(new BasicNameValuePair("cash_receive1_remark", cd.CashR1Remark));
-            params.add(new BasicNameValuePair("cash_receive2_remark", cd.CashR2Remark));
-            params.add(new BasicNameValuePair("cash_receive3_remark", cd.CashR3Remark));
-            params.add(new BasicNameValuePair("cash_draw1_remark", cd.CashD1Remark));
-            params.add(new BasicNameValuePair("cash_draw2_remark", cd.CashD2Remark));
-            params.add(new BasicNameValuePair("cash_draw3_remark", cd.CashD3Remark));
+            params.add(new BasicNameValuePair(cd.dbID, id));
+            params.add(new BasicNameValuePair(cd.dbCloseDayDate, cd.CloseDayDate));
+            params.add(new BasicNameValuePair(cd.dbResId, cd.ResId));
+            params.add(new BasicNameValuePair(cd.dbAmt, cd.Amt));
+            params.add(new BasicNameValuePair(cd.dbDiscount, cd.Discount));
+            params.add(new BasicNameValuePair(cd.dbTotal, cd.Total));
+            params.add(new BasicNameValuePair(cd.dbSC, cd.SC));
+            params.add(new BasicNameValuePair(cd.dbVat, cd.Vat));
+            params.add(new BasicNameValuePair(cd.dbNetTotal, cd.NetTotal));
+            params.add(new BasicNameValuePair(cd.dbRemark, cd.Remark));
+            params.add(new BasicNameValuePair(cd.dbActive, cd.Active));
+            params.add(new BasicNameValuePair(cd.dbStatusVoid, cd.StatusVoid));
+            params.add(new BasicNameValuePair(cd.dbVoidDate, cd.VoidDate));
+            params.add(new BasicNameValuePair(cd.dbVoidUser, cd.VoidUser));
+            params.add(new BasicNameValuePair(cd.dbCntBill, cd.CntBill));
+            params.add(new BasicNameValuePair(cd.dbCntOrder, cd.CntOrder));
+            params.add(new BasicNameValuePair(cd.dbAmtOrder, cd.AmtOrder));
+            params.add(new BasicNameValuePair(cd.dbAmtBill, cd.Amt));
+            params.add(new BasicNameValuePair(cd.dbCloseDayUser, cd.CloseDayUser));
+            params.add(new BasicNameValuePair(cd.dbCashR1, cd.CashR1));
+            params.add(new BasicNameValuePair(cd.dbCashR2, cd.CashR2));
+            params.add(new BasicNameValuePair(cd.dbCashR3, cd.CashR3));
+            params.add(new BasicNameValuePair(cd.dbCashD1, cd.CashD1));
+            params.add(new BasicNameValuePair(cd.dbCashD2, cd.CashD2));
+            params.add(new BasicNameValuePair(cd.dbCashD3, cd.CashD3));
+            params.add(new BasicNameValuePair(cd.dbCashR1Remark, cd.CashR1Remark));
+            params.add(new BasicNameValuePair(cd.dbCashR2Remark, cd.CashR2Remark));
+            params.add(new BasicNameValuePair(cd.dbCashR3Remark, cd.CashR3Remark));
+            params.add(new BasicNameValuePair(cd.dbCashD1Remark, cd.CashD1Remark));
+            params.add(new BasicNameValuePair(cd.dbCashD2Remark, cd.CashD2Remark));
+            params.add(new BasicNameValuePair(cd.dbCashD3Remark, cd.CashD3Remark));
             jaCa = jsonparser.getJSONFromUrl(rs.hostCloseDayInsert,params);
 
 //            } catch (JSONException e) {
@@ -567,7 +571,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            params.add(new BasicNameValuePair("closeday_id", arg0[0]));
+            params.add(new BasicNameValuePair(cd.dbID, arg0[0]));
             jaCa = jsonparser.getJSONFromUrl(rs.hostCloseDayVoid,params);
             Log.d("closeday_id",arg0[0]);
 //            } catch (JSONException e) {

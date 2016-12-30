@@ -53,7 +53,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     Button btnMailarapAdd, btnMSave, btnMClear;
     RadioButton chkMToGo, chkMInRes;
 //    SwipeListView sv;
-    com.hrules.horizontalnumberpicker.HorizontalNumberPicker txtMQty;
+    com.hrules.horizontalnumberpicker.HorizontalNumberPicker txtMQty, txtMCntCust;
 
     JsonParser jsonparser = new JsonParser();
     JSONArray jarrF;
@@ -70,6 +70,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     private ArrayList<String> arrayList1, arrayFoods, arraycboMFoods, alRemark, alCode, alName, alPrice, alQty;
     JSONArray jarrT;
     Foods foo = new Foods();
+    Order or = new Order();
+    Table ta = new Table();
     String ab, Code="";
     Integer row1=0;
     Boolean pageLoad=false, pageLoadFromlvmClick=false, pageSearchFoods=true,flagDel=false;
@@ -113,6 +115,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         txtMFoodsRemark = (EditText)findViewById(R.id.txtMFoodsRemark);
         txtMPassword = (EditText)findViewById(R.id.txtMPassword);
         txtMQty = (com.hrules.horizontalnumberpicker.HorizontalNumberPicker)findViewById(R.id.txtMQty);
+        txtMCntCust = (com.hrules.horizontalnumberpicker.HorizontalNumberPicker)findViewById(R.id.txtMCntCust);
         lvMOrder = (ListView)findViewById(R.id.lvMOrder);
         chkMToGo = (RadioButton) findViewById(R.id.chkMToGo);
         chkMInRes = (RadioButton) findViewById(R.id.chkMInRes);
@@ -237,7 +240,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                         for(int i=0;i<lorder.size();i++){
                             Order ord = (Order)lorder.get(i);
                             new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                                    ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid);
+                                    ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
 //                    pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), ord.FoodsName,ord.Qty,ord.Remark);
                             if(ord.Remark.equals("")) ord.Remark="-";
                             prn[i] = ord.FoodsName+";"+ord.Qty+";"+ord.Remark+";";
@@ -409,6 +412,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         getTable();
         pageLoad=false;
         txtMQty.setValue(1);
+        txtMCntCust.setValue(1);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
@@ -481,10 +485,13 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         }
     }
     private void setCboTable(String id){
-
+        Log.i("rs.sTable.size()",String.valueOf(rs.sTable.size()));
+        if(rs.sTable==null) return;
+        if(rs.sTable.size()==0) return;
         listTable.clear();
         getTable();
         String table="";
+
         for(int i=0;i<table1.size();i++){
             String[] aa = table1.get(i).split("=");
             if(aa[0].length()==0) continue;
@@ -540,17 +547,17 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             for (int i = 0; i < jarrF.length(); i++) {
                 JSONObject catObj = (JSONObject) jarrF.get(i);
                 Foods f = new Foods();
-                f.ID = catObj.getString("foods_id");
-                f.Code = catObj.getString("foods_code");
-                f.Name = catObj.getString("foods_name");
-                f.Remark = catObj.getString("remark");
-                f.ResCode = catObj.getString("res_code");
-                f.Price = catObj.getString("foods_price");
-                f.PrinterName = catObj.getString("printer_name");
-                f.Active = catObj.getString("active");
-                f.ResId = catObj.getString("res_id");
-                f.StatusFoods = catObj.getString("status_foods");
-                f.TypeId = catObj.getString("foods_type_id");
+                f.ID = catObj.getString(f.dbID);
+                f.Code = catObj.getString(f.dbCode);
+                f.Name = catObj.getString(f.dbName);
+                f.Remark = catObj.getString(f.dbRemark);
+                f.ResCode = catObj.getString(f.dbResCode);
+                f.Price = catObj.getString(f.dbPrice);
+                f.PrinterName = catObj.getString(f.dbPrinterName);
+                f.Active = catObj.getString(f.dbActive);
+                f.ResId = catObj.getString(f.dbResId);
+                f.StatusFoods = catObj.getString(f.dbStatusFoods);
+                f.TypeId = catObj.getString(f.dbTypeId);
                 lFoo.add(f);
                 arrayFoods.add(f.Code + " " + f.Name + " " + f.Price + " " + f.Remark + " " + f.PrinterName);
                 arraycboMFoods.add(f.Code + " " + f.Name + " " + f.Price + " " + f.Remark + " " + f.PrinterName);
@@ -718,7 +725,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            params.add(new BasicNameValuePair("Code",Code));
+            params.add(new BasicNameValuePair(foo.dbCode,Code));
             //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByCode,params);
             jarrF = jsonparser.getJSONFromUrl(rs.hostFoodsSearch,params);
             //rs.jarrF = jarrF.toString();
@@ -743,17 +750,17 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     private void setFoods(){
         try{
             JSONObject catObj = (JSONObject) jarrF.get(0);
-            foo.ID = catObj.getString("foods_id");
-            foo.Code = catObj.getString("foods_code");
-            foo.Name = catObj.getString("foods_name");
-            foo.Remark = catObj.getString("remark");
-            foo.ResCode = catObj.getString("res_code");
-            foo.Price = catObj.getString("foods_price");
-            foo.PrinterName = catObj.getString("printer_name");
-            foo.Active = catObj.getString("active");
-            foo.ResId = catObj.getString("res_id");
-            foo.StatusFoods = catObj.getString("status_foods");
-            foo.TypeId = catObj.getString("foods_type_id");
+            foo.ID = catObj.getString(foo.dbID);
+            foo.Code = catObj.getString(foo.dbCode);
+            foo.Name = catObj.getString(foo.dbName);
+            foo.Remark = catObj.getString(foo.dbRemark);
+            foo.ResCode = catObj.getString(foo.dbResCode);
+            foo.Price = catObj.getString(foo.dbPrice);
+            foo.PrinterName = catObj.getString(foo.dbPrinterName);
+            foo.Active = catObj.getString(foo.dbActive);
+            foo.ResId = catObj.getString(foo.dbResId);
+            foo.StatusFoods = catObj.getString(foo.dbStatusFoods);
+            foo.TypeId = catObj.getString(foo.dbTypeId);
         }catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -772,25 +779,27 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("lot_id", arg0[1]));
-                params.add(new BasicNameValuePair("foods_code", arg0[5]));
-                params.add(new BasicNameValuePair("foods_name", arg0[6]));
-                params.add(new BasicNameValuePair("foods_id", arg0[11]));
-                params.add(new BasicNameValuePair("row1", arg0[0]));
-                params.add(new BasicNameValuePair("Active", "1"));
-                params.add(new BasicNameValuePair("res_code", arg0[8]));
-                params.add(new BasicNameValuePair("table_code", arg0[3]));
-                params.add(new BasicNameValuePair("area_code", arg0[2]));
-                params.add(new BasicNameValuePair("remark", arg0[7]));
-                params.add(new BasicNameValuePair("price", arg0[9]));
-                params.add(new BasicNameValuePair("qty", arg0[4]));
-                params.add(new BasicNameValuePair("printer_name", arg0[10]));
-                params.add(new BasicNameValuePair("status_foods_1", ""));
-                params.add(new BasicNameValuePair("status_foods_2", ""));
-                params.add(new BasicNameValuePair("status_foods_3", ""));
-                params.add(new BasicNameValuePair("status_to_go", arg0[12]));
-                params.add(new BasicNameValuePair("order_user", arg0[13]));
-                params.add(new BasicNameValuePair("table_id", arg0[14]));
+
+                params.add(new BasicNameValuePair(or.dbLotId, arg0[1]));
+                params.add(new BasicNameValuePair(or.dbFoodsCode, arg0[5]));
+                params.add(new BasicNameValuePair(or.dbFoodsName, arg0[6]));
+                params.add(new BasicNameValuePair(or.dbFoodsId, arg0[11]));
+                params.add(new BasicNameValuePair(or.dbrow1, arg0[0]));
+                params.add(new BasicNameValuePair(or.dbActive, "1"));
+                params.add(new BasicNameValuePair(or.dbResCode, arg0[8]));
+                params.add(new BasicNameValuePair(or.dbTableCode, arg0[3]));
+                params.add(new BasicNameValuePair(or.dbAreaCode, arg0[2]));
+                params.add(new BasicNameValuePair(or.dbRemark, arg0[7]));
+                params.add(new BasicNameValuePair(or.dbPrice, arg0[9]));
+                params.add(new BasicNameValuePair(or.dbQty, arg0[4]));
+                params.add(new BasicNameValuePair(or.dbPrinterName, arg0[10]));
+                params.add(new BasicNameValuePair(or.dbStatusFoods1, ""));
+                params.add(new BasicNameValuePair(or.dbStatusFoods2, ""));
+                params.add(new BasicNameValuePair(or.dbStatusFoods3, ""));
+                params.add(new BasicNameValuePair(or.dbStatusToGo, arg0[12]));
+                params.add(new BasicNameValuePair(or.dbOrderUser, arg0[13]));
+                params.add(new BasicNameValuePair(or.dbTableId, arg0[14]));
+                params.add(new BasicNameValuePair(or.dbCntCust, arg0[15].equals("")?"1":arg0[15]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostSaveOrder, params);
 
@@ -879,11 +888,12 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                     rs.sTable.clear();
                     for (int i = 0; i < jarrT.length(); i++) {
                         JSONObject catObj = (JSONObject) jarrT.get(i);
-                        rs.sCboTable.add(catObj.getString("table_name"));
-                        rs.sTable.add(catObj.getString("table_id")+"@"+catObj.getString("table_code")+"@"+catObj.getString("table_name")+"@"+catObj.getString("status_use"));
+                        rs.sCboTable.add(catObj.getString(ta.dbName));
+                        rs.sTable.add(catObj.getString(ta.dbID)+"@"+catObj.getString(ta.dbCode)+"@"+catObj.getString(ta.dbName)+"@"+catObj.getString(ta.dbStatusUse));
                     }
                 }
             } catch (JSONException e) {
+
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
@@ -33,13 +34,20 @@ public class MainActivity extends AppCompatActivity {
     JsonParser jsonparser = new JsonParser();
     String ab;
     JSONObject jobj = null;
-    JSONArray jarrA, jarrT, jarrR, jarrF,jarrU;
+    JSONArray jarrA, jarrT, jarrR, jarrF,jarrU, jarrP;
     //Button btnMInt;
     ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA, btnMCloseDay, btnMInt;
+    ImageView imageRes, imageArea,imageTable,imageFoods,imageFoodsType;
     TextView lbMMessage;
     public RestaurantControl rs;
     ProgressDialog pd;
     Boolean fileExit=false;
+    User us = new User();
+    Table ta = new Table();
+    FoodsType ft = new FoodsType();
+    Area ar = new Area();
+    Foods foo = new Foods();
+    Restaurant res = new Restaurant();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
 //        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
 //        btnMRes.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
         btnMInt = (ImageButton)findViewById(R.id.btnMInt);
-        //btnMBill.setText(R.string.billcheck);
+        imageRes = (ImageView)findViewById(R.id.imageRes);
+        imageArea = (ImageView)findViewById(R.id.imageArea);
+        imageTable = (ImageView)findViewById(R.id.imageTable);
+        imageFoods = (ImageView)findViewById(R.id.imageFoods);
+        imageFoodsType = (ImageView)findViewById(R.id.imageFoodsType);
 
         btnOrderA.setBackgroundResource(R.mipmap.menu_icon1);
         btnCookV.setBackgroundResource(R.mipmap.menu_cook);
@@ -69,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         btnMCloseDay.setBackgroundResource(R.mipmap.menu_closeday);
         btnMInt.setBackgroundResource(R.mipmap.menu_int);
         lbMMessage.setVisibility(View.INVISIBLE);
+
+        imageRes.setImageResource(R.mipmap.red_big);
+        imageArea.setImageResource(R.mipmap.red_big);
+        imageTable.setImageResource(R.mipmap.red_big);
+        imageFoods.setImageResource(R.mipmap.red_big);
+        imageFoodsType.setImageResource(R.mipmap.red_big);
+
         //btnMFoodsType.setText(Re);
         rs = new RestaurantControl();
         rs.pageLoad=false;
@@ -193,32 +212,38 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
+//            try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
                 jarrA = jsonparser.getJSONFromUrl(rs.hostGetArea,params);
-                if(jarrA!=null){
 
-                    rs.sCboArea.clear();
-                    rs.sArea.clear();
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    for (int i = 0; i < jarrA.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrA.get(i);
-                        rs.sCboArea.add(catObj.getString("area_name"));
-                        rs.sArea.add(catObj.getString("area_id")+"@"+catObj.getString("area_code")+"@"+catObj.getString("area_name"));
-                    }
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
+            if(jarrA!=null){
+                rs.sCboArea.clear();
+                rs.sArea.clear();
+                imageArea.setImageResource(R.mipmap.green);
+                //JSONArray categories = jobj.getJSONArray("area");
+                //JSONArray json = new JSONArray(jobj);
+                try {
+                    for (int i = 0; i < jarrA.length(); i++) {
+                        JSONObject catObj = (JSONObject) jarrA.get(i);
+                        rs.sCboArea.add(catObj.getString(ar.dbName));
+                        rs.sArea.add(catObj.getString(ar.dbID)+"@"+catObj.getString(ar.dbCode)+"@"+catObj.getString(ar.dbName));
+                    }
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
         }
         @Override
         protected void onPreExecute() {
@@ -254,11 +279,12 @@ public class MainActivity extends AppCompatActivity {
                     //JSONArray json = new JSONArray(jobj);
                     rs.sCboTable.clear();
                     rs.sTable.clear();
+                    imageTable.setImageResource(R.mipmap.green);
                     for (int i = 0; i < jarrT.length(); i++) {
                         JSONObject catObj = (JSONObject) jarrT.get(i);
-                        rs.sCboTable.add(catObj.getString("table_name"));
-                        rs.sTable.add(catObj.getString("table_id")+"@"+catObj.getString("table_code")+"@"+catObj.getString("table_name")+"@"+catObj.getString("status_use"));
-                        table += catObj.getString("table_code")+"="+catObj.getString("status_use")+";\n";
+                        rs.sCboTable.add(catObj.getString(ta.dbName));
+                        rs.sTable.add(catObj.getString(ta.dbID)+"@"+catObj.getString(ta.dbCode)+"@"+catObj.getString(ta.dbName)+"@"+catObj.getString(ta.dbStatusUse));
+                        table += catObj.getString(ta.dbCode)+"="+catObj.getString(ta.dbStatusUse)+";\n";
                     }
                 }
                 try {
@@ -286,26 +312,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
             try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
                 if(jarrR!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
                     //JSONArray json = new JSONArray(jobj);
                     rs.sCboRes.clear();
                     rs.sRes.clear();
+                    imageRes.setImageResource(R.mipmap.green);
                     for (int i = 0; i < jarrR.length(); i++) {
                         JSONObject catObj = (JSONObject) jarrR.get(i);
-                        rs.sCboRes.add(catObj.getString("res_name"));
-                        rs.sRes.add(catObj.getString("res_id")+"@"+catObj.getString("res_code")+"@"+catObj.getString("res_name"));
-                        if(catObj.getString("default_res").equals("1")){
-                            rs.ResName = catObj.getString("res_name");
-                            rs.ReceiptH1 = catObj.getString("receipt_header1");
-                            rs.ReceiptH2 = catObj.getString("receipt_header2");
-                            rs.ReceiptF1 = catObj.getString("receipt_footer1");
-                            rs.ReceiptF2 = catObj.getString("receipt_footer2");
+                        rs.sCboRes.add(catObj.getString(res.dbName));
+                        rs.sRes.add(catObj.getString(res.dbID)+"@"+catObj.getString(res.dbCode)+"@"+catObj.getString(res.dbName));
+                        if(catObj.getString(res.dbDefaultRes).equals("1")){
+                            rs.ResName = catObj.getString(res.dbName);
+                            rs.ReceiptH1 = catObj.getString(res.dbRH1);
+                            rs.ReceiptH2 = catObj.getString(res.dbRH2);
+                            rs.ReceiptF1 = catObj.getString(res.dbRF1);
+                            rs.ReceiptF2 = catObj.getString(res.dbRF2);
                         }
                     }
                 }
@@ -313,11 +344,6 @@ public class MainActivity extends AppCompatActivity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return ab;
-        }
-        @Override
-        protected void onPostExecute(String ab){
-
         }
         @Override
         protected void onPreExecute() {
@@ -337,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            jarrF = jsonparser.getJSONFromUrl(rs.hostGetFoods,new ArrayList<NameValuePair>());
+            jarrF = jsonparser.getJSONFromUrl(rs.hostGetFoods,params);
             rs.jarrF = jarrF.toString();
                 //jarrF = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
 
@@ -350,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String a = ab;
-
+            imageFoods.setImageResource(R.mipmap.green);
         }
         @Override
         protected void onPreExecute() {
@@ -365,13 +391,13 @@ public class MainActivity extends AppCompatActivity {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                jarrR = jsonparser.getJSONFromUrl(rs.hostGetPrinterName,params);
-                if(jarrR!=null){
+                jarrP = jsonparser.getJSONFromUrl(rs.hostGetPrinterName,params);
+                if(jarrP!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
                     //JSONArray json = new JSONArray(jobj);
                     rs.sCboPrinter.clear();
-                    for (int i = 0; i < jarrR.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrR.get(i);
+                    for (int i = 0; i < jarrP.length(); i++) {
+                        JSONObject catObj = (JSONObject) jarrP.get(i);
                         rs.sCboPrinter.add(catObj.getString("printer_name"));
                     }
                 }
@@ -394,11 +420,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrR = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,params);
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
             try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                jarrR = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,params);
+                imageFoodsType.setImageResource(R.mipmap.green);
+
                 if(jarrR!=null){
                     //JSONArray categories = jobj.getJSONArray("area");
                     //JSONArray json = new JSONArray(jobj);
@@ -406,18 +438,14 @@ public class MainActivity extends AppCompatActivity {
                     rs.sFoodsType.clear();
                     for (int i = 0; i < jarrR.length(); i++) {
                         JSONObject catObj = (JSONObject) jarrR.get(i);
-                        rs.sCboFoodsType.add(catObj.getString("foods_type_name"));
-                        rs.sFoodsType.add(catObj.getString("foods_type_id")+"@"+catObj.getString("foods_type_code")+"@"+catObj.getString("foods_type_name"));
+                        rs.sCboFoodsType.add(catObj.getString(ft.dbName));
+                        rs.sFoodsType.add(catObj.getString(ft.dbID)+"@"+catObj.getString(ft.dbCode)+"@"+catObj.getString(ft.dbName));
                     }
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return ab;
-        }
-        @Override
-        protected void onPostExecute(String ab){
             pd.dismiss();
         }
         @Override
@@ -429,29 +457,29 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            jarrU = jsonparser.getJSONFromUrl(rs.hostGetUser,params);
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
             try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                jarrU = jsonparser.getJSONFromUrl(rs.hostGetUser,params);
                 if(jarrU!=null){
                     rs.sCboUser.clear();
                     rs.sUser.clear();
                     for (int i = 0; i < jarrU.length(); i++) {
                         JSONObject catObj = (JSONObject) jarrU.get(i);
-                        rs.sCboUser.add(catObj.getString("user_name"));
-                        rs.sUser.add(catObj.getString("user_id")+"@"+catObj.getString("user_login")+"@"+catObj.getString("user_name")+"@"+
-                                catObj.getString("password")+"@"+catObj.getString("privilege")+"@"+catObj.getString("remark"));
+                        rs.sCboUser.add(catObj.getString(us.dbName));
+                        rs.sUser.add(catObj.getString(us.dbID)+"@"+catObj.getString(us.dbLogin)+"@"+catObj.getString(us.dbName)+"@"+
+                                catObj.getString(us.dbPassword1)+"@"+catObj.getString(us.dbPrivilege)+"@"+catObj.getString(us.dbRemark));
                     }
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return ab;
-        }
-        @Override
-        protected void onPostExecute(String ab){
             pd.dismiss();
         }
         @Override

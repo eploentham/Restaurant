@@ -8,7 +8,7 @@ $objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select * From b_user Where user_id = '".$_POST['user_id']."'");
-$intNumField = mysql_num_fields($objQuery);
+$intNumRows = mysql_num_rows($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	//$arrCol = array();
 	$tmp = array();
@@ -18,8 +18,10 @@ while($row = mysql_fetch_array($objQuery)){
     $tmp["active"] = $row["active"];
     $tmp["sort1"] = $row["sort1"];
     $tmp["remark"] = $row["remark"];
-    $tmp["password"] = $row["password"];
+    $tmp["password1"] = $row["password1"];
     $tmp["privilege"] = $row["privilege"];
+    $tmp["permission_void_bill"] = $row["permission_void_bill"];
+    $tmp["permission_void_closeday"] = $row["permission_void_closeday"];
    
 	array_push($resultArray,$tmp);
 }

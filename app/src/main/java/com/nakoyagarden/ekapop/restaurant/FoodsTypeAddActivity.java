@@ -1,9 +1,12 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -26,7 +29,7 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
     Switch chkFtaActive;
     Button btnFtaSave;
 
-    FoodsType ft;
+    FoodsType ft = new FoodsType();
 
     private RestaurantControl rs;
     JSONArray jarr;
@@ -40,6 +43,7 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_foods_type_add);
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         lbFtaCode = (TextView)findViewById(R.id.lbFtaCode);
         lbFtaName = (TextView)findViewById(R.id.lbFtaName);
@@ -112,34 +116,50 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("ID", ft.ID));
-                params.add(new BasicNameValuePair("Code", ft.Code));
-                params.add(new BasicNameValuePair("Name", ft.Name));
-                params.add(new BasicNameValuePair("Remark", ft.Remark));
-                params.add(new BasicNameValuePair("Active", ft.Active));
-                params.add(new BasicNameValuePair("Sort1", ft.Sort1));
-                if(ft.ID.equals("")){
-                    jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeInsert,params);
-                }else{
-                    jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeUpdate,params);
-                }
-                if(jarr!=null){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+//            try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(ft.dbID, ft.ID));
+            params.add(new BasicNameValuePair(ft.dbCode, ft.Code));
+            params.add(new BasicNameValuePair(ft.dbName, ft.Name));
+            params.add(new BasicNameValuePair(ft.dbRemark, ft.Remark));
+            params.add(new BasicNameValuePair(ft.dbActive, ft.Active));
+            params.add(new BasicNameValuePair(ft.dbSort1, ft.Sort1));
+            if(ft.ID.equals("")){
+                jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeInsert,params);
+            }else{
+                jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeUpdate,params);
             }
+//            if(jarr!=null){
+//                JSONObject catObj = (JSONObject) jarr.get(0);
+//            }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            //new retrieveFoods1().execute();
+            try {
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                Log.d("sql",catObj.getString("sql"));
+                if(catObj.getString("success").equals("1")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
+                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnFtaSave.setEnabled(false);
+                        }
+                    }).create().show();
+                }
+            } catch (JSONException e) {
+
+            }
         }
         @Override
         protected void onPreExecute() {
@@ -150,33 +170,32 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("foods_type_id", rs.ftID));
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair(ft.dbID, rs.ftID));
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
 
-                jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeSelectByID,params);
-                if((jarr!=null) && (!jarr.equals("[]"))){
-
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    ft = new FoodsType();
-                    ft.ID = catObj.getString("foods_type_id");
-                    ft.Code = catObj.getString("foods_type_code");
-                    ft.Name = rs.StringNull(catObj.getString("foods_type_name"));
-                    ft.Remark = rs.StringNull(catObj.getString("remark"));
-                    ft.Sort1 = catObj.getString("sort1");
-                    ft.Active = catObj.getString("active");
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeSelectByID,params);
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
+            try {
+                ft = new FoodsType();
+                if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                    JSONObject catObj = (JSONObject) jarr.get(0);
+                    ft.ID = catObj.getString(ft.dbID);
+                    ft.Code = catObj.getString(ft.dbCode);
+                    ft.Name = rs.StringNull(catObj.getString(ft.dbName));
+                    ft.Remark = rs.StringNull(catObj.getString(ft.dbRemark));
+                    ft.Sort1 = catObj.getString(ft.dbSort1);
+                    ft.Active = catObj.getString(ft.dbActive);
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             setControl();
         }
         @Override

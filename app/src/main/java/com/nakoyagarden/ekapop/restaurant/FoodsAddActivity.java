@@ -1,9 +1,12 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,6 +48,7 @@ public class FoodsAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         lbFoodsCode = (TextView)findViewById(R.id.lbFoodsCode);
         lbFoodsName = (TextView)findViewById(R.id.lbFoodsName);
@@ -168,40 +172,41 @@ public class FoodsAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("ID", foo.ID));
-                params.add(new BasicNameValuePair("Code", foo.Code));
-                params.add(new BasicNameValuePair("Name", foo.Name));
-                params.add(new BasicNameValuePair("Remark", foo.Remark));
-                params.add(new BasicNameValuePair("ResCode", foo.ResCode));
-                params.add(new BasicNameValuePair("Active", foo.Active));
-                params.add(new BasicNameValuePair("Price", foo.Price));
-                params.add(new BasicNameValuePair("PrinterName", foo.PrinterName));
-                params.add(new BasicNameValuePair("ResId", foo.ResId));
-                params.add(new BasicNameValuePair("StatusFoods", foo.StatusFoods));
-                params.add(new BasicNameValuePair("TypeId", foo.TypeId));
-                if(foo.ID.equals("")){
-                    jarr = jsonparser.getJSONFromUrl(rs.hostFoodsInsert,params);
-                }else{
-                    jarr = jsonparser.getJSONFromUrl(rs.hostFoodsUpdate,params);
-                }
+//            try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
 
-                if(jarr!=null){
-                    //rs.sCboArea.clear();
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    //for (int i = 0; i < jarr.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarr.get(0);
-                        //rs.sCboArea.add(catObj.getString("name"));
-                    //}
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            params.add(new BasicNameValuePair(foo.dbID, foo.ID));
+            params.add(new BasicNameValuePair(foo.dbCode, foo.Code));
+            params.add(new BasicNameValuePair(foo.dbName, foo.Name));
+            params.add(new BasicNameValuePair(foo.dbRemark, foo.Remark));
+            params.add(new BasicNameValuePair(foo.dbResCode, foo.ResCode));
+            params.add(new BasicNameValuePair(foo.dbActive, foo.Active));
+            params.add(new BasicNameValuePair(foo.dbPrice, foo.Price));
+            params.add(new BasicNameValuePair(foo.dbPrinterName, foo.PrinterName));
+            params.add(new BasicNameValuePair(foo.dbResId, foo.ResId));
+            params.add(new BasicNameValuePair(foo.dbStatusFoods, foo.StatusFoods));
+            params.add(new BasicNameValuePair(foo.dbTypeId, foo.TypeId));
+            if(foo.ID.equals("")){
+                jarr = jsonparser.getJSONFromUrl(rs.hostFoodsInsert,params);
+            }else{
+                jarr = jsonparser.getJSONFromUrl(rs.hostFoodsUpdate,params);
             }
+
+//                if(jarr!=null){
+//                    //rs.sCboArea.clear();
+//                    //JSONArray categories = jobj.getJSONArray("area");
+//                    //JSONArray json = new JSONArray(jobj);
+//                    //for (int i = 0; i < jarr.length(); i++) {
+//                        JSONObject catObj = (JSONObject) jarr.get(0);
+//                        //rs.sCboArea.add(catObj.getString("name"));
+//                    //}
+//                }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
@@ -209,10 +214,35 @@ public class FoodsAddActivity extends AppCompatActivity {
             String aaa = ab;
             //new retrieveFoods1().execute();
             try{
-                JSONObject catObj = (JSONObject) jarr.get(0);
-                txtFoodsCode.setText(catObj.getString("foods_code"));
-                foo.ID = catObj.getString("foods_id");
-                btnFoodsSave.setEnabled(true);
+                if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                    JSONObject catObj = (JSONObject) jarr.get(0);
+                    txtFoodsCode.setText(catObj.getString(foo.dbCode));
+                    foo.ID = catObj.getString(foo.dbID);
+                    btnFoodsSave.setEnabled(true);
+
+                    Log.d("sql",catObj.getString("sql"));
+                    if(catObj.getString("success").equals("1")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsAddActivity.this);
+                        builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                btnFoodsSave.setEnabled(false);
+                            }
+                        }).create().show();
+                    }
+                }else{
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsAddActivity.this);
+                    builder1.setMessage("บันทึกข้อมูล  ไม่เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnFoodsSave.setEnabled(false);
+                        }
+                    }).create().show();
+                }
                 //btnFoodsSave.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -229,26 +259,27 @@ public class FoodsAddActivity extends AppCompatActivity {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
             try {
+                foo = new Foods();
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("foods_id", rs.fooID));
+                params.add(new BasicNameValuePair(foo.dbID, rs.fooID));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByID,params);
                 if((jarr!=null) && (!jarr.equals("[]"))){
                     JSONObject catObj = (JSONObject) jarr.get(0);
-                    foo = new Foods();
-                    foo.ID = catObj.getString("foods_id");
-                    foo.Code = catObj.getString("foods_code");
-                    foo.Name = rs.StringNull(catObj.getString("foods_name"));
-                    foo.Remark = rs.StringNull(catObj.getString("remark"));
-                    foo.ResCode = catObj.getString("res_code");
-                    foo.Price = catObj.getString("foods_price");
-                    foo.PrinterName = rs.StringNull(catObj.getString("printer_name"));
-                    foo.Active = catObj.getString("active");
-                    foo.ResId = catObj.getString("res_id");
-                    foo.StatusFoods = catObj.getString("status_foods");
-                    foo.TypeId = catObj.getString("foods_type_id");
+
+                    foo.ID = catObj.getString(foo.dbID);
+                    foo.Code = catObj.getString(foo.dbCode);
+                    foo.Name = rs.StringNull(catObj.getString(foo.dbName));
+                    foo.Remark = rs.StringNull(catObj.getString(foo.Remark));
+                    foo.ResCode = catObj.getString(foo.dbResCode);
+                    foo.Price = catObj.getString(foo.dbPrice);
+                    foo.PrinterName = rs.StringNull(catObj.getString(foo.dbPrinterName));
+                    foo.Active = catObj.getString(foo.dbActive);
+                    foo.ResId = catObj.getString(foo.dbResId);
+                    foo.StatusFoods = catObj.getString(foo.dbStatusFoods);
+                    foo.TypeId = catObj.getString(foo.dbTypeId);
                         //rs.sCboArea.add(catObj.getString("name"));
                 }
             } catch (JSONException e) {

@@ -1,9 +1,12 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -42,6 +45,7 @@ public class AreaAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbAaCode = (TextView)findViewById(R.id.lbAaCode);
         lbAaName = (TextView)findViewById(R.id.lbAaName);
         lbAaRemark = (TextView)findViewById(R.id.lbAaRemark);
@@ -115,35 +119,51 @@ public class AreaAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("ID", ar.ID));
-                params.add(new BasicNameValuePair("Code", ar.Code));
-                params.add(new BasicNameValuePair("Name", ar.Name));
-                params.add(new BasicNameValuePair("Remark", ar.Remark));
-                params.add(new BasicNameValuePair("Active", ar.Active));
-                params.add(new BasicNameValuePair("Sort1", ar.Sort1));
-                if(ar.ID.equals("")){
-                    jarr = jsonparser.getJSONFromUrl(rs.hostAreaInsert,params);
-                }else{
-                    jarr = jsonparser.getJSONFromUrl(rs.hostAreaUpdate,params);
-                }
-
-                if(jarr!=null){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+//            try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(ar.dbID, ar.ID));
+            params.add(new BasicNameValuePair(ar.dbCode, ar.Code));
+            params.add(new BasicNameValuePair(ar.dbName, ar.Name));
+            params.add(new BasicNameValuePair(ar.dbRemark, ar.Remark));
+            params.add(new BasicNameValuePair(ar.dbActive, ar.Active));
+            params.add(new BasicNameValuePair(ar.dbSort1, ar.Sort1));
+            if(ar.ID.equals("")){
+                jarr = jsonparser.getJSONFromUrl(rs.hostAreaInsert,params);
+            }else{
+                jarr = jsonparser.getJSONFromUrl(rs.hostAreaUpdate,params);
             }
+
+//                if(jarr!=null){
+//                    JSONObject catObj = (JSONObject) jarr.get(0);
+//                }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            //new retrieveFoods1().execute();
+            try {
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                Log.d("sql",catObj.getString("sql"));
+                if(catObj.getString("success").equals("1")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
+                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnAaSave.setEnabled(false);
+                        }
+                    }).create().show();
+                }
+            } catch (JSONException e) {
+
+            }
 
         }
         @Override
@@ -156,19 +176,19 @@ public class AreaAddActivity extends AppCompatActivity {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
             try {
+                ar = new Area();
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("area_id", rs.arID));
+                params.add(new BasicNameValuePair(ar.dbID, rs.arID));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostAreaSelectByID,params);
                 if((jarr!=null) && (!jarr.equals("[]"))){
                     JSONObject catObj = (JSONObject) jarr.get(0);
-                    ar = new Area();
-                    ar.ID = catObj.getString("area_id");
-                    ar.Code = catObj.getString("area_code");
-                    ar.Name = rs.StringNull(catObj.getString("area_name"));
-                    ar.Remark = rs.StringNull(catObj.getString("remark"));
+                    ar.ID = catObj.getString(ar.dbID);
+                    ar.Code = catObj.getString(ar.dbCode);
+                    ar.Name = rs.StringNull(catObj.getString(ar.dbName));
+                    ar.Remark = rs.StringNull(catObj.getString(ar.dbRemark));
                     ar.Sort1 = catObj.getString("sort1");
                     ar.Active = catObj.getString("active");
                 }

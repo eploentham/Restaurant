@@ -73,7 +73,7 @@
     <string name="sc">service charge</string>
     <string name="nettotal">เป็นเงินสุทธิ</string>
     <string name="qty">จน.</string>
-    <string name="hostIP"></string>
+    <string name="hostIP">Host IP</string>
     <string name="TaxID">เลขที่ผู้เสียภาษี</string>
     <string name="PosID">เPOS ID</string>
     <string name="user">ผู้ใช้งาน</string>
@@ -86,6 +86,7 @@
     <string name="void1">ยกเลิก</string>
     <string name="void1confrim">ยืนยันการยกเลิก</string>
     <string name="txtBvBillCode">ป้อนเลขที่ใบเสร็จ</string>
+    <string name="lbFrWebDirectory">Web Directory</string>
 
     <string name="CashReceive1">เงินสดรับ1</string>
     <string name="CashReceive2">เงินสดรับ2</string>
@@ -102,10 +103,15 @@
     <string name="RaDefaultRes">ร้านอาหาร default</string>
     <string name="RaTaxID">Tax ID</string>
     <string name="RaBillCode">เลขที่ใบเสร็จ</string>
-    <string name="chkUaPermissionVoidBill">สิทธิการยกเลิก รับชำระ</string>
-    <string name="chkUaPermissionVoidBill">สิทธิการยกเลิก รับชำระ</string>
-    <string name="chkUaPermissionVoidCloseday">สิทธิการยกเลิก ปิดวัน</string>
-    <string name="chkUaPermissionVoidCloseday">สิทธิการยกเลิก ปิดวัน</string>
+    <string name="chkUaPermissionVoidBillOn">สิทธิการยกเลิก รับชำระ</string>
+    <string name="chkUaPermissionVoidBillOff">ไม่ให้สิทธิการยกเลิก รับชำระ</string>
+    <string name="chkUaPermissionVoidClosedayOn">สิทธิการยกเลิก ปิดวัน</string>
+    <string name="chkUaPermissionVoidClosedayOff">ไม่ให้สิทธิการยกเลิก ปิดวัน</string>
+    <string name="btnFrCreate">เปิดใช้โปรแกรม</string>
+    <string name="lbFrFristRes">เปิดใช้โปรแกรมครั้งแรก </string>
+    <string name="chkFrStandalone">ใช้งานเครื่องเดียว</string>
+    <string name="chkFrHaveServer">ใช้งานมากกว่า 1 เครื่อง ต้องมีเครื่องให้บริการ </string>
+    <string name="chkFrInternet">ใช้งานมากกว่า 1 เครื่อง ผ่าน Internet </string>
 
     <string name="title_warnings">Printer Warnings</string>
     <string name="print_job_id">ABC123</string>

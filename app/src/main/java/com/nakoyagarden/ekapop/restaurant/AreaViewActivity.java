@@ -98,7 +98,7 @@ public class AreaViewActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            jarrR = jsonparser.getJSONFromUrl(rs.hostGetArea,new ArrayList<NameValuePair>());
+            jarrR = jsonparser.getJSONFromUrl(rs.hostGetArea,params);
             //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -138,16 +138,16 @@ public class AreaViewActivity extends AppCompatActivity {
                 lArea.clear();
                 for (int i = 0; i < jarrR.length(); i++) {
                     JSONObject catObj = (JSONObject) jarrR.get(i);
-                    Area a = new Area();
-                    a.ID = catObj.getString("area_id");
-                    a.Code = catObj.getString("area_code");
-                    a.Name = catObj.getString("area_name");
-                    a.Remark = catObj.getString("remark");
-                    a.Active = catObj.getString("active");
-                    a.Sort1 = catObj.getString("sort1");
-                    lArea.add(a);
+                    Area ar = new Area();
+                    ar.ID = catObj.getString(ar.dbID);
+                    ar.Code = catObj.getString(ar.dbCode);
+                    ar.Name = catObj.getString(ar.dbName);
+                    ar.Remark = catObj.getString(ar.dbRemark);
+                    ar.Active = catObj.getString(ar.dbActive);
+                    ar.Sort1 = catObj.getString(ar.dbSort1);
+                    lArea.add(ar);
                     //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
-                    arrayList.add(a.Code+" "+a.Name+" "+a.Remark);
+                    arrayList.add(ar.Code+" "+ar.Name+" "+ar.Remark);
                 }
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
                     @Override

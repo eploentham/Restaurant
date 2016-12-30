@@ -42,6 +42,7 @@ $cd->cash_receive3_remark = "cash_receive3_remark";
 $cd->cash_draw1_remark = "cash_draw1_remark";
 $cd->cash_draw2_remark = "cash_draw2_remark";
 $cd->cash_draw3_remark = "cash_draw3_remark";
+$cd->weather="weather";
 
 $cd->table="t_closeday";
 
@@ -52,11 +53,11 @@ $cd->table="t_closeday";
 $sql1 = "Insert into ".$cd->table."(".$cd->id.",".$cd->closeday_date.",".$cd->res_id.",".$cd->amount.",".$cd->discount.",".$cd->total.",".$cd->service_charge.","
 .$cd->vat.",".$cd->nettotal.",".$cd->remark.",".$cd->active.",".$cd->status_void.",".$cd->void_date.",".$cd->void_user.",".$cd->cnt_bill.",".$cd->bill_amount.","
 .$cd->cnt_order.",".$cd->amount_order.",".$cd->closeday_user.",".$cd->cash_receive1.",".$cd->cash_receive2.",".$cd->cash_receive3.",".$cd->cash_draw1.",".$cd->cash_draw2.",".$cd->cash_draw3.","
-.$cd->cash_receive1_remark.",".$cd->cash_receive2_remark.",".$cd->cash_receive3_remark.",".$cd->cash_draw1_remark.",".$cd->cash_draw2_remark.",".$cd->cash_draw3_remark.")".
+.$cd->cash_receive1_remark.",".$cd->cash_receive2_remark.",".$cd->cash_receive3_remark.",".$cd->cash_draw1_remark.",".$cd->cash_draw2_remark.",".$cd->cash_draw3_remark.",".$bi->weather.")".
 " value ('".$_POST['closeday_id']."',now(),'".$_POST['res_id']."',".$_POST['amount'].",".$_POST['discount'].",".$_POST['total'].",".$_POST['sc'].","
 .$_POST['vat'].",".$_POST['nettotal'].",'".$_POST['remark']."','1','0','','',".$_POST['cnt_bill'].",".$_POST['bill_amount'].","
 .$_POST['cnt_order'].",".$_POST['amount_order'].",'".$_POST['closeday_user']."',".$_POST['cash_receive1'].",".$_POST['cash_receive2'].",".$_POST['cash_receive3'].",".$_POST['cash_draw1'].",".$_POST['cash_draw2'].",".$_POST['cash_draw3'].",'"
-.$_POST['cash_receive1_remark']."','".$_POST['cash_receive2_remark']."','".$_POST['cash_receive3_remark']."','".$_POST['cash_draw1_remark']."','".$_POST['cash_draw2_remark']."','".$_POST['cash_draw3_remark']."')";
+.$_POST['cash_receive1_remark']."','".$_POST['cash_receive2_remark']."','".$_POST['cash_receive3_remark']."','".$_POST['cash_draw1_remark']."','".$_POST['cash_draw2_remark']."','".$_POST['cash_draw3_remark']."','".$_POST['weather']."')";
 $objQuery = mysql_query($sql1);
 
 $wheredate=" and bill_date >= '".$date1."' and bill_date <= '".$date2."'";

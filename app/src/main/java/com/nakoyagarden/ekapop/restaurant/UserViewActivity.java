@@ -48,7 +48,7 @@ public class UserViewActivity extends AppCompatActivity {
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
         btnUvAdd = (Button)findViewById(R.id.btnUvAdd);
 
-        btnUvAdd.setText(getResources().getString(R.string.add)+getResources().getString(R.string.table));
+        btnUvAdd.setText(getResources().getString(R.string.add)+getResources().getString(R.string.user));
         btnUvAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +64,9 @@ public class UserViewActivity extends AppCompatActivity {
                 try{
                     JSONObject catObj = (JSONObject) jarrU.get(i);
                     //String ID = catObj.getString("foods_id");
-                    rs.UsID = catObj.getString("user_id");
+                    User ua = new User();
+                    ua = lUa.get(i);
+                    rs.UsID = ua.ID;
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -93,7 +95,7 @@ public class UserViewActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            jarrU = jsonparser.getJSONFromUrl(rs.hostGetUser,new ArrayList<NameValuePair>());
+            jarrU = jsonparser.getJSONFromUrl(rs.hostGetUser,params);
             //rs.jarrF = jarrT.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -104,7 +106,7 @@ public class UserViewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String a = ab;
-            setLvTable();
+            setLvUser();
             pd.dismiss();
         }
         @Override
@@ -120,7 +122,7 @@ public class UserViewActivity extends AppCompatActivity {
             pd.show();
         }
     }
-    private void setLvTable(){
+    private void setLvUser(){
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
@@ -134,13 +136,15 @@ public class UserViewActivity extends AppCompatActivity {
                 for (int i = 0; i < jarrU.length(); i++) {
                     JSONObject catObj = (JSONObject) jarrU.get(i);
                     User a = new User();
-                    a.ID = catObj.getString("user_id");
-                    a.Login = catObj.getString("user_login");
-                    a.Name = catObj.getString("user_name");
-                    a.Passoword1 = catObj.getString("password");
-                    a.Privilege = catObj.getString("privilege");
-                    a.Remark = catObj.getString("remark");
-                    a.Sort1 = catObj.getString("sort1");
+                    a.ID = catObj.getString(a.dbID);
+                    a.Login = catObj.getString(a.dbLogin);
+                    a.Name = catObj.getString(a.dbName);
+                    a.Password1 = catObj.getString(a.dbPassword1);
+                    a.Privilege = catObj.getString(a.dbPrivilege);
+                    a.Remark = catObj.getString(a.dbRemark);
+                    a.Sort1 = catObj.getString(a.dbSort1);
+                    a.VoidBill = catObj.getString(a.dbVoidBill);
+                    a.VoidCloseday = catObj.getString(a.dbVoidCloseday);
                     lUa.add(a);
                     //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                     arrayList.add(a.Login+" "+a.Name+""+a.Privilege+" "+a.Remark);

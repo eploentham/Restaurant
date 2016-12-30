@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -116,7 +118,12 @@ public class BillVoidActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                txtBvBillCode.setFocusable(false);
                 new retrieveOrderByBillCode().execute(txtBvBillCode.getText().toString());
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//                btnBvVoid.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(getContentView().getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(txtBvBillCode.getWindowToken(), 0);
             }
         });
         btnBvVoid.setOnClickListener(new View.OnClickListener() {

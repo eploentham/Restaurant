@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\source\Restaurant\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="eca9965d33644f5201ed299a7dd81542c8fb3624">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_c0db1b17eca5d9bd91ce27616160df8ad11d5f43\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\source\Restaurant\app\build\intermediates\exploded-aar\com.android.support\gridlayout-v7\24.1.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -30,93 +39,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\source\Restaurant\app\libs\ePOS2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="c940ded116112ec47bdd8816b2deec2e109bd4d2">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\ePOS2_8d46d0ec37293f00c6955ac39db520d7ca96da66\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\libs\jna-platform-4.1.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="23457ad1cf75c2c16763330de5565a0e67b4bc0a">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\jna-platform-4.1.0_e1ce560ca2d3d4203321ee07ecf22771656aaed6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\build\intermediates\exploded-aar\com.hrules\horizontalnumberpicker\1.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="19148de58219bf7c64fa5f5c87d622d1764faa55">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.hrules-horizontalnumberpicker-1.1.1_29b56c5cdf6e8eda0ac892dee9a7da598c437484\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\libs\httpmime-4.5.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="96823b9421ebb9f490dec837d9f96134e864e3a7">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\httpmime-4.5.1_8ac7b0d12e9f9884e0a3746aba9da342bfc910f9\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="6d7d803871e3203465f71a163e7af104f807b446">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.1.1_9eb1a2db7c00dc923c7b7cfcd11ef79f73cb1dbc\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\libs\customandroidapi.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="07209b5a26db6913118431d0bf0c507ddf4e666a">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\customandroidapi_51aab618295d79cf9298055d192e01ea0b397b20\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\libs\httpclient-cache-4.5.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="6247317086cb12d2a5fe3296afeccb1d3e00525c">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\httpclient-cache-4.5.1_ef614a566c7036a0285a46d8cb2207c19dffb927\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\libs\commons-codec-1.9.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="9ce04e34240f674bc72680f8b843b1457383161a">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\commons-codec-1.9_5df65947f0bb8d99ace06e83909bd8a69a447e9c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\source\Restaurant\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="496a2f1e3b76d642b69348bec45677990c115a22">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_c0db1b17eca5d9bd91ce27616160df8ad11d5f43\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\source\Restaurant\app\libs\ePOSEasySelect.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
         sha1="5f95ac5d505c6f57c4467c1d5e30a32dd54b70d5">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\ePOSEasySelect_44ed211e980497ed457b2758f03cd1abd7d9f808\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\source\Restaurant\app\libs\ePOS2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="c940ded116112ec47bdd8816b2deec2e109bd4d2">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\ePOS2_8d46d0ec37293f00c6955ac39db520d7ca96da66\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -156,11 +93,20 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\source\Restaurant\app\libs\jna-platform-4.1.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="23457ad1cf75c2c16763330de5565a0e67b4bc0a">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\jna-platform-4.1.0_e1ce560ca2d3d4203321ee07ecf22771656aaed6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\source\Restaurant\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="466afefff5e448630566754f6cc3f0bdacbf5eb2">
+        sha1="7fe8fbb74e3f496a0c94c28d0192b4450df4df8f">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_40b267fd9b95d8d112977f5cda0d8a1a1479ddb7\classes.dex" />
     </item>
     <item
@@ -183,6 +129,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\source\Restaurant\app\build\intermediates\exploded-aar\com.hrules\horizontalnumberpicker\1.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="19148de58219bf7c64fa5f5c87d622d1764faa55">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.hrules-horizontalnumberpicker-1.1.1_29b56c5cdf6e8eda0ac892dee9a7da598c437484\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\ekapop\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
         jumboMode="true"
         optimize="true"
@@ -192,12 +147,48 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\source\Restaurant\app\libs\httpmime-4.5.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="96823b9421ebb9f490dec837d9f96134e864e3a7">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\httpmime-4.5.1_8ac7b0d12e9f9884e0a3746aba9da342bfc910f9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\source\Restaurant\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="6d7d803871e3203465f71a163e7af104f807b446">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.1.1_9eb1a2db7c00dc923c7b7cfcd11ef79f73cb1dbc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\source\Restaurant\app\libs\httpclient-4.5.1.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
         sha1="7e3cecc566df91338c6c67883b89ddd05a17db43">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\httpclient-4.5.1_e4bfd7b11375ba03e5f47f80d7d89eed46eba2be\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\source\Restaurant\app\libs\customandroidapi.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="07209b5a26db6913118431d0bf0c507ddf4e666a">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\customandroidapi_51aab618295d79cf9298055d192e01ea0b397b20\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\source\Restaurant\app\libs\httpclient-cache-4.5.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="6247317086cb12d2a5fe3296afeccb1d3e00525c">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\httpclient-cache-4.5.1_ef614a566c7036a0285a46d8cb2207c19dffb927\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -216,6 +207,15 @@
         revision="24.0.1"
         sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.1.1_c87feddcdeebea7eb4b16277e694bda751b2c780\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\source\Restaurant\app\libs\commons-codec-1.9.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="9ce04e34240f674bc72680f8b843b1457383161a">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\2\commons-codec-1.9_5df65947f0bb8d99ace06e83909bd8a69a447e9c\classes.dex" />
     </item>
     <item
         is-multidex="true"

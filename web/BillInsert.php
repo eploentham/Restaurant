@@ -67,6 +67,7 @@ $bi->branchid="branch_id";
 $bi->cashreceive="cash_receive";
 $bi->cashton="cash_ton";
 
+
 $bi->table="t_bill";
 
 //$sql = "Insert into ".$foo->table."(".$foo->id.",".$foo->code.",".$foo->name.",".$foo->active.",".$foo->foodstypeid.",".$foo->remark.")".

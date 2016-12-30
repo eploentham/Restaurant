@@ -8,7 +8,7 @@ $objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select * From b_area Where area_id = '".$_POST['area_id']."'");
-$intNumField = mysql_num_fields($objQuery);
+$intNumRows = mysql_num_rows($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	//$arrCol = array();
 	$tmp = array();

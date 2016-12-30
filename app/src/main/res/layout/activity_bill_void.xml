@@ -62,7 +62,8 @@
             android:text="Name"
             android:ems="10"
             android:id="@+id/txtBvBillCode"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:nextFocusForward="@+id/btnBvVoid"/>
 
         <Button
             android:text="Button"

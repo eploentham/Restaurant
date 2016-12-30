@@ -29,13 +29,13 @@ $foodsCode="";
 $foodsId="";
 $foodsTypeCode="";
 $cnt="01";
-$sql = "Select bft.foods_type_code, count(1) as cnt From b_foods bf inner join b_foods_type bft on bf.foods_type_id = bft.foods_type_id Where bf.foods_type_id = '".$_POST['TypeId']."'";
+$sql = "Select bft.foods_type_code, count(1) as cnt From b_foods bf inner join b_foods_type bft on bf.foods_type_id = bft.foods_type_id Where bf.foods_type_id = '".$_POST['foods_type_id']."'";
 $objQuery = mysql_query($sql);
-$intNumField = mysql_num_fields($objQuery);
+$intNumRows = mysql_num_rows($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	$foodsTypeCode = trim($row["foods_type_code"]);
 	if(empty($foodsTypeCode)){
-		$sql="Select foods_type_code From b_foods_type Where foods_type_id = '".$_POST['TypeId']."'";
+		$sql="Select foods_type_code From b_foods_type Where foods_type_id = '".$_POST['foods_type_id']."'";
 		$objQuery1 = mysql_query($sql);
 		while($row1 = mysql_fetch_array($objQuery1)){
 			$foodsTypeCode = $row1["foods_type_code"];
@@ -53,9 +53,19 @@ $foodsCode=strval($foodsTypeCode).strval($cnt);
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Insert into ".$foo->table."(".$foo->id.",".$foo->code.",".$foo->name.",".$foo->active.",".$foo->foodstypeid.",".$foo->remark.",".$foo->resid.",".$foo->statusfoods.","
 .$foo->printername.",".$foo->rescode.",".$foo->price.",".$foo->datecreate.")".
-" value (UUID(),'".$foodsCode."','".$_POST['Name']."','".$_POST['Active']."','".$_POST['TypeId']."','".$_POST['Remark']."','"
-.$_POST['ResId']."','".$_POST['StatusFoods']."','".$_POST['PrinterName']."','".$_POST['ResCode']."','".$_POST['Price']."',NOW())";
+" value (UUID(),'".$foodsCode."','".$_POST['foods_name']."','".$_POST['active']."','".$_POST['foods_type_id']."','".$_POST['remark']."','"
+.$_POST['res_id']."','".$_POST['status_foods']."','".$_POST['printer_name']."','".$_POST['res_code']."','".$_POST['foods_price']."',NOW())";
 $objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
+
+
 $sql = "Select foods_id From b_foods Where foods_code = '".$foodsCode."'";
 $objQuery = mysql_query($sql);
 while($row = mysql_fetch_array($objQuery)){
@@ -66,10 +76,12 @@ mysql_close($objConnect);
 
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert Order success";
 $response["foods_id"] = $foodsId;
 $response["foods_code"] = $foodsCode;
+$response["error"] = $err;
+$response["sql"] = $sql;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

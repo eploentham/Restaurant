@@ -127,21 +127,22 @@ public class ResViewActivity extends AppCompatActivity {
             if(jarrR!=null){
                 //jarrF =  new JSONArray(rs.jarrF);
                 arrayList = new ArrayList<String>();
+
                 //JSONArray categories = jobj.getJSONArray("area");
                 //JSONArray json = new JSONArray(jobj);
                 lRes.clear();
                 for (int i = 0; i < jarrR.length(); i++) {
                     JSONObject catObj = (JSONObject) jarrR.get(i);
                     Restaurant a = new Restaurant();
-                    a.ID = catObj.getString("res_id");
-                    a.Code = catObj.getString("res_code");
-                    a.Name = rs.StringNull(catObj.getString("res_name")).trim();
-                    a.Remark = rs.StringNull(catObj.getString("remark")).trim();
-                    a.Active = catObj.getString("active");
-                    a.RH1 = rs.StringNull(catObj.getString("receipt_header1")).trim();
-                    a.RH2 = rs.StringNull(catObj.getString("receipt_header2")).trim();
-                    a.RF1 = rs.StringNull(catObj.getString("receipt_footer1")).trim();
-                    a.RF2 = rs.StringNull(catObj.getString("receipt_footer2")).trim();
+                    a.ID = catObj.getString(a.dbID);
+                    a.Code = catObj.getString(a.dbCode);
+                    a.Name = rs.StringNull(catObj.getString(a.dbName)).trim();
+                    a.Remark = rs.StringNull(catObj.getString(a.dbRemark)).trim();
+                    a.Active = catObj.getString(a.dbActive);
+                    a.RH1 = rs.StringNull(catObj.getString(a.dbRH1)).trim();
+                    a.RH2 = rs.StringNull(catObj.getString(a.dbRH2)).trim();
+                    a.RF1 = rs.StringNull(catObj.getString(a.dbRF1)).trim();
+                    a.RF2 = rs.StringNull(catObj.getString(a.dbRF2)).trim();
                     //a.AreaID = catObj.getString("area_id");
                     //a.Sort1 = catObj.getString("sort1");
                     lRes.add(a);

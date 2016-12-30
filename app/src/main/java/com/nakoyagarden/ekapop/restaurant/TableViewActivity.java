@@ -132,17 +132,17 @@ public class TableViewActivity extends AppCompatActivity {
                 lTa.clear();
                 for (int i = 0; i < jarrT.length(); i++) {
                     JSONObject catObj = (JSONObject) jarrT.get(i);
-                    Table a = new Table();
-                    a.ID = catObj.getString("table_id");
-                    a.Code = catObj.getString("table_code");
-                    a.Name = catObj.getString("table_name");
-                    a.Remark = catObj.getString("remark");
-                    a.Active = catObj.getString("active");
-                    a.AreaID = catObj.getString("area_id");
-                    a.Sort1 = catObj.getString("sort1");
-                    lTa.add(a);
+                    Table ta = new Table();
+                    ta.ID = catObj.getString(ta.dbID);
+                    ta.Code = catObj.getString(ta.dbCode);
+                    ta.Name = catObj.getString(ta.dbName);
+                    ta.Remark = catObj.getString(ta.dbRemark);
+                    ta.Active = catObj.getString(ta.dbActive);
+                    ta.AreaID = catObj.getString(ta.dbAreaID);
+                    ta.Sort1 = catObj.getString(ta.dbSort1);
+                    lTa.add(ta);
                     //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
-                    arrayList.add(a.Code+" "+a.Name+""+rs.getAreaToName(a.AreaID,"id")+" "+a.Remark);
+                    arrayList.add(ta.Code+" "+ta.Name+""+rs.getAreaToName(ta.AreaID,"id")+" "+ta.Remark);
                 }
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
                     @Override

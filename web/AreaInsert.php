@@ -35,15 +35,24 @@ $Code=strval($cnt);
 //$sql = "Insert into ".$or->table."(".$or->id.",".$or->foodsid.",".$or->orderdate.",".$or->price.",".$or->qty.",".$or->remark.")".
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Insert into ".$ar->table."(".$ar->id.",".$ar->code.",".$ar->name.",".$ar->active.",".$ar->sort1.",".$ar->remark.",".$ar->datecreate.")".
-" value (UUID(),'".$Code."','".$_POST['Name']."','".$_POST['Active']."','".$_POST['Sort1']."','".$_POST['Remark']."',NOW())";
+" value (UUID(),'".$Code."','".$_POST['area_name']."','".$_POST['active']."','".$_POST['sort1']."','".$_POST['remark']."',NOW())";
 $objQuery = mysql_query($sql);
-
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
 mysql_close($objConnect);
 
 $response = array();
 $resultArray = array();
 $response["success"] = 1;
 $response["message"] = "insert Order success";
+$response["error"] = $err;
+$response["sql"] = $sql;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

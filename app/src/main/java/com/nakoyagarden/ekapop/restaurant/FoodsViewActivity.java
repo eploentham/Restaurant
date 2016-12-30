@@ -138,23 +138,24 @@ public class FoodsViewActivity extends AppCompatActivity {
             if(rs.jarrF!=null){
                 jarrF =  new JSONArray(rs.jarrF);
                 arrayList = new ArrayList<String>();
+                Foods f = new Foods();
                 //JSONArray categories = jobj.getJSONArray("area");
                 //JSONArray json = new JSONArray(jobj);
                 lFoo.clear();
                 for (int i = 0; i < jarrF.length(); i++) {
                     JSONObject catObj = (JSONObject) jarrF.get(i);
-                    Foods f = new Foods();
-                    f.ID = catObj.getString("foods_id");
-                    f.Code = catObj.getString("foods_code");
-                    f.Name = catObj.getString("foods_name");
-                    f.Remark = catObj.getString("remark");
-                    f.ResCode = catObj.getString("res_code");
-                    f.Price = catObj.getString("foods_price");
-                    f.PrinterName = catObj.getString("printer_name");
-                    f.Active = catObj.getString("active");
-                    f.ResId = catObj.getString("res_id");
-                    f.StatusFoods = catObj.getString("status_foods");
-                    f.TypeId = catObj.getString("foods_type_id");
+                    f = new Foods();
+                    f.ID = catObj.getString(f.dbID);
+                    f.Code = catObj.getString(f.dbCode);
+                    f.Name = catObj.getString(f.dbName);
+                    f.Remark = catObj.getString(f.dbRemark);
+                    f.ResCode = catObj.getString(f.dbResCode);
+                    f.Price = catObj.getString(f.dbPrice);
+                    f.PrinterName = catObj.getString(f.dbPrinterName);
+                    f.Active = catObj.getString(f.dbActive);
+                    f.ResId = catObj.getString(f.dbResId);
+                    f.StatusFoods = catObj.getString(f.dbStatusFoods);
+                    f.TypeId = catObj.getString(f.dbTypeId);
                     lFoo.add(f);
                     //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                     arrayList.add(f.Code+" "+f.Name+" "+getResources().getString(R.string.price)+" "+f.Price+" "+getResources().getString(R.string.remark)+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);

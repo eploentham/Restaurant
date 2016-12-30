@@ -1,9 +1,12 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,7 +32,7 @@ public class ResAddActivity extends AppCompatActivity {
     Button btnRaSave;
     CheckBox chkRaDefaultRes;
 
-    Restaurant res;
+    Restaurant res = new Restaurant();
 
     private RestaurantControl rs;
     JSONArray jarr;
@@ -43,7 +46,7 @@ public class ResAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_res_add);
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
-
+        textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbRaCode = (TextView)findViewById(R.id.lbRaCode);
         lbRaName = (TextView)findViewById(R.id.lbRaName);
         lbRaRemark = (TextView)findViewById(R.id.lbRaRemark);
@@ -198,40 +201,69 @@ public class ResAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("ID", res.ID));
-                params.add(new BasicNameValuePair("Code", res.Code));
-                params.add(new BasicNameValuePair("Name", res.Name));
-                params.add(new BasicNameValuePair("Remark", res.Remark));
-                params.add(new BasicNameValuePair("Active", res.Active));
-                params.add(new BasicNameValuePair("Sort1", res.Sort1));
-                params.add(new BasicNameValuePair("receipt_header1", res.RH1));
-                params.add(new BasicNameValuePair("receipt_header2", res.RH2));
-                params.add(new BasicNameValuePair("receipt_footer1", res.RF1));
-                params.add(new BasicNameValuePair("receipt_footer2", res.RF2));
-                params.add(new BasicNameValuePair("tax_id", res.TaxID));
-                params.add(new BasicNameValuePair("default_res", res.DefaultRes));
-                if(res.ID.equals("")){
-                    jarr = jsonparser.getJSONFromUrl(rs.hostResInsert,params);
-                }else{
-                    jarr = jsonparser.getJSONFromUrl(rs.hostResUpdate,params);
-                }
-                if(jarr!=null){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+//            try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(res.dbID, res.ID));
+            params.add(new BasicNameValuePair(res.dbCode, res.Code));
+            params.add(new BasicNameValuePair(res.dbName, res.Name));
+            params.add(new BasicNameValuePair(res.dbRemark, res.Remark));
+            params.add(new BasicNameValuePair(res.dbActive, res.Active));
+            params.add(new BasicNameValuePair(res.dbSort1, res.Sort1));
+            params.add(new BasicNameValuePair(res.dbRH1, res.RH1));
+            params.add(new BasicNameValuePair(res.dbRH2, res.RH2));
+            params.add(new BasicNameValuePair(res.dbRF1, res.RF1));
+            params.add(new BasicNameValuePair(res.dbRF2, res.RF2));
+            params.add(new BasicNameValuePair(res.dbTaxID, res.TaxID));
+            params.add(new BasicNameValuePair(res.dbDefaultRes, res.DefaultRes));
+            if(res.ID.equals("")){
+                jarr = jsonparser.getJSONFromUrl(rs.hostResInsert,params);
+            }else{
+                jarr = jsonparser.getJSONFromUrl(rs.hostResUpdate,params);
             }
+//                if(jarr!=null){
+//                    JSONObject catObj = (JSONObject) jarr.get(0);
+//                }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            //new retrieveFoods1().execute();
+            try {
+                if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                    JSONObject catObj = (JSONObject) jarr.get(0);
+                    Log.d("sql",catObj.getString("sql"));
+                    if(catObj.getString("success").equals("1")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                        builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                btnRaSave.setEnabled(false);
+                            }
+                        }).create().show();
+                    }
+                }else{
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                    builder1.setMessage("บันทึกข้อมูล  ไม่เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnRaSave.setEnabled(false);
+                        }
+                    }).create().show();
+                }
+
+            } catch (JSONException e) {
+
+            }
         }
         @Override
         protected void onPreExecute() {
@@ -242,38 +274,39 @@ public class ResAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("res_id", rs.resID));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(res.dbID, rs.resID));
 
-                jarr = jsonparser.getJSONFromUrl(rs.hostResSelectByID,params);
-                if((jarr!=null) && (!jarr.equals("[]"))){
-
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    res = new Restaurant();
-                    res.ID = catObj.getString("res_id");
-                    res.Code = catObj.getString("res_code");
-                    res.Name = rs.StringNull(catObj.getString("res_name")).trim();
-                    res.Remark = rs.StringNull(catObj.getString("remark")).trim();
-                    res.Sort1 = rs.StringNull(catObj.getString("sort1")).trim();
-                    res.Active = catObj.getString("active").trim();
-                    res.RH1 = rs.StringNull(catObj.getString("receipt_header1")).trim();
-                    res.RH2 = rs.StringNull(catObj.getString("receipt_header2")).trim();
-                    res.RF1 = rs.StringNull(catObj.getString("receipt_footer1")).trim();
-                    res.RF2 = rs.StringNull(catObj.getString("receipt_footer2")).trim();
-                    res.BillCode = rs.StringNull(catObj.getString("bill_code")).trim();
-                    res.TaxID = rs.StringNull(catObj.getString("tax_id")).trim();
-                    res.DefaultRes = rs.StringNull(catObj.getString("default_res")).trim();
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            jarr = jsonparser.getJSONFromUrl(rs.hostResSelectByID,params);
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
+            try {
+                res = new Restaurant();
+                if((jarr!=null) && (!jarr.equals("[]")) && jarr.length()>0){
+                    JSONObject catObj = (JSONObject) jarr.get(0);
+                    res.ID = catObj.getString(res.dbID);
+                    res.Code = catObj.getString(res.dbCode);
+                    res.Name = rs.StringNull(catObj.getString(res.dbName)).trim();
+                    res.Remark = rs.StringNull(catObj.getString(res.dbRemark)).trim();
+                    res.Sort1 = rs.StringNull(catObj.getString(res.dbSort1)).trim();
+                    res.Active = catObj.getString(res.dbActive).trim();
+                    res.RH1 = rs.StringNull(catObj.getString(res.dbRH1)).trim();
+                    res.RH2 = rs.StringNull(catObj.getString(res.dbRH2)).trim();
+                    res.RF1 = rs.StringNull(catObj.getString(res.dbRF1)).trim();
+                    res.RF2 = rs.StringNull(catObj.getString(res.dbRF2)).trim();
+                    res.BillCode = rs.StringNull(catObj.getString(res.dbBillCode)).trim();
+                    res.TaxID = rs.StringNull(catObj.getString(res.dbTaxID)).trim();
+                    res.DefaultRes = rs.StringNull(catObj.getString(res.dbDefaultRes)).trim();
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             setControl();
         }
         @Override

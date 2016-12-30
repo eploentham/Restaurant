@@ -55,7 +55,7 @@ public class JsonParser {
                     }
                     is.close();
                     json = sb.toString();
-//                    Log.d("getJSONFromUrl sb",sb.toString());
+                    Log.d("getJSONFromUrl sb",sb.toString());
                     //json = json.replace("[","");
                     //json = json.replace("]","");
                 } catch (Exception e) {

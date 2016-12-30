@@ -8,17 +8,18 @@ $objConnect = mysql_connect("localhost",$_POST['userdb'],$_POST['passworddb']);
 $objDB = mysql_select_db("restaurant");
 mysql_query("SET NAMES UTF8");
 $objQuery = mysql_query("Select * From b_table Where table_id = '".$_POST['table_id']."'");
-$intNumField = mysql_num_fields($objQuery);
+//$intNumRows = mysql_num_rows($objQuery);
 while($row = mysql_fetch_array($objQuery)){
 	//$arrCol = array();
 	$tmp = array();
-    $tmp["table_id"] = $row["table_id"];
+	$tmp["table_id"] = $row["table_id"];
     $tmp["table_code"] = $row["table_code"];
     $tmp["table_name"] = $row["table_name"];
-    $tmp["active"] = $row["active"];
-    $tmp["sort1"] = $row["sort1"];
     $tmp["remark"] = $row["remark"];
+    $tmp["active"] = $row["active"];
     $tmp["area_id"] = $row["area_id"];
+    $tmp["sort1"] = $row["sort1"];
+    $tmp["status_use"] = $row["status_use"];
    
 	array_push($resultArray,$tmp);
 }

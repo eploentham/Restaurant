@@ -56,7 +56,7 @@ class FoodsType
 }
 class User 
 {
-	var $id,$userlogin,$username,$password,$privilege,$active,$remark,$table,$pkfield;
+	var $id,$userlogin,$username,$password,$privilege,$active,$remark, $permissionvoidbill, $permissionvoidcloseday,$table,$pkfield;
 	function __construct()
 	{
 		# code...
@@ -68,6 +68,9 @@ class User
 		$privilege="";
 		$remark="";
 		$sort1="";
+		$permissionvoidbill="";
+		$permissionvoidcloseday="";
+
 		$table="";
 		$pkfield="";
 	}
@@ -77,7 +80,7 @@ class User
 */
 class Order 
 {
-	var $id, $foodsid, $orderdate, $price, $qty, $remark, $lotid, $rescode, $tablecode, $deviceid, $areacode, $active, $statusfoods1,$foodscode,$foodsname;
+	var $id, $foodsid, $orderdate, $price, $qty, $remark, $lotid, $rescode, $tablecode, $deviceid, $areacode, $active, $statusfoods1,$foodscode,$foodsname,$cntcust;
 	var $statusfoods2,$statusfoods3,$statusbill,$billcheckdate,$statuscook,$cookreceivedate,$cookfinishdate,$statusvoid,$voiddate,$table,$pkfield,$statustogo,$datecreate,$datemodi;
 	function __construct()
 	{
@@ -110,6 +113,7 @@ class Order
 		$statustogo="";
 		$datecreate="";
 		$datemodi="";
+		$cntcust="";
 
 		$table="";
 		$pkfield="";
@@ -215,6 +219,7 @@ class Bill
 		$cashreceive="";
 		$cashton="";
 		$billuser="";
+		//$weather="";
 	}
 }
 class BillDetail{
@@ -238,6 +243,6 @@ class BillDetail{
 }
 class Closeday{
 	var $id, $closeday_date, $res_id, $amount, $discount, $total, $service_charge, $vat, $nettotal, $remark, $active, $status_void, $void_date, $void_user, $cnt_bill, $bill_amount, $cnt_order, $amount_order, $closeday_user;
-	var $cash_receive1, $cash_receive2, $cash_receive3, $cash_draw1, $cash_draw2, $cash_draw3, $cash_receive1_remark, $cash_receive2_remark, $cash_receive3_remark, $cash_draw1_remark, $cash_draw2_remark, $cash_draw3_remark;
+	var $cash_receive1, $cash_receive2, $cash_receive3, $cash_draw1, $cash_draw2, $cash_draw3, $cash_receive1_remark, $cash_receive2_remark, $cash_receive3_remark, $cash_draw1_remark, $cash_draw2_remark, $cash_draw3_remark, $weather;
 }
 ?>

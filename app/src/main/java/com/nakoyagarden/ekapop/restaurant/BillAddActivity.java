@@ -71,6 +71,10 @@ public class BillAddActivity extends AppCompatActivity {
     private ArrayAdapter<String> alvBaOrder;
     ArrayList<ItemData> listTable=new ArrayList<>();
     LocalActivityManager mLocalActivityManager;
+
+    Bill bi = new Bill();
+    BillDetail bid = new BillDetail();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,22 +198,29 @@ public class BillAddActivity extends AppCompatActivity {
                 }
             }
         });
-        lvBaAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                for(int k=0;k<adapterView.getCount();k++){
-                    if(k!=i) adapterView.getChildAt(k).setBackgroundColor(getResources().getColor(R.color.BackScreenMailarap));
-                }
-                //adapterView.getChildAt(i).getBackground().
-                adapterView.getChildAt(i).setBackgroundColor(Color.GRAY);
-            }
-        });
+//        lvBaAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+////                lOrderT.get(i).FlagVoid = "1";
+//                for(int k=0;k<adapterView.getCount();k++){
+////                    lOrderT.get(i).FlagVoid ;
+//                    Log.d("lOrderT.FlagVoid ",lOrderT.get(i).FlagVoid);
+//                    if(k!=i && !lOrderT.get(i).FlagVoid.equals("1")){
+//                        adapterView.getChildAt(k).setBackgroundColor(getResources().getColor(R.color.BackScreenMailarap));
+//                    }else{
+//                        adapterView.getChildAt(k).setBackgroundColor(Color.GRAY);
+//                    }
+//                }
+//                //adapterView.getChildAt(i).getBackground().
+//            }
+//        });
         lvBaAdd.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                String[] txt = ((TextView)view).getText().toString().split(" ");
                 rowDel = i;
                 Order o = lOrderT.get(i);
+                adapterView.getChildAt(i).setBackgroundColor(Color.GRAY);
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
                 builder1.setMessage("ต้องการเยกเลิกรายการนี้.\n\nลำดับ "+(i+1)+" รหัส "+o.FoodsCode+" "+ o.FoodsName+"\n");
                 builder1.setCancelable(true);
@@ -373,6 +384,9 @@ public class BillAddActivity extends AppCompatActivity {
         }
     }
     private void setCboTable(String id){
+        Log.i("rs.sTable.size()",String.valueOf(rs.sTable.size()));
+        if(rs.sTable==null) return;
+        if(rs.sTable.size()==0) return;
         String table="";
         getTable();
         listTable.clear();
@@ -421,17 +435,18 @@ public class BillAddActivity extends AppCompatActivity {
                 JSONObject catObj = (JSONObject) jarrBa.get(i);
                 Order o = new Order();
                 //o = (Order)lOrderLot.get(i);
-                o.ID = catObj.getString("order_id");
-                o.LotId = catObj.getString("lot_id");
-                o.FoodsCode = catObj.getString("foods_code");
-                o.FoodsName = catObj.getString("foods_name");
-                o.FoodsId = catObj.getString("foods_id");
-                o.Price = catObj.getString("price");
-                o.Qty = catObj.getString("qty");
-                o.row1 = catObj.getString("row1");
-                o.StatusCook = catObj.getString("status_cook");
-                o.FoodsName = catObj.getString("foods_name");
-                o.StatusToGo = catObj.getString("status_to_go");
+                o.ID = catObj.getString(o.dbID);
+                o.LotId = catObj.getString(o.dbLotId);
+                o.FoodsCode = catObj.getString(o.dbFoodsCode);
+                o.FoodsName = catObj.getString(o.dbFoodsName);
+                o.FoodsId = catObj.getString(o.dbFoodsId);
+                o.Price = catObj.getString(o.dbPrice);
+                o.Qty = catObj.getString(o.dbQty);
+                o.row1 = catObj.getString(o.dbrow1);
+                o.StatusCook = catObj.getString(o.dbStatusCook);
+                o.FoodsName = catObj.getString(o.dbFoodsName);
+                o.StatusToGo = catObj.getString(o.dbStatusToGo);
+                o.FlagVoid = "0";
                 amt = Double.parseDouble(o.Price)*Double.parseDouble(o.Qty);
                 o.Amt = amt.toString();
                 total += amt;
@@ -513,7 +528,7 @@ public class BillAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
+//            try {
                 //new insertOrder().execute(String.valueOf(i),lotID, areacode,tablecode,String.valueOf(txtMQty.getValue()), txtMFoodsCode.getText().toString(),
                 //        lbMFoodsname.getText().toString(),txtMFoodsRemark.getText().toString(),ord.ResCode, ord.Price, ord.PrinterName);
                 //int row = Integer.parseInt(arg0[0]);
@@ -522,38 +537,38 @@ public class BillAddActivity extends AppCompatActivity {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("bill_id", arg0[9]));
-                params.add(new BasicNameValuePair("table_id", arg0[0]));
-                params.add(new BasicNameValuePair("area_id", arg0[1]));
-                params.add(new BasicNameValuePair("device_id", arg0[2]));
-                params.add(new BasicNameValuePair("amt", arg0[4]));
-                params.add(new BasicNameValuePair("service_charge", arg0[5]));
-                params.add(new BasicNameValuePair("vat", arg0[6]));
-                params.add(new BasicNameValuePair("total", arg0[7]));
-                params.add(new BasicNameValuePair("nettotal", arg0[8]));
-                params.add(new BasicNameValuePair("remark", ""));
-                params.add(new BasicNameValuePair("res_id", ""));
-                params.add(new BasicNameValuePair("discount", arg0[3]));
-                params.add(new BasicNameValuePair("cash_receive", arg0[10].equals("")?"0.0":arg0[10]));
-                params.add(new BasicNameValuePair("cash_ton", arg0[11].equals("")?"0.0":arg0[11]));
-                params.add(new BasicNameValuePair("bill_user", arg0[12]));
+                params.add(new BasicNameValuePair(bi.dbID, arg0[9]));
+                params.add(new BasicNameValuePair(bi.dbTableId, arg0[0]));
+                params.add(new BasicNameValuePair(bi.dbAreaId, arg0[1]));
+                params.add(new BasicNameValuePair(bi.dbDeviceId, arg0[2]));
+                params.add(new BasicNameValuePair(bi.dbAmt, arg0[4]));
+                params.add(new BasicNameValuePair(bi.dbSC, arg0[5]));
+                params.add(new BasicNameValuePair(bi.dbVat, arg0[6]));
+                params.add(new BasicNameValuePair(bi.dbTotal, arg0[7]));
+                params.add(new BasicNameValuePair(bi.dbNetTotal, arg0[8]));
+                params.add(new BasicNameValuePair(bi.dbRemark, ""));
+                params.add(new BasicNameValuePair(bi.dbResId, ""));
+                params.add(new BasicNameValuePair(bi.dbDiscount, arg0[3]));
+                params.add(new BasicNameValuePair(bi.dbCashReceive, arg0[10].equals("")?"0.0":arg0[10]));
+                params.add(new BasicNameValuePair(bi.dbCashTon, arg0[11].equals("")?"0.0":arg0[11]));
+                params.add(new BasicNameValuePair(bi.dbBillUser, arg0[12]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostBillInsert, params);
 
-                if(jarr!=null){
-                    //rs.sCboArea.clear();
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    //for (int i = 0; i < jarr.length(); i++) {
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    ab = catObj.getString("bill_code");
-                    //rs.sCboArea.add(catObj.getString("name"));
-                    //}
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+//                if(jarr!=null){
+//                    //rs.sCboArea.clear();
+//                    //JSONArray categories = jobj.getJSONArray("area");
+//                    //JSONArray json = new JSONArray(jobj);
+//                    //for (int i = 0; i < jarr.length(); i++) {
+//                    JSONObject catObj = (JSONObject) jarr.get(0);
+//                    ab = catObj.getString("bill_code");
+//                    //rs.sCboArea.add(catObj.getString("name"));
+//                    //}
+//                }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
@@ -570,7 +585,7 @@ public class BillAddActivity extends AppCompatActivity {
                         insertSuccB++;
                     }
                 } catch (JSONException e) {
-
+                    Log.e("insertBill ",e.getMessage());
                 }
             }
             if(rs.PrnB.equals("ON")){
@@ -590,7 +605,7 @@ public class BillAddActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
+//            try {
                 //new insertOrder().execute(String.valueOf(i),lotID, areacode,tablecode,String.valueOf(txtMQty.getValue()), txtMFoodsCode.getText().toString(),
                 //        lbMFoodsname.getText().toString(),txtMFoodsRemark.getText().toString(),ord.ResCode, ord.Price, ord.PrinterName);
                 //int row = Integer.parseInt(arg0[0]);
@@ -599,34 +614,34 @@ public class BillAddActivity extends AppCompatActivity {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair("bill_id", arg0[0]));
+                params.add(new BasicNameValuePair(bid.dbBillId, arg0[0]));
                 params.add(new BasicNameValuePair("lot_id", arg0[1]));
-                params.add(new BasicNameValuePair("qty", arg0[2]));
-                params.add(new BasicNameValuePair("foods_code", arg0[3]));
+                params.add(new BasicNameValuePair(bid.dbQty, arg0[2]));
+                params.add(new BasicNameValuePair(bid.dbFoodsCode, arg0[3]));
                 params.add(new BasicNameValuePair("foods_name", arg0[4]));
-                params.add(new BasicNameValuePair("foods_id", arg0[5]));
-                params.add(new BasicNameValuePair("price", arg0[6]));
-                params.add(new BasicNameValuePair("amount", arg0[7]));
-                params.add(new BasicNameValuePair("order_id", arg0[8]));
-                params.add(new BasicNameValuePair("row1", arg0[9]));
-                params.add(new BasicNameValuePair("flag_void", arg0[10]));
+                params.add(new BasicNameValuePair(bid.dbFoodsId, arg0[5]));
+                params.add(new BasicNameValuePair(bid.dbPrice, arg0[6]));
+                params.add(new BasicNameValuePair(bid.dbAmt, arg0[7]));
+                params.add(new BasicNameValuePair(bid.dbORderId, arg0[8]));
+                params.add(new BasicNameValuePair(bid.dbRow1, arg0[9]));
+                params.add(new BasicNameValuePair(bid.dbFlagVoid, arg0[10]));
                 //params.add(new BasicNameValuePair("discount", arg0[3]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostBillDetailInsert, params);
 
-                if(jarr!=null){
+//                if(jarr!=null){
                     //rs.sCboArea.clear();
                     //JSONArray categories = jobj.getJSONArray("area");
                     //JSONArray json = new JSONArray(jobj);
                     //for (int i = 0; i < jarr.length(); i++) {
-                    JSONObject catObj = (JSONObject) jarr.get(0);
+//                    JSONObject catObj = (JSONObject) jarr.get(0);
                     //rs.sCboArea.add(catObj.getString("name"));
                     //}
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+//                }
+//            } catch (JSONException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
             return ab;
         }
         @Override
@@ -641,7 +656,7 @@ public class BillAddActivity extends AppCompatActivity {
                         insertSucc++;
                     }
                 } catch (JSONException e) {
-
+                    Log.e("insertBillDetail ",e.getMessage());
                 }
             }
 //            if(((insertSucc+insertErr)==row) && insertSuccB==1){

@@ -15,8 +15,10 @@ $us->username="user_name";
 $us->active="active";
 $us->remark="remark";
 $us->sort1="sort1";
-$us->password="password";
+$us->password="password1";
 $us->privilege="privilege";
+$us->permissionvoidbill="permission_void_bill";
+$us->permissionvoidcloseday="permission_void_closeday";
 
 $us->table="b_user";
 
@@ -35,14 +37,23 @@ $Code=strval($cnt);
 //" value ('".$f->id."','".$f->code."','".$f->name."','".$f->active."','".$f->foodstypeid."','".$f->remark."')";
 //$sql = "Insert into ".$or->table."(".$or->id.",".$or->foodsid.",".$or->orderdate.",".$or->price.",".$or->qty.",".$or->remark.")".
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
-$sql = "Insert into ".$us->table."(".$us->id.",".$us->userlogin.",".$us->username.",".$us->active.",".$us->sort1.",".$us->remark.",date_create,".$us->password.",".$ta->privilege.")".
-" value (UUID(),'".$Code."','".$_POST['user_name']."','1','".$_POST['sort1']."','".$_POST['remark']."',NOW(),'".$_POST['password']."','".$_POST['privilege']."')";
+$sql = "Insert into ".$us->table."(".$us->id.",".$us->userlogin.",".$us->username.",".$us->active.",".$us->sort1.",".$us->remark.",date_create,".$us->password.",".$us->privilege.",".$us->permissionvoidbill.",".$us->permissionvoidcloseday.")".
+" value (UUID(),'".$Code."','".$_POST['user_name']."','1','".$_POST['sort1']."','".$_POST['remark']."',NOW(),'".$_POST['password']."','".$_POST['privilege']."','".$_POST['permission_void_bill']."','".$_POST['permission_void_closeday']."')";
 $objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert User success";
 $response["sql"] = $sql;
+$response["error"] = $err;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 

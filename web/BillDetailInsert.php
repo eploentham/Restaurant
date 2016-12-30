@@ -32,24 +32,45 @@ $bid->table="t_bill_detail";
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 
 if($_POST['flag_void']==="1"){
-	$sql = "Update t_order Set status_void ='1', void_date = now() Where order_id ='".$_POST['order_id']."'";
+	$sql = "Update t_order Set status_void ='3', void_date = now() Where order_id ='".$_POST['order_id']."'";
 	$objQuery = mysql_query($sql);
+	$ok="";
+	$err="";
+	if(!$objQuery){
+	    $ok="0";
+	    $err= mysql_error();
+	}else{
+	    $ok="1";
+	}
 }else{
 	$sql = "Insert into ".$bid->table."(".$bid->id.",".$bid->datecreate.",".$bid->billid.",".$bid->orderid.",".$bid->statusvoid.",".$bid->row1.",".$bid->foodsid.",".$bid->foodscode.","
 		.$bid->price.",".$bid->qty.",".$bid->amt.",".$bid->active.")".
 		" value (UUID(),now(),'".$_POST['bill_id']."','".$_POST['order_id']."','0','".$_POST['row1']."','".$_POST['foods_id']."','".$_POST['foods_code']."',"
 		.$_POST['price'].",".$_POST['qty'].",".$_POST['amount'].",'1')";
 	$objQuery = mysql_query($sql);	
+	$ok="";
+	$err="";
+	if(!$objQuery){
+	    $ok="0";
+	    $err= mysql_error();
+	}else{
+	    $ok="1";
+	}
 }
+
 $sql = "Update t_order Set status_bill ='2', bill_id = '".$_POST['bill_id']."', bill_check_date = now() Where order_id ='".$_POST['order_id']."'";
 $objQuery = mysql_query($sql);
+
+
 
 mysql_close($objConnect);
 
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert Bill Detail success".$sql;
+$response["error"] = $err;
+$response["sql"] = $sql;
 array_push($resultArray,$response);
 echo json_encode($resultArray);
 
