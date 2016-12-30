@@ -1,10 +1,13 @@
 package com.nakoyagarden.ekapop.restaurant;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
 import android.util.Log;
+
+import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,6 +61,8 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         Log.d("onCreate ",ta.cTableSQLi);
         db.execSQL(ta.cDropTable);
         db.execSQL(ta.cTableSQLi);
+        db.execSQL("Insert Into b_table (table_id, table_name, active) Values(lower(hex(randomblob(16))), 'โต๊ะ 1','1');");
+        db.execSQL("Insert Into b_table (table_id, table_name, active) Values(lower(hex(randomblob(16))), 'โต๊ะ 2','1');");
         Log.d("onCreate ",res.cResSQLi);
         db.execSQL(res.cDropRes);
         db.execSQL(res.cResSQLi);
@@ -114,5 +119,23 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
                 Log.e("createDatabase ",e.getMessage());
             }
         }
+    }
+    public JSONArray TableSelectAll(){
+        JSONArray jarr = new JSONArray();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT column1,column2,column3 FROM table ", null);
+        if(c.moveToFirst()){
+            do{
+                //assing values
+                String column1 = c.getString(0);
+                String column2 = c.getString(1);
+                String column3 = c.getString(2);
+                //Do something Here with values
+
+            }while(c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return  jarr;
     }
 }

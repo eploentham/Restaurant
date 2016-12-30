@@ -15,79 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aefd97de-e4c9-4a29-af18-b9db60d0d041" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Database.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_first_res.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Area.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Area.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillDetail.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillDetail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillVoidActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillVoidActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDayAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDayAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Foods.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Foods.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsType.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/InitailActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/InitailActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/JsonParser.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/JsonParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MailarapOrderAdd.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MailarapOrderAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Order.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Order.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Restaurant.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Restaurant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Table.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Table.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/User.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_bill_void.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_bill_void.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_initail.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_initail.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_add.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_add.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_mailarap_order.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_mailarap_order.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/AreaInsert.php" afterPath="$PROJECT_DIR$/web/AreaInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/AreaUpdate.php" afterPath="$PROJECT_DIR$/web/AreaUpdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/BillDetailInsert.php" afterPath="$PROJECT_DIR$/web/BillDetailInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/FoodsInsert.php" afterPath="$PROJECT_DIR$/web/FoodsInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/FoodsTypeInsert.php" afterPath="$PROJECT_DIR$/web/FoodsTypeInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/FoodsUpdate.php" afterPath="$PROJECT_DIR$/web/FoodsUpdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/FoodstypeUpdate.php" afterPath="$PROJECT_DIR$/web/FoodstypeUpdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/ResInsert.php" afterPath="$PROJECT_DIR$/web/ResInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/ResUpdate.php" afterPath="$PROJECT_DIR$/web/ResUpdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/TableInsert.php" afterPath="$PROJECT_DIR$/web/TableInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/TableUpdate.php" afterPath="$PROJECT_DIR$/web/TableUpdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/UserInsert.php" afterPath="$PROJECT_DIR$/web/UserInsert.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/UserSelectByID.php" afterPath="$PROJECT_DIR$/web/UserSelectByID.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/UserUpdate.php" afterPath="$PROJECT_DIR$/web/UserUpdate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/classes.php" afterPath="$PROJECT_DIR$/web/classes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getArea.php" afterPath="$PROJECT_DIR$/web/getArea.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getFoods.php" afterPath="$PROJECT_DIR$/web/getFoods.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getFoodsType.php" afterPath="$PROJECT_DIR$/web/getFoodsType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getPrinterName.php" afterPath="$PROJECT_DIR$/web/getPrinterName.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getRes.php" afterPath="$PROJECT_DIR$/web/getRes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getTable.php" afterPath="$PROJECT_DIR$/web/getTable.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/getUser.php" afterPath="$PROJECT_DIR$/web/getUser.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" />
     </list>
     <ignored path="Restaurant.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -162,6 +90,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="AreaAddActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="36" column="13" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="13" />
+              <folding>
+                <element signature="e#2178#2191#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Order.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Order.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -172,11 +112,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FirstResActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FirstResActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="715">
-              <caret line="188" column="5" selection-start-line="188" selection-start-column="5" selection-end-line="188" selection-end-column="5" />
+            <state relative-caret-position="188">
+              <caret line="157" column="14" selection-start-line="157" selection-start-column="14" selection-end-line="157" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -192,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseSQLi.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DatabaseSQLi.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+            <state relative-caret-position="394">
+              <caret line="119" column="13" selection-start-line="119" selection-start-column="13" selection-end-line="119" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1893,8 +1833,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillDetail.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Area.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" />
       </list>
     </option>
   </component>
@@ -2580,8 +2520,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -2911,14 +2851,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="60" column="40" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -3161,21 +3093,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+        <state relative-caret-position="188">
+          <caret line="157" column="14" selection-start-line="157" selection-start-column="14" selection-end-line="157" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="36" column="13" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2178#2191#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="715">
-          <caret line="188" column="5" selection-start-line="188" selection-start-column="5" selection-end-line="188" selection-end-column="5" />
-          <folding />
+        <state relative-caret-position="394">
+          <caret line="119" column="13" selection-start-line="119" selection-start-column="13" selection-end-line="119" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
