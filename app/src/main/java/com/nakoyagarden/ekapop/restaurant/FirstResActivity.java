@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -110,6 +111,7 @@ public class FirstResActivity extends AppCompatActivity {
                 btnFrCreate.setEnabled(false);
             }
         });
+        getText();
     }
     private void setChkFrStandalone(){
         txtFrDatabaseIP.setVisibility(View.INVISIBLE);
@@ -176,6 +178,7 @@ public class FirstResActivity extends AppCompatActivity {
                 +"HostID="+txtFrHostID.getText().toString().trim()+";\n"
                 +"AccessMethod="+AccessMethod+";\n";
         try {
+            Log.d("saveText() string ",string);
             File file =getFileStreamPath("initial.cnf");
             outputStream = openFileOutput("initial.cnf", Context.MODE_PRIVATE);
 //            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
@@ -207,7 +210,8 @@ public class FirstResActivity extends AppCompatActivity {
             InputRead.close();
             String[] p = s.split(";");
             if(p.length>0){
-                btnFrCreate.setEnabled(false);
+                Log.d("getText() length ",String.valueOf(p.length));
+//                btnFrCreate.setEnabled(false);
 
                 String hostID = p[12].length()>0 ? p[12].replace("HostID=","").replace("\n",""):"";
                 String AccessMethod = p[13].length()>0 ? p[13].replace("AccessMethod=","").replace("\n",""):"";
@@ -225,6 +229,7 @@ public class FirstResActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("getText() ",e.getMessage());
         }
     }
 }
