@@ -36,6 +36,11 @@ public class User extends Database{
             +", "+dbSort1+" "+tex+"  NULL "
             +", "+dbVoidBill+" "+tex+"  NULL "
             +", "+dbVoidCloseday+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
             +"); ";
-    public String cDropUser="DROP TABLE IF EXISTS "+tbNameArea+" ;";
+    public String cDropUser="DROP TABLE IF EXISTS "+tbNameUser+" ;";
 }

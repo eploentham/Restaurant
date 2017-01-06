@@ -40,6 +40,8 @@ public class UserAddActivity extends AppCompatActivity {
     int textSize=20,textSize1=18, row;
 
     User us = new User();
+    DatabaseSQLi daS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,8 @@ public class UserAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbUaLogin = (TextView)findViewById(R.id.lbUaLogin);
         lbUaName = (TextView)findViewById(R.id.lbUaName);
@@ -77,6 +81,8 @@ public class UserAddActivity extends AppCompatActivity {
 
         chkUaPermissionVoidBill.setText(R.string.chkUaPermissionVoidBillOff);
         chkUaPermissionVoidCloseday.setText(R.string.chkUaPermissionVoidClosedayOff);
+        chkUaActive.setChecked(true);
+        txtUaLogin.setEnabled(false);
         chkUaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -110,13 +116,31 @@ public class UserAddActivity extends AppCompatActivity {
         btnUaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getUser();
-                new insertUser().execute();
+                if(rs.AccessMode.equals("Standalone")) {
+                    getUser();
+                    jarr = daS.UserInsert(us.ID, us.Login, us.Name,us.Password1, us.Privilege, us.Remark,us.Sort1,us.VoidBill,us.VoidCloseday);
+                    getUserInsert();
+                }else if(rs.AccessMode.equals("Internet")){
+                    getUser();
+                    new insertUser().execute();
+                }else{
+                    getUser();
+                    new insertUser().execute();
+                }
+
             }
         });
         ArrayAdapter<String> adaUser = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboPrivilege);
         cboUaPrivilege.setAdapter(adaUser);
-        new retrieveUser().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            jarr = daS.UserSelectById(rs.usID);
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveUser().execute();
+        }else{
+            new retrieveUser().execute();
+        }
+//        new retrieveUser().execute();
         setTheme();
     }
     private void setTheme(){
@@ -217,7 +241,7 @@ public class UserAddActivity extends AppCompatActivity {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("userdb",rs.UserDB));
                 params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair(us.dbID, rs.UsID));
+                params.add(new BasicNameValuePair(us.dbID, rs.usID));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostUserSelectByID,params);
 
@@ -269,27 +293,30 @@ public class UserAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                JSONObject catObj = (JSONObject) jarr.get(0);
-                Log.d("sql",catObj.getString("sql"));
-                if(catObj.getString("success").equals("1")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(UserAddActivity.this);
-                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            btnUaSave.setEnabled(false);
-                        }
-                    }).create().show();
-                }
-            } catch (JSONException e) {
-
-            }
+            getUserInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+        }
+    }
+    private void getUserInsert(){
+        try {
+            JSONObject catObj = (JSONObject) jarr.get(0);
+            Log.d("sql",catObj.getString("sql"));
+            if(catObj.getString("success").equals("1")){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(UserAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnUaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+
         }
     }
 }

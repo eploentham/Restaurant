@@ -37,12 +37,16 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
     JSONArray jarrF;
     String ab;
     int textSize=20,textSize1=18, row;
+    DatabaseSQLi daS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foods_type_add);
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         lbFtaCode = (TextView)findViewById(R.id.lbFtaCode);
@@ -66,11 +70,23 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         btnFtaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFoodsType();
-                new insertFoodsType().execute();
+                if(rs.AccessMode.equals("Standalone")) {
+                    getFoodsType();
+                    jarr = daS.FoodsTypeInsert(ft.ID,ft.Code,ft.Name,ft.Remark,ft.Sort1);
+                    getFoodsTypeInsert();
+                }else if(rs.AccessMode.equals("Internet")){
+                    getFoodsType();
+                    new insertFoodsType().execute();
+                }else{
+                    getFoodsType();
+                    new insertFoodsType().execute();
+                }
+
             }
         });
         chkFtaActive.setText(R.string.activeon);
+        chkFtaActive.setChecked(true);
+        txtFtaCode.setEnabled(false);
         chkFtaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -81,7 +97,15 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
                 }
             }
         });
-        new retrieveFoodsType().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            jarr = daS.FoodsTypeSelectById(rs.ftID);
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveFoodsType().execute();
+        }else{
+            new retrieveFoodsType().execute();
+        }
+//        new retrieveFoodsType().execute();
         setTheme();
     }
     private void setTheme(){
@@ -96,11 +120,32 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         txtFtaSort1.setTextSize(textSize);
     }
     private void setControl(){
+        try {
+            ft = new FoodsType();
+            if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                ft.ID = catObj.getString(ft.dbID);
+                ft.Code = catObj.getString(ft.dbCode);
+                ft.Name = rs.StringNull(catObj.getString(ft.dbName));
+                ft.Remark = rs.StringNull(catObj.getString(ft.dbRemark));
+                ft.Sort1 = catObj.getString(ft.dbSort1);
+                ft.Active = catObj.getString(ft.dbActive);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("setControl ",e.getMessage());
+        }
         if(ft!=null){
             txtFtaCode.setText(ft.Code);
             txtFtaName.setText(ft.Name);
             txtFtaRemark.setText(ft.Remark);
             txtFtaSort1.setText(ft.Sort1);
+            if(ft.Active.equals("1")){
+                chkFtaActive.setChecked(true);
+            }else{
+                chkFtaActive.setChecked(false);
+            }
         }
     }
     private void getFoodsType(){
@@ -143,27 +188,30 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                JSONObject catObj = (JSONObject) jarr.get(0);
-                Log.d("sql",catObj.getString("sql"));
-                if(catObj.getString("success").equals("1")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
-                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            btnFtaSave.setEnabled(false);
-                        }
-                    }).create().show();
-                }
-            } catch (JSONException e) {
-
-            }
+            getFoodsTypeInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+        }
+    }
+    private void getFoodsTypeInsert(){
+        try {
+            JSONObject catObj = (JSONObject) jarr.get(0);
+            Log.d("sql",catObj.getString("sql"));
+            if(catObj.getString("success").equals("1")){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnFtaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+            Log.e("getFoodsTypeInsert ",e.getMessage());
         }
     }
     class retrieveFoodsType extends AsyncTask<String,String,String> {
@@ -181,21 +229,6 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                ft = new FoodsType();
-                if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    ft.ID = catObj.getString(ft.dbID);
-                    ft.Code = catObj.getString(ft.dbCode);
-                    ft.Name = rs.StringNull(catObj.getString(ft.dbName));
-                    ft.Remark = rs.StringNull(catObj.getString(ft.dbRemark));
-                    ft.Sort1 = catObj.getString(ft.dbSort1);
-                    ft.Active = catObj.getString(ft.dbActive);
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             setControl();
         }
         @Override

@@ -7,7 +7,7 @@ public class Order extends Database{
     public String ID="", LotId="", FoodsId="", FoodsCode="", FoodsName="", OrderDate="", Price="", Qty="", Remark="",ResCode="", DeviceId="", AreaCode="", StatusFoods1="", StatusFoods2="";
     public String StatusFoods3="", StatusBill="", BillCheckDate="", StatusCook="", CookReceiveDate="", CookFinishDate="", Active="", VoidDate="", StatusVoid="", row1="", PrinterName="";
     public String StatusToGo="", FlagVoid ="", ClosedayId="", StatusCloseday="", OrderUser="", TableCode="", TableId="";
-    public String Amt="", CntCust="";
+    public String Amt="", CntCust="",BillId="";
 
 
     public String dbID="order_id", dbLotId="lot_id", dbFoodsId="foods_id", dbFoodsCode="foods_code", dbFoodsName="foods_name", dbOrderDate="order_date", dbPrice="price", dbQty="qty", dbRemark="remark";
@@ -15,7 +15,7 @@ public class Order extends Database{
     public String dbStatusFoods3="status_foods_3", dbStatusBill="status_bill", dbBillCheckDate="bill_check_date", dbStatusCook="status_cook", dbCookReceiveDate="cook_receive_date";
     public String dbCookFinishDate="cook_finish_date", dbActive="active", dbVoidDate="void_date", dbrow1="row1", dbPrinterName="printer_name";
     public String dbStatusToGo="status_to_go", dbFlagVoid ="flag_void", dbOrderUser="order_user", dbTableCode="table_code", dbTableId="table_id";
-    public String dbAmt="amount", dbCntCust="cnt_cust", dbStatusVoid="status_void", dbClosedayId="closeday_id", dbStatusCloseday="status_closeday";
+    public String dbAmt="amount", dbCntCust="cnt_cust", dbStatusVoid="status_void", dbClosedayId="closeday_id", dbStatusCloseday="status_closeday", dbBillId="bill_id";
 
     public String cOrderMySQL=creaT+" '"+dbNameD+"'.'"+tbNameOrder+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -51,6 +51,7 @@ public class Order extends Database{
             +", '"+dbCntCust+"' "+varc+"  NULL "
             +", '"+dbClosedayId+"' "+varc+"  NULL "
             +", '"+dbStatusCloseday+"' "+varc+"  NULL "
+            +", '"+dbBillId+"' "+varc+"  NULL "
             +", PRIMARY KEY('"+dbID+"')) "
             +" ENGINE = MyISAM "
             +" CHARACTER SET utf8 COLLATE utf8_bim "
@@ -89,6 +90,12 @@ public class Order extends Database{
             +", "+dbCntCust+" "+tex+"  NULL "
             +", "+dbClosedayId+" "+tex+"  NULL "
             +", "+dbStatusCloseday+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
+            +", "+dbBillId+" "+tex+"  NULL "
             +"); ";
     public String cDropOrder="DROP TABLE IF EXISTS "+tbNameOrder+" ;";
 }

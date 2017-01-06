@@ -41,6 +41,8 @@ public class FoodsAddActivity extends AppCompatActivity {
     JSONArray jarrF;
     String ab;
     int textSize=20,textSize1=18, row;
+    DatabaseSQLi daS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,7 @@ public class FoodsAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         lbFoodsCode = (TextView)findViewById(R.id.lbFoodsCode);
@@ -97,7 +100,15 @@ public class FoodsAddActivity extends AppCompatActivity {
                 //btnFoodsSave.setBackgroundColor(getResources().getColor(R.color.Red));
                 btnFoodsSave.setEnabled(false);
                 getFoods();
-                new insertFoods().execute();
+                if(rs.AccessMode.equals("Standalone")) {
+                    getFoods();
+                    jarr = daS.FoodsInsert(foo.ID, foo.Code, foo.Name,foo.Price,foo.TypeId, foo.Remark,foo.ResId,foo.ResCode,foo.StatusFoods,foo.PrinterName,foo.Sort1,"","");
+                    getFoodsInsert();
+                }else if(rs.AccessMode.equals("Internet")){
+                    new insertFoods().execute();
+                }else{
+                    new insertFoods().execute();
+                }
             }
         });
 
@@ -111,20 +122,51 @@ public class FoodsAddActivity extends AppCompatActivity {
                 }
             }
         });
-        new retrieveFoods().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            jarr = daS.FoodsSelectById(rs.fooID);
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveFoods().execute();
+        }else{
+            new retrieveFoods().execute();
+        }
+
         setTheme();
         //setControl();
         //txtFoodsCode.setText(rs.fooID);
     }
     private void setControl(){
         //foo = new Foods();
+        try {
+            foo = new Foods();
+            if((jarr!=null) && (!jarr.equals("[]"))){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+
+                foo.ID = catObj.getString(foo.dbID);
+                foo.Code = catObj.getString(foo.dbCode);
+                foo.Name = rs.StringNull(catObj.getString(foo.dbName));
+                foo.Remark = rs.StringNull(catObj.getString(foo.dbRemark));
+                foo.ResCode = catObj.getString(foo.dbResCode);
+                foo.Price = catObj.getString(foo.dbPrice);
+                foo.PrinterName = rs.StringNull(catObj.getString(foo.dbPrinterName));
+                foo.Active = catObj.getString(foo.dbActive);
+                foo.ResId = catObj.getString(foo.dbResId);
+                foo.StatusFoods = catObj.getString(foo.dbStatusFoods);
+                foo.TypeId = catObj.getString(foo.dbTypeId);
+                //rs.sCboArea.add(catObj.getString("name"));
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("setControl ",e.getMessage());
+        }
         if(foo!=null){
             txtFoodsCode.setText(foo.Code);
             txtFoodsName.setText(foo.Name);
             txtFoodsRemark.setText(foo.Remark);
             txtFoodsPrice.setText(foo.Price);
             for(int i=0;i<cboFaFoodsType.getCount();i++){
-                if(cboFaFoodsType.getItemAtPosition(i).equals(rs.getFoodsTypeToName(foo.TypeId,"id"))){
+                if(cboFaFoodsType.getItemAtPosition(i).equals(rs.getFoodsTypeToName(foo.TypeId,"genid"))){
                     cboFaFoodsType.setSelection(i);
                 }
             }
@@ -142,13 +184,13 @@ public class FoodsAddActivity extends AppCompatActivity {
         foo.ID = rs.fooID;
         foo.ResCode = rs.getRes(resName, "code");
         foo.Name = txtFoodsName.getText().toString();
-        foo.ResId = rs.getRes(resName, "id");
+        foo.ResId = rs.getRes(resName, "genid");
         foo.Remark = txtFoodsRemark.getText().toString();
         foo.Code = txtFoodsCode.getText().toString();
         foo.Active = "1";
         foo.Price = txtFoodsPrice.getText().toString();
         foo.StatusFoods = "1";
-        foo.TypeId=rs.getFoodsType(foodsTypeName,"id");
+        foo.TypeId=rs.getFoodsType(foodsTypeName,"genid");
         foo.PrinterName = "";
         //foo.ResId="";
     }
@@ -213,28 +255,26 @@ public class FoodsAddActivity extends AppCompatActivity {
         protected void onPostExecute(String ab){
             String aaa = ab;
             //new retrieveFoods1().execute();
-            try{
-                if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    txtFoodsCode.setText(catObj.getString(foo.dbCode));
-                    foo.ID = catObj.getString(foo.dbID);
-                    btnFoodsSave.setEnabled(true);
+            getFoodsInsert();
+        }
+        @Override
+        protected void onPreExecute() {
+            String aaa = ab;
+        }
+    }
+    private void getFoodsInsert(){
+        try{
+            Log.d("getFoodsInsert ",String.valueOf(jarr.length()));
+            if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                txtFoodsCode.setText(catObj.getString(foo.dbCode));
+                foo.ID = catObj.getString(foo.dbID);
+                btnFoodsSave.setEnabled(true);
 
-                    Log.d("sql",catObj.getString("sql"));
-                    if(catObj.getString("success").equals("1")){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsAddActivity.this);
-                        builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                btnFoodsSave.setEnabled(false);
-                            }
-                        }).create().show();
-                    }
-                }else{
+                Log.d("sql",catObj.getString("sql"));
+                if(catObj.getString("success").equals("1")){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsAddActivity.this);
-                    builder1.setMessage("บันทึกข้อมูล  ไม่เรียบร้อย");
+                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
                     builder1.setCancelable(true);
                     builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -243,49 +283,34 @@ public class FoodsAddActivity extends AppCompatActivity {
                         }
                     }).create().show();
                 }
-                //btnFoodsSave.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-            }catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            }else{
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล  ไม่เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnFoodsSave.setEnabled(false);
+                    }
+                }).create().show();
             }
-        }
-        @Override
-        protected void onPreExecute() {
-            String aaa = ab;
+            //btnFoodsSave.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("getFoodsInsert ",e.getMessage());
         }
     }
     class retrieveFoods extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                foo = new Foods();
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair(foo.dbID, rs.fooID));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(foo.dbID, rs.fooID));
 
-                jarr = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByID,params);
-                if((jarr!=null) && (!jarr.equals("[]"))){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-
-                    foo.ID = catObj.getString(foo.dbID);
-                    foo.Code = catObj.getString(foo.dbCode);
-                    foo.Name = rs.StringNull(catObj.getString(foo.dbName));
-                    foo.Remark = rs.StringNull(catObj.getString(foo.Remark));
-                    foo.ResCode = catObj.getString(foo.dbResCode);
-                    foo.Price = catObj.getString(foo.dbPrice);
-                    foo.PrinterName = rs.StringNull(catObj.getString(foo.dbPrinterName));
-                    foo.Active = catObj.getString(foo.dbActive);
-                    foo.ResId = catObj.getString(foo.dbResId);
-                    foo.StatusFoods = catObj.getString(foo.dbStatusFoods);
-                    foo.TypeId = catObj.getString(foo.dbTypeId);
-                        //rs.sCboArea.add(catObj.getString("name"));
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            jarr = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByID,params);
             return ab;
         }
         @Override

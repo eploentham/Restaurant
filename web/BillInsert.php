@@ -15,7 +15,8 @@ if($intNumRow==0){
 }
 $res_id = "";
 $code = "";
-$objQuery = mysql_query("Select res_id, date_format(now(),'%m') as month, year(now()) as year, ifnull(bill_code,'000000000') as bill_code From b_restaurant Where default_res = '1' and bill_month = month(now()) ");
+//$objQuery = mysql_query("Select res_id, date_format(now(),'%m') as month, year(now()) as year, ifnull(bill_code,'000000000') as bill_code From b_restaurant Where default_res = '1' and bill_month = month(now()) ");
+$objQuery = mysql_query("Select res_id, date_format(now(),'%m') as month, year(now()) as year, ifnull(bill_code,'000000000') as bill_code From b_restaurant Where default_res = '1' ");
 while($row = mysql_fetch_array($objQuery)){
     //$arrCol = a
     $res_id = $row["res_id"];

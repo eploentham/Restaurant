@@ -62,13 +62,13 @@ public class CloseDay extends Database{
             +", "+dbVoidUser+" "+tex+"  NULL "
             +", "+dbResId+" "+tex+"  NULL "
             +", "+dbCloseDayUser+" "+tex+"  NULL "
-            +", "+dbResId+" "+tex+"  NULL "
+//            +", "+dbResId+" "+tex+"  NULL "
             +", "+dbAmt+" "+rea+"  NULL "
             +", "+dbDiscount+" "+rea+"  NULL "
             +", "+dbSC+" "+rea+"  NULL "
             +", "+dbVat+" "+rea+"  NULL "
             +", "+dbTotal+" "+rea+"  NULL "
-            +", "+dbTotal+" "+rea+"  NULL "
+//            +", "+dbTotal+" "+rea+"  NULL "
             +", "+dbNetTotal+" "+rea+"  NULL "
             +", "+dbCntBill+" "+rea+"  NULL "
             +", "+dbCntOrder+" "+rea+"  NULL "
@@ -87,6 +87,11 @@ public class CloseDay extends Database{
             +", "+dbCashD2Remark+" "+tex+"  NULL "
             +", "+dbCashD3Remark+" "+tex+"  NULL "
             +", "+dbWeather+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
             +"); ";
     public String cDropCloseday="DROP TABLE IF EXISTS "+tbNameCloseday+" ;";
 }

@@ -87,6 +87,7 @@
     <string name="void1confrim">ยืนยันการยกเลิก</string>
     <string name="txtBvBillCode">ป้อนเลขที่ใบเสร็จ</string>
     <string name="lbFrWebDirectory">Web Directory</string>
+    <string name="lbFrHostID">Host ID</string>
 
     <string name="CashReceive1">เงินสดรับ1</string>
     <string name="CashReceive2">เงินสดรับ2</string>

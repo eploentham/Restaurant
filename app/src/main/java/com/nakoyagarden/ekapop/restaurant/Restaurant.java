@@ -57,6 +57,11 @@ public class Restaurant extends Database{
             +", "+dbDefaultRes+" "+tex+"  NULL "
             +", "+dbBillMonth+" "+tex+"  NULL "
             +", "+dbSort1+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
             +"); ";
     public String cDropRes="DROP TABLE IF EXISTS "+tbNameRes+" ;";
 }

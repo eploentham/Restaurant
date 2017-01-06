@@ -25,6 +25,11 @@ public class FoodsType extends Database{
             +", "+dbRemark+" "+tex+"  NULL "
             +", "+dbActive+" "+tex+"  NULL "
             +", "+dbSort1+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
             +"); ";
     public String cDropFoodsType="DROP TABLE IF EXISTS "+tbNameFoodsType+" ;";
 }

@@ -478,7 +478,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
         return true;
     }
     private void dispPrinterWarnings(PrinterStatusInfo status) {
-//        EditText edtWarnings = (EditText)findViewById(R.id.edtWarnings);
+//        EditText edtWarnings = (EditText)findViewById(R.genid.edtWarnings);
         String warningsMsg = "";
 
         if (status == null) {
@@ -728,8 +728,8 @@ public class InitailActivity extends Activity implements ReceiveListener {
         finalizeObjectEpson();
     }
     private void updateButtonStateEpson(boolean state) {
-//        Button btnReceipt = (Button)findViewById(R.id.btnSampleReceipt);
-//        Button btnCoupon = (Button)findViewById(R.id.btnSampleCoupon);
+//        Button btnReceipt = (Button)findViewById(R.genid.btnSampleReceipt);
+//        Button btnCoupon = (Button)findViewById(R.genid.btnSampleCoupon);
 //        btnReceipt.setEnabled(state);
 //        btnCoupon.setEnabled(state);
     }

@@ -27,8 +27,8 @@ $sql = "Select count(1) as cnt From b_user ";
 $objQuery = mysql_query($sql);
 $intNumField = mysql_num_fields($objQuery);
 while($row = mysql_fetch_array($objQuery)){
-	$cnt = "00".strval(intval($row["cnt"])+1);
-	$cnt = substr($cnt,strlen($cnt)-2);
+	$cnt = "000".strval(intval($row["cnt"])+1);
+	$cnt = substr($cnt,strlen($cnt)-3);
 }
 $Code=strval($cnt);
 

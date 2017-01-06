@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,7 +35,7 @@ public class FoodsViewActivity extends AppCompatActivity {
     ListView lvFoods;
     Button btnFoodsA;
     ProgressDialog pd;
-
+    DatabaseSQLi daS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +44,12 @@ public class FoodsViewActivity extends AppCompatActivity {
 
         lvFoods = (ListView)findViewById(R.id.lvFoods);
         lvFoods.setBackgroundColor(getResources().getColor(R.color.BackScreenMailarap));
-        //GridLayout linearLayout = (GridLayout) findViewById(R.id.ac//;
+        //GridLayout linearLayout = (GridLayout) findViewById(R.genid.ac//;
         //linearLayout.setBackgroundColor(getResources().getColor(R.color.BackScreenMailarap));
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
 
         btnFoodsA = (Button)findViewById(R.id.btnFoodsAdd);
 
@@ -89,9 +91,22 @@ public class FoodsViewActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
-        if(!pageLoad){
-            super.onResume();
-            new retrieveFoods().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            if(!pageLoad) {
+                super.onResume();
+                jarrF = daS.FoodsSelectAll();
+                setLvFoods();
+            }
+        }else if(rs.AccessMode.equals("Internet")){
+            if(!pageLoad){
+                super.onResume();
+                new retrieveFoods().execute();
+            }
+        }else{
+            if(!pageLoad){
+                super.onResume();
+                new retrieveFoods().execute();
+            }
         }
     ////    setLvFoods();
     }
@@ -104,7 +119,7 @@ public class FoodsViewActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
-            rs.jarrF = jarrF.toString();
+//            rs.jarrF = jarrF.toString();
             //} catch (JSONException e) {
                 // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -135,8 +150,8 @@ public class FoodsViewActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
             //jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
-            if(rs.jarrF!=null){
-                jarrF =  new JSONArray(rs.jarrF);
+            if(jarrF!=null){
+//                jarrF =  new JSONArray(rs.jarrF);
                 arrayList = new ArrayList<String>();
                 Foods f = new Foods();
                 //JSONArray categories = jobj.getJSONArray("area");
@@ -157,8 +172,8 @@ public class FoodsViewActivity extends AppCompatActivity {
                     f.StatusFoods = catObj.getString(f.dbStatusFoods);
                     f.TypeId = catObj.getString(f.dbTypeId);
                     lFoo.add(f);
-                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
-                    arrayList.add(f.Code+" "+f.Name+" "+getResources().getString(R.string.price)+" "+f.Price+" "+getResources().getString(R.string.remark)+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
+                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"genid")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"genid")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
+                    arrayList.add(f.Code+" "+f.Name+" "+getResources().getString(R.string.price)+" "+f.Price+" "+getResources().getString(R.string.remark)+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"genid")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"genid")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                 }
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
                     @Override
@@ -182,6 +197,7 @@ public class FoodsViewActivity extends AppCompatActivity {
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            Log.e("setLvFoods ",e.getMessage());
         }
 
     }

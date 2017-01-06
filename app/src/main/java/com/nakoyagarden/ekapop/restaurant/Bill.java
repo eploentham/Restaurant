@@ -64,6 +64,11 @@ public class Bill extends Database{
             +", "+dbVoidUser+" "+tex+"  NULL "
             +", "+dbBillUser+" "+tex+"  NULL "
             +", "+dbClosedayId+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
             +"); ";
     public String cDropBill="DROP TABLE IF EXISTS "+tbNameBill+" ;";
 

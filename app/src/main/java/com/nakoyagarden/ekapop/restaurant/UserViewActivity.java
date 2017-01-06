@@ -34,6 +34,7 @@ public class UserViewActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ArrayList<String> arrayList;
     ProgressDialog pd;
+    DatabaseSQLi daS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +47,14 @@ public class UserViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
         btnUvAdd = (Button)findViewById(R.id.btnUvAdd);
 
         btnUvAdd.setText(getResources().getString(R.string.add)+getResources().getString(R.string.user));
         btnUvAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rs.UsID ="";
+                rs.usID ="";
                 Intent s1 = new Intent(view.getContext(), UserAddActivity.class);
                 s1.putExtra("RestaurantControl",rs);
                 startActivityForResult(s1, 0);
@@ -66,7 +68,7 @@ public class UserViewActivity extends AppCompatActivity {
                     //String ID = catObj.getString("foods_id");
                     User ua = new User();
                     ua = lUa.get(i);
-                    rs.UsID = ua.ID;
+                    rs.usID = ua.ID;
                 }catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -81,10 +83,24 @@ public class UserViewActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
-        if(!pageLoad){
-            super.onResume();
-            new retrieveUser().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            if(!pageLoad) {
+                super.onResume();
+                jarrU = daS.UserSelectAll();
+                setLvUser();
+            }
+        }else if(rs.AccessMode.equals("Internet")){
+            if(!pageLoad){
+                super.onResume();
+                new retrieveUser().execute();
+            }
+        }else{
+            if(!pageLoad){
+                super.onResume();
+                new retrieveUser().execute();
+            }
         }
+
         ////    setLvFoods();
     }
     class retrieveUser extends AsyncTask<String,String,String> {
@@ -146,7 +162,7 @@ public class UserViewActivity extends AppCompatActivity {
                     a.VoidBill = catObj.getString(a.dbVoidBill);
                     a.VoidCloseday = catObj.getString(a.dbVoidCloseday);
                     lUa.add(a);
-                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
+                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"genid")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"genid")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                     arrayList.add(a.Login+" "+a.Name+""+a.Privilege+" "+a.Remark);
                 }
 
@@ -166,7 +182,7 @@ public class UserViewActivity extends AppCompatActivity {
                         return view;
                     }
                 };
-                //lvAvView = (ListView)findViewById(R.id.lvFoods);
+                //lvAvView = (ListView)findViewById(R.genid.lvFoods);
                 lvUvView.setAdapter(adapter);
             }
         } catch (JSONException e) {

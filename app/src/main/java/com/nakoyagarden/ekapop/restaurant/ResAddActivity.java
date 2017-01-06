@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.PrivateKeyDetails;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,12 +41,15 @@ public class ResAddActivity extends AppCompatActivity {
     JSONArray jarrF;
     String ab;
     int textSize=20,textSize1=18, row;
+    DatabaseSQLi daS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_res_add);
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbRaCode = (TextView)findViewById(R.id.lbRaCode);
         lbRaName = (TextView)findViewById(R.id.lbRaName);
@@ -60,7 +64,7 @@ public class ResAddActivity extends AppCompatActivity {
         lbRaTaxID = (TextView)findViewById(R.id.lbRaTaxID);
         lbRaBillCode = (TextView)findViewById(R.id.lbRaBillCode);
         chkRaDefaultRes = (CheckBox)findViewById(R.id.chkRaDefaultRes);
-//        lbRaSort1 = (TextView)findViewById(R.id.lbRaSort1);
+//        lbRaSort1 = (TextView)findViewById(R.genid.lbRaSort1);
 
         txtRaCode = (EditText)findViewById(R.id.txtRaCode);
         txtRaName = (EditText)findViewById(R.id.txtRaName);
@@ -73,7 +77,7 @@ public class ResAddActivity extends AppCompatActivity {
         txtRaRF2 = (EditText)findViewById(R.id.txtRaRF2);
         txtRaTaxID = (EditText)findViewById(R.id.txtRaTaxID);
         txtRaBillCode = (EditText)findViewById(R.id.txtRaBillCode);
-//        txtRaSort1 = (EditText)findViewById(R.id.txtRaSort1);
+//        txtRaSort1 = (EditText)findViewById(R.genid.txtRaSort1);
 
         btnRaSave = (Button)findViewById(R.id.btnRaSave);
         chkRaActive = (Switch) findViewById(R.id.chkRaActive);
@@ -98,6 +102,7 @@ public class ResAddActivity extends AppCompatActivity {
         txtRaCode.setEnabled(false);
         chkRaActive.setText(R.string.activeon);
         chkRaActive.setChecked(true);
+        txtRaCode.setEnabled(false);
         chkRaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -111,11 +116,28 @@ public class ResAddActivity extends AppCompatActivity {
         btnRaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getRes();
-                new insertRes().execute();
+                if(rs.AccessMode.equals("Standalone")) {
+                    getRes();
+                    jarr = daS.ResInsert(res.ID,res.Code,res.Name,res.Remark,res.Sort1);
+                    getResInsert();
+                }else if(rs.AccessMode.equals("Internet")){
+                    getRes();
+                    new insertRes().execute();
+                }else{
+                    getRes();
+                    new insertRes().execute();
+                }
             }
         });
-        new retrieveRes().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            jarr = daS.ResSelectById(rs.resID);
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveRes().execute();
+        }else{
+            new retrieveRes().execute();
+        }
+//        new retrieveRes().execute();
         setTheme();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
@@ -146,6 +168,28 @@ public class ResAddActivity extends AppCompatActivity {
         chkRaActive.setTextSize(textSize);
     }
     private void setControl(){
+        try {
+            res = new Restaurant();
+            if((jarr!=null) && (!jarr.equals("[]")) && jarr.length()>0){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                res.ID = catObj.getString(res.dbID);
+                res.Code = catObj.getString(res.dbCode);
+                res.Name = rs.StringNull(catObj.getString(res.dbName)).trim();
+                res.Remark = rs.StringNull(catObj.getString(res.dbRemark)).trim();
+                res.Sort1 = rs.StringNull(catObj.getString(res.dbSort1)).trim();
+                res.Active = catObj.getString(res.dbActive).trim();
+                res.RH1 = rs.StringNull(catObj.getString(res.dbRH1)).trim();
+                res.RH2 = rs.StringNull(catObj.getString(res.dbRH2)).trim();
+                res.RF1 = rs.StringNull(catObj.getString(res.dbRF1)).trim();
+                res.RF2 = rs.StringNull(catObj.getString(res.dbRF2)).trim();
+                res.BillCode = rs.StringNull(catObj.getString(res.dbBillCode)).trim();
+                res.TaxID = rs.StringNull(catObj.getString(res.dbTaxID)).trim();
+                res.DefaultRes = rs.StringNull(catObj.getString(res.dbDefaultRes)).trim();
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         if(res!=null){
             txtRaCode.setText(res.Code);
             txtRaName.setText(res.Name);
@@ -234,24 +278,21 @@ public class ResAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    Log.d("sql",catObj.getString("sql"));
-                    if(catObj.getString("success").equals("1")){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
-                        builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                btnRaSave.setEnabled(false);
-                            }
-                        }).create().show();
-                    }
-                }else{
+            getResInsert();
+        }
+        @Override
+        protected void onPreExecute() {
+            String aaa = ab;
+        }
+    }
+    private void getResInsert(){
+        try {
+            if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                Log.d("sql",catObj.getString("sql"));
+                if(catObj.getString("success").equals("1")){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
-                    builder1.setMessage("บันทึกข้อมูล  ไม่เรียบร้อย");
+                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
                     builder1.setCancelable(true);
                     builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -260,14 +301,20 @@ public class ResAddActivity extends AppCompatActivity {
                         }
                     }).create().show();
                 }
-
-            } catch (JSONException e) {
-
+            }else{
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล  ไม่เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnRaSave.setEnabled(false);
+                    }
+                }).create().show();
             }
-        }
-        @Override
-        protected void onPreExecute() {
-            String aaa = ab;
+
+        } catch (JSONException e) {
+            Log.e("getResInsert ",e.getMessage());
         }
     }
     class retrieveRes extends AsyncTask<String,String,String> {
@@ -285,28 +332,6 @@ public class ResAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                res = new Restaurant();
-                if((jarr!=null) && (!jarr.equals("[]")) && jarr.length()>0){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    res.ID = catObj.getString(res.dbID);
-                    res.Code = catObj.getString(res.dbCode);
-                    res.Name = rs.StringNull(catObj.getString(res.dbName)).trim();
-                    res.Remark = rs.StringNull(catObj.getString(res.dbRemark)).trim();
-                    res.Sort1 = rs.StringNull(catObj.getString(res.dbSort1)).trim();
-                    res.Active = catObj.getString(res.dbActive).trim();
-                    res.RH1 = rs.StringNull(catObj.getString(res.dbRH1)).trim();
-                    res.RH2 = rs.StringNull(catObj.getString(res.dbRH2)).trim();
-                    res.RF1 = rs.StringNull(catObj.getString(res.dbRF1)).trim();
-                    res.RF2 = rs.StringNull(catObj.getString(res.dbRF2)).trim();
-                    res.BillCode = rs.StringNull(catObj.getString(res.dbBillCode)).trim();
-                    res.TaxID = rs.StringNull(catObj.getString(res.dbTaxID)).trim();
-                    res.DefaultRes = rs.StringNull(catObj.getString(res.dbDefaultRes)).trim();
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             setControl();
         }
         @Override

@@ -61,13 +61,13 @@ public class FirstResActivity extends AppCompatActivity {
         txtFrWebDirectory = (EditText) findViewById(R.id.txtFrWebDirectory);
         txtFrDatabaseIP = (EditText) findViewById(R.id.txtFrDatabaseIP);
 
-
         lbFrFristRes.setText(R.string.lbFrFristRes);
         lbFrDatabaseIP.setText(R.string.hostIP);
         lbFrUserDB.setText(R.string.user);
         lbFrPasswordDB.setText(R.string.password);
         lbFrWebDirectory.setText(R.string.lbFrWebDirectory);
         lbFrResName.setText(getResources().getString(R.string.name)+getResources().getString(R.string.restaurant));
+        lbFrHostID.setText(R.string.lbFrHostID);
         chkFrStandalone.setText(R.string.chkFrStandalone);
         chkFrHaveServer.setText(R.string.chkFrHaveServer);
         chkFrInternet.setText(R.string.chkFrInternet);
@@ -103,9 +103,9 @@ public class FirstResActivity extends AppCompatActivity {
                 txtFrHostID.setText(hostID);
                 if(chkFrStandalone.isChecked()){
                     SQLiteDatabase mDb;
-                    DatabaseSQLi das = new DatabaseSQLi(FirstResActivity.this);
+                    DatabaseSQLi das = new DatabaseSQLi(FirstResActivity.this, hostID);
                     mDb = das.getWritableDatabase();
-//                    das.onUpgrade(mDb,1,1);
+                    das.onUpgrade(mDb,1,1);
                 }
                 saveText();
                 btnFrCreate.setEnabled(false);
@@ -163,7 +163,7 @@ public class FirstResActivity extends AppCompatActivity {
             webDirectory=txtFrWebDirectory.getText().toString().trim();
             AccessMethod="Server";
         }
-        String string = "host="+lbFrDatabaseIP.getText().toString().trim()+";\n"
+        String string = "host="+lbFrDatabaseIP.getText().toString().trim().replace(getResources().getString(R.string.hostIP),"")+";\n"
                 +"printer="+printer+";\n"
                 +"PosID="+posID+";\n"
                 +"TaxID="+taxID+";\n"
@@ -184,10 +184,11 @@ public class FirstResActivity extends AppCompatActivity {
 //            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
             outputStream.write(string.getBytes());
             outputStream.close();
-            rs.pageLoad=true;
-            System.exit(0);
+//            rs.pageLoad=true;
+//            System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("saveText() string ",e.getMessage());
         }
     }
     private void getText(){
@@ -218,10 +219,13 @@ public class FirstResActivity extends AppCompatActivity {
                 txtFrHostID.setText(hostID);
                 if(AccessMethod.equals("Standalone")){
                     chkFrStandalone.setChecked(true);
+                    setChkFrStandalone();
                 }else if(AccessMethod.equals("Internet")){
                     chkFrInternet.setChecked(true);
+                    setChkFrInternet();
                 }else if(AccessMethod.equals("Server")){
                     chkFrHaveServer.setChecked(true);
+                    setChkFrServer();
                 }
             }
             fileIn.close();

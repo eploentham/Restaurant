@@ -81,7 +81,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 //    private Printer mPrinter = null;
 //    private Context mContext = null;
 //    MainActivity ma;
-
+    DatabaseSQLi daS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +107,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 
         cboTable = (Spinner)findViewById(R.id.cboMailarapTable);
         cboArea = (Spinner)findViewById(R.id.cboMailarapArea);
-        //cboMFoods = (Spinner) findViewById(R.id.cboMFoods);
+        //cboMFoods = (Spinner) findViewById(R.genid.cboMFoods);
         lbMFoodsname = (TextView)findViewById(R.id.lbMFoodsName1);
         lbMFoodsRemark = (TextView)findViewById(R.id.lbFoodsRemark);
         lbMQty = (TextView)findViewById(R.id.lbMQty);
@@ -119,7 +119,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         lvMOrder = (ListView)findViewById(R.id.lvMOrder);
         chkMToGo = (RadioButton) findViewById(R.id.chkMToGo);
         chkMInRes = (RadioButton) findViewById(R.id.chkMInRes);
-//        lbMToGo = (TextView) findViewById(R.id.lbMToGo);
+//        lbMToGo = (TextView) findViewById(R.genid.lbMToGo);
 
         lbMQty.setText(R.string.qty);
         lbMFoodsRemark.setText(R.string.remark);
@@ -230,7 +230,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                         String lotID = UUID.randomUUID().toString();
                         String areacode = rs.getArea(cboArea.getSelectedItem().toString(),"code");
                         String tablecode = rs.getTable(cboTable.getSelectedItem().toString(),"code");
-                        String tableid = rs.getTable(cboTable.getSelectedItem().toString(),"id");
+                        String tableid = rs.getTable(cboTable.getSelectedItem().toString(),"genid");
 //                ItemData itemView = (ItemData) cboTable.getSelectedItem();
 //                itemView.text
 //                String tablecode = rs.getTable(itemView.text,"code");
@@ -239,8 +239,18 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                         row = lorder.size();
                         for(int i=0;i<lorder.size();i++){
                             Order ord = (Order)lorder.get(i);
-                            new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                                    ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                            if(rs.AccessMode.equals("Standalone")) {
+                                jarr = daS.OrderInsert(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
+                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                                chkInsert();
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
+                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                            }else{
+                                new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
+                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                            }
+
 //                    pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), ord.FoodsName,ord.Qty,ord.Remark);
                             if(ord.Remark.equals("")) ord.Remark="-";
                             prn[i] = ord.FoodsName+";"+ord.Qty+";"+ord.Remark+";";
@@ -400,9 +410,18 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         cboArea.setAdapter(adaArea);
         //alvMFoods = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, lvMFoods);
         //adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
-        //lvFoods = (ListView)findViewById(R.id.lvFoods);
+        //lvFoods = (ListView)findViewById(R.genid.lvFoods);
         //lvFoods.setAdapter(adapter);
-        new retrieveFoods().execute();
+        daS = new DatabaseSQLi(this,"");
+        if(rs.AccessMode.equals("Standalone")) {
+            jarrF = daS.FoodsSelectAll();
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveFoods().execute();
+        }else{
+            new retrieveFoods().execute();
+        }
+
         setTheme();
         //lvMFoods.setVisibility(View.INVISIBLE);
         chkMInRes.setChecked(true);
@@ -538,7 +557,6 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             txtMPassword.setVisibility(View.INVISIBLE);
             btnMSave.setVisibility(View.INVISIBLE);
         }
-
     }
 
     private void setLFoods(){
@@ -566,10 +584,13 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         } catch (JSONException e){
             // TODO Auto-generated catch block
             e.printStackTrace();
+            Log.e("setLFoods ",e.getMessage());
         }
     }
     private void setlvFoods(){
+        Log.d("setlvFoods ","pageLoadFromlvmClick "+pageLoadFromlvmClick);
         if(!pageLoadFromlvmClick){
+            Log.d("lFoo ",String.valueOf(lFoo.size()));
             lvMOrder.setBackgroundColor(getResources().getColor(R.color.BackScreenSearch));
             arrayFoods.clear();
             for(int i=0;i<lFoo.size();i++){
@@ -822,42 +843,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         @Override
         protected void onPostExecute(String ab1){
             String[] aaa = ab1.split(";");
+            chkInsert();
 
-            for (int i = 0; i < jarr.length(); i++) {
-                try {
-                    JSONObject catObj = (JSONObject) jarr.get(i);
-                    Log.d("sql",catObj.getString("sql"));
-                    if(!catObj.getString("success").equals("1")){
-                        insertErr++;
-                    }else{
-                        insertSucc++;
-                    }
-                } catch (JSONException e) {
-
-                }
-            }
-            if((insertSucc+insertErr)==row){
-
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
-                builder1.setMessage("บันทึกข้อมูลทั้งหมด"+(insertSucc+insertErr)+"รายการ  เรียบร้อย");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        lvMOrder.setBackgroundColor(Color.GRAY);
-                        btnMSave.setEnabled(false);
-                        txtMFoodsCode.setEnabled(false);
-                        txtMFoodsCode.setText("");
-                        txtMPassword.setText("");
-                        lbMFoodsname.setText("");
-                        lbMFoodsRemark.setText("");
-                        btnMClear.setVisibility(View.VISIBLE);
-                        btnMailarapAdd.setEnabled(false);
-                        lorder.clear();
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                    }
-                }).create().show();
-            }
             //new retrieveFoods1().execute();
 //            if(aaa.length>=5){
 //                runPrintReceiptSequenceEpson(rs.getAreaToName(aaa[0],"code"),rs.getTableToName(aaa[1],"code"), aaa[2],aaa[3],aaa[4]);
@@ -870,6 +857,43 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+        }
+    }
+    private void chkInsert(){
+        for (int i = 0; i < jarr.length(); i++) {
+            try {
+                JSONObject catObj = (JSONObject) jarr.get(i);
+                Log.d("sql",catObj.getString("sql"));
+                if(!catObj.getString("success").equals("1")){
+                    insertErr++;
+                }else{
+                    insertSucc++;
+                }
+            } catch (JSONException e) {
+
+            }
+        }
+        if((insertSucc+insertErr)==row){
+
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
+            builder1.setMessage("บันทึกข้อมูลทั้งหมด"+(insertSucc+insertErr)+"รายการ  เรียบร้อย");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    lvMOrder.setBackgroundColor(Color.GRAY);
+                    btnMSave.setEnabled(false);
+                    txtMFoodsCode.setEnabled(false);
+                    txtMFoodsCode.setText("");
+                    txtMPassword.setText("");
+                    lbMFoodsname.setText("");
+                    lbMFoodsRemark.setText("");
+                    btnMClear.setVisibility(View.VISIBLE);
+                    btnMailarapAdd.setEnabled(false);
+                    lorder.clear();
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                }
+            }).create().show();
         }
     }
     public class retrieveTable extends AsyncTask<String,String,String>{
@@ -924,9 +948,9 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 //        public View getView(int position, View convertView, ViewGroup parent) {
 //            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //            View rowView = inflater.inflate(R.layout.listview_layout, parent, false);
-//            TextView fLine = (TextView) rowView.findViewById(R.id.fLine);
-//            TextView sLine = (TextView) rowView.findViewById(R.id.sLine);
-//            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+//            TextView fLine = (TextView) rowView.findViewById(R.genid.fLine);
+//            TextView sLine = (TextView) rowView.findViewById(R.genid.sLine);
+//            ImageView imageView = (ImageView) rowView.findViewById(R.genid.icon);
 ////            fLine.setText(values[position]);
 //            fLine.setText(values.get(position));
 //            // change the icon for Windows and iPhone

@@ -41,7 +41,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="";
 
     public String hostIP="", hostWebDirectory ="", hostPORT="80", UserDB="", PasswordDB ="",TextSize="",PrnO="",PrnB="",PrnC="";
-    public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", UsID="";
+    public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", usID ="", AccessMode="", HostID="";
     public String hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
 
     public String hostGetArea="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getArea.php";
@@ -411,7 +411,7 @@ public class RestaurantControl  extends Application implements Serializable {
 //                                employees.add(employee);
                         } else if (tagname.equalsIgnoreCase("name")) {
 //                                employee.setName(text);
-                        } else if (tagname.equalsIgnoreCase("id")) {
+                        } else if (tagname.equalsIgnoreCase("genid")) {
 //                                employee.setId(Integer.parseInt(text));
                         } else if (tagname.equalsIgnoreCase("department")) {
 //                                employee.setDepartment(text);

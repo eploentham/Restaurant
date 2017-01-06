@@ -34,9 +34,10 @@ public class AreaAddActivity extends AppCompatActivity {
     private RestaurantControl rs;
     JSONArray jarr;
     JsonParser jsonparser = new JsonParser();
-    JSONArray jarrF;
+//    JSONArray jarrF;
     String ab;
     int textSize=20,textSize1=18, row;
+    DatabaseSQLi daS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class AreaAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbAaCode = (TextView)findViewById(R.id.lbAaCode);
         lbAaName = (TextView)findViewById(R.id.lbAaName);
@@ -68,11 +71,22 @@ public class AreaAddActivity extends AppCompatActivity {
         btnAaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            getArea();
-            new insertArea().execute();
+                getArea();
+                if(rs.AccessMode.equals("Standalone")) {
+                    getArea();
+                    jarr = daS.AreaInsert(ar.ID, ar.Code, ar.Name,ar.Remark, ar.Sort1);
+                    getAreaInsert();
+                }else if(rs.AccessMode.equals("Internet")){
+                    new insertArea().execute();
+                }else{
+                    new insertArea().execute();
+                }
+
             }
         });
         chkAaActive.setText(R.string.activeon);
+        chkAaActive.setChecked(true);
+        txtAaCode.setEnabled(false);
         chkAaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -83,7 +97,15 @@ public class AreaAddActivity extends AppCompatActivity {
             }
             }
         });
-        new retrieveArea().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            jarr = daS.AreaSelectById(rs.arID);
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveArea().execute();
+        }else{
+            new retrieveArea().execute();
+        }
+
         setTheme();
     }
     private void setTheme(){
@@ -98,11 +120,30 @@ public class AreaAddActivity extends AppCompatActivity {
         txtAaSort1.setTextSize(textSize);
     }
     private void setControl(){
-        if(ar!=null){
-            txtAaCode.setText(ar.Code);
-            txtAaName.setText(ar.Name);
-            txtAaRemark.setText(ar.Remark);
-            txtAaSort1.setText(ar.Sort1);
+        try {
+            ar = new Area();
+            if((jarr!=null) && (!jarr.equals("[]"))){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                ar.ID = catObj.getString(ar.dbID);
+                ar.Code = catObj.getString(ar.dbCode);
+                ar.Name = rs.StringNull(catObj.getString(ar.dbName));
+                ar.Remark = rs.StringNull(catObj.getString(ar.dbRemark));
+                ar.Sort1 = catObj.getString("sort1");
+                ar.Active = catObj.getString("active");
+
+                txtAaCode.setText(ar.Code);
+                txtAaName.setText(ar.Name);
+                txtAaRemark.setText(ar.Remark);
+                txtAaSort1.setText(ar.Sort1);
+                if(ar.Active.equals("1")){
+                    chkAaActive.setChecked(true);
+                }else{
+                    chkAaActive.setChecked(false);
+                }
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     private void getArea(){
@@ -147,60 +188,48 @@ public class AreaAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                JSONObject catObj = (JSONObject) jarr.get(0);
-                Log.d("sql",catObj.getString("sql"));
-                if(catObj.getString("success").equals("1")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
-                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            btnAaSave.setEnabled(false);
-                        }
-                    }).create().show();
-                }
-            } catch (JSONException e) {
-
-            }
-
+            getAreaInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
         }
     }
+    private void getAreaInsert(){
+        try {
+            JSONObject catObj = (JSONObject) jarr.get(0);
+            Log.d("sql",catObj.getString("sql"));
+            if(catObj.getString("success").equals("1")){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnAaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+            Log.e("sql",e.getMessage());
+        }
+    }
     class retrieveArea extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                ar = new Area();
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair(ar.dbID, rs.arID));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(ar.dbID, rs.arID));
 
-                jarr = jsonparser.getJSONFromUrl(rs.hostAreaSelectByID,params);
-                if((jarr!=null) && (!jarr.equals("[]"))){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    ar.ID = catObj.getString(ar.dbID);
-                    ar.Code = catObj.getString(ar.dbCode);
-                    ar.Name = rs.StringNull(catObj.getString(ar.dbName));
-                    ar.Remark = rs.StringNull(catObj.getString(ar.dbRemark));
-                    ar.Sort1 = catObj.getString("sort1");
-                    ar.Active = catObj.getString("active");
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            jarr = jsonparser.getJSONFromUrl(rs.hostAreaSelectByID,params);
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
+
             setControl();
         }
         @Override

@@ -72,6 +72,7 @@ public class BillAddActivity extends AppCompatActivity {
     ArrayList<ItemData> listTable=new ArrayList<>();
     LocalActivityManager mLocalActivityManager;
 
+    DatabaseSQLi daS;
     Bill bi = new Bill();
     BillDetail bid = new BillDetail();
 
@@ -123,6 +124,7 @@ public class BillAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         //ArrayAdapter<String> adaTable = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboTable);
@@ -135,9 +137,15 @@ public class BillAddActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String tablecode = rs.getTable(cboBaTable.getSelectedItem().toString(),"code");
                 String areacode = rs.getArea(cboBaArea.getSelectedItem().toString(),"code");
-                new retrieveOrderByTable().execute(areacode,tablecode);
+                if(rs.AccessMode.equals("Standalone")) {
+                    jarrBa = daS.OrderByTableCode(tablecode);
+                    setControl();
+                }else if(rs.AccessMode.equals("Internet")){
+                    new retrieveOrderByTable().execute(areacode,tablecode);
+                }else{
+                    new retrieveOrderByTable().execute(areacode,tablecode);
+                }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -176,21 +184,41 @@ public class BillAddActivity extends AppCompatActivity {
                         }).create().show();
                     }else{
                         if(rs.chkPasswordBill(txtBaUserPassword.getText().toString())){
-                            String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"id");
+                            String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"genid");
                             String tablecode = rs.getTable(cboBaTable.getSelectedItem().toString(),"code");
-                            String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"id");
+                            String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"genid");
                             String deviceid = "";
                             String user = rs.chkUserByPassword(txtBaUserPassword.getText().toString());
                             String billID = UUID.randomUUID().toString();
                             row = lOrderT.size();
-                            new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
-                                    lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
-                                    txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
-                            for(int i=0;i<lOrderT.size();i++){
-
-                                Order ord = (Order)lOrderT.get(i);
-                                new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
+                            if(rs.AccessMode.equals("Standalone")) {
+                                jarr = daS.BillInsert(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
+                                        lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
+                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user,"");
+                                getBillInsert();
+                                for(int i=0;i<lOrderT.size();i++){
+                                    Order ord = (Order)lOrderT.get(i);
+                                    jarr = daS.BillDetailInsert(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
+                                    getBillDetailInsert();
+                                }
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
+                                        lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
+                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
+                                for(int i=0;i<lOrderT.size();i++){
+                                    Order ord = (Order)lOrderT.get(i);
+                                    new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
+                                }
+                            }else{
+                                new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
+                                        lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
+                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
+                                for(int i=0;i<lOrderT.size();i++){
+                                    Order ord = (Order)lOrderT.get(i);
+                                    new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
+                                }
                             }
+
                             setCboTable(tablecode);
                             setTable(tablecode);
                         }
@@ -271,6 +299,14 @@ public class BillAddActivity extends AppCompatActivity {
             }
         });
         setTheme();
+//        if(rs.AccessMode.equals("Standalone")) {
+//            jarr = daS.AreaSelectById(rs.arID);
+//            setControl();
+//        }else if(rs.AccessMode.equals("Internet")){
+//            new retrieveArea().execute();
+//        }else{
+//            new retrieveArea().execute();
+//        }
         setCboTable("");
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -429,6 +465,7 @@ public class BillAddActivity extends AppCompatActivity {
         lOrderT.clear();
         arrayList.clear();
         Double amt=0.0, total=0.0;
+        if(jarrBa==null) return;
         prn = new String[jarrBa.length()];
         for(int i=0;i<jarrBa.length();i++){
             try {
@@ -469,6 +506,7 @@ public class BillAddActivity extends AppCompatActivity {
                 lOrderT.add(o);
             }catch (JSONException e){
                 e.printStackTrace();
+                Log.e("setlvOrder ",e.getMessage());
             }
             lbBaAmt1.setText(total.toString());
             lbBaDiscount1.setText(rs.discount);
@@ -554,51 +592,38 @@ public class BillAddActivity extends AppCompatActivity {
                 params.add(new BasicNameValuePair(bi.dbBillUser, arg0[12]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostBillInsert, params);
-
-//                if(jarr!=null){
-//                    //rs.sCboArea.clear();
-//                    //JSONArray categories = jobj.getJSONArray("area");
-//                    //JSONArray json = new JSONArray(jobj);
-//                    //for (int i = 0; i < jarr.length(); i++) {
-//                    JSONObject catObj = (JSONObject) jarr.get(0);
-//                    ab = catObj.getString("bill_code");
-//                    //rs.sCboArea.add(catObj.getString("name"));
-//                    //}
-//                }
-//            } catch (JSONException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
             //new retrieveFoods1().execute();
-            for (int i = 0; i < jarr.length(); i++) {
-                try {
-                    JSONObject catObj = (JSONObject) jarr.get(i);
-                    Log.d("sql",catObj.getString("sql"));
-                    if(!catObj.getString("success").equals("1")){
-//                        insertErrB++;
-                    }else{
-                        insertSuccB++;
-                    }
-                } catch (JSONException e) {
-                    Log.e("insertBill ",e.getMessage());
-                }
-            }
-            if(rs.PrnB.equals("ON")){
-                pBE = new PrintBillEpson(BillAddActivity.this);
-                pBE.runPrintReceiptSequenceEpson(getResources(), ab, rs.ResName, rs.ReceiptH1,rs.ReceiptH2,rs.ReceiptF1,rs.ReceiptF2, cboBaArea.getSelectedItem().toString(),cboBaTable.getSelectedItem().toString(), prn,lbBaAmt1.getText().toString(),
-                        lbBaDiscount1.getText().toString(),lbBaTotal1.getText().toString(), lbBaSC1.getText().toString(),lbBaVat1.getText().toString(),lbBaNetTotal1.getText().toString());
-                pBE = null;
-            }
-
+            getBillInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+        }
+    }
+    private void getBillInsert(){
+        for (int i = 0; i < jarr.length(); i++) {
+            try {
+                JSONObject catObj = (JSONObject) jarr.get(i);
+                Log.d("sql",catObj.getString("sql"));
+                if(!catObj.getString("success").equals("1")){
+//                        insertErrB++;
+                }else{
+                    insertSuccB++;
+                }
+            } catch (JSONException e) {
+                Log.e("insertBill ",e.getMessage());
+            }
+        }
+        if(rs.PrnB.equals("ON")){
+            pBE = new PrintBillEpson(BillAddActivity.this);
+            pBE.runPrintReceiptSequenceEpson(getResources(), ab, rs.ResName, rs.ReceiptH1,rs.ReceiptH2,rs.ReceiptF1,rs.ReceiptF2, cboBaArea.getSelectedItem().toString(),cboBaTable.getSelectedItem().toString(), prn,lbBaAmt1.getText().toString(),
+                    lbBaDiscount1.getText().toString(),lbBaTotal1.getText().toString(), lbBaSC1.getText().toString(),lbBaVat1.getText().toString(),lbBaNetTotal1.getText().toString());
+            pBE = null;
         }
     }
     class insertBillDetail extends AsyncTask<String,String,String> {
@@ -628,55 +653,43 @@ public class BillAddActivity extends AppCompatActivity {
                 //params.add(new BasicNameValuePair("discount", arg0[3]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostBillDetailInsert, params);
-
-//                if(jarr!=null){
-                    //rs.sCboArea.clear();
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    //for (int i = 0; i < jarr.length(); i++) {
-//                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    //rs.sCboArea.add(catObj.getString("name"));
-                    //}
-//                }
-//            } catch (JSONException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
-            for (int i = 0; i < jarr.length(); i++) {
-                try {
-                    JSONObject catObj = (JSONObject) jarr.get(i);
-                    Log.d("sql",catObj.getString("sql"));
-                    if(!catObj.getString("success").equals("1")){
-                        insertErr++;
-                    }else{
-                        insertSucc++;
-                    }
-                } catch (JSONException e) {
-                    Log.e("insertBillDetail ",e.getMessage());
-                }
-            }
-//            if(((insertSucc+insertErr)==row) && insertSuccB==1){
-            if(((insertSucc+insertErr)==row)){
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
-                builder1.setMessage("บันทึกข้อมูล ทั้งหมก"+(insertSucc+insertErr)+"รายการ เรียบร้อย");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        btnBaSave.setEnabled(false);
-                    }
-                }).create().show();
-                txtBaUserPassword.setText("");
-            }
-
+            getBillDetailInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+        }
+    }
+    private void getBillDetailInsert(){
+        for (int i = 0; i < jarr.length(); i++) {
+            try {
+                JSONObject catObj = (JSONObject) jarr.get(i);
+                Log.d("sql",catObj.getString("sql"));
+                if(!catObj.getString("success").equals("1")){
+                    insertErr++;
+                }else{
+                    insertSucc++;
+                }
+            } catch (JSONException e) {
+                Log.e("insertBillDetail ",e.getMessage());
+            }
+        }
+//            if(((insertSucc+insertErr)==row) && insertSuccB==1){
+        if(((insertSucc+insertErr)==row)){
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
+            builder1.setMessage("บันทึกข้อมูล ทั้งหมก"+(insertSucc+insertErr)+"รายการ เรียบร้อย");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    btnBaSave.setEnabled(false);
+                }
+            }).create().show();
+            txtBaUserPassword.setText("");
         }
     }
     class updateOrder extends AsyncTask<String,String,String> {

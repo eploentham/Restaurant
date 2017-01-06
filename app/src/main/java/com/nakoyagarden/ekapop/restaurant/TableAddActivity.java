@@ -39,6 +39,8 @@ public class TableAddActivity extends AppCompatActivity {
     JSONArray jarrF;
     String ab;
     int textSize=20,textSize1=18, row;
+    DatabaseSQLi daS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class TableAddActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbTaCode = (TextView)findViewById(R.id.lbTaCode);
         lbTaName = (TextView)findViewById(R.id.lbTaName);
@@ -72,11 +76,23 @@ public class TableAddActivity extends AppCompatActivity {
         btnTaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTable();
-                new insertTable().execute();
+                if(rs.AccessMode.equals("Standalone")) {
+                    getTable();
+                    jarr = daS.TableInsert(ta.ID, ta.Code, ta.Name,ta.AreaID, ta.Remark, ta.Sort1, ta.StatusUse,ta.StatusToGo,ta.DateUse);
+                    getTableInsert();
+                }else if(rs.AccessMode.equals("Internet")){
+                    getTable();
+                    new insertTable().execute();
+                }else{
+                    getTable();
+                    new insertTable().execute();
+                }
+
             }
         });
         chkTaActive.setText(R.string.activeon);
+        chkTaActive.setChecked(true);
+        txtTaCode.setEnabled(false);
         chkTaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -89,7 +105,15 @@ public class TableAddActivity extends AppCompatActivity {
         });
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboArea);
         cboTaArea.setAdapter(adaArea);
-        new retrieveTable().execute();
+        if(rs.AccessMode.equals("Standalone")) {
+            jarr = daS.TableSelectById(rs.taID);
+            setControl();
+        }else if(rs.AccessMode.equals("Internet")){
+            new retrieveTable().execute();
+        }else{
+            new retrieveTable().execute();
+        }
+//        new retrieveTable().execute();
         setTheme();
     }
     private void setTheme(){
@@ -104,13 +128,30 @@ public class TableAddActivity extends AppCompatActivity {
         txtTaSort1.setTextSize(textSize);
     }
     private void setControl(){
+        try {
+            ta = new Table();
+            Log.d("table_id ",rs.taID);
+            if((jarr!=null) && (!jarr.equals("[]")) && jarr.length()>0){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                ta.ID = catObj.getString(ta.dbID);
+                ta.Code = catObj.getString(ta.dbCode);
+                ta.Name = rs.StringNull(catObj.getString(ta.dbName)).trim();
+                ta.Remark = rs.StringNull(catObj.getString(ta.dbRemark)).trim();
+                ta.Sort1 = catObj.getString(ta.dbSort1);
+                ta.Active = rs.StringNull(catObj.getString(ta.dbActive)).trim();
+                ta.AreaID = rs.StringNull(catObj.getString(ta.dbAreaID)).trim();
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         if(ta!=null){
             txtTaCode.setText(ta.Code);
             txtTaName.setText(ta.Name);
             txtTaRemark.setText(ta.Remark);
             txtTaSort1.setText(ta.Sort1);
             for(int i=0;i<cboTaArea.getCount();i++){
-                if(cboTaArea.getItemAtPosition(i).equals(rs.getAreaToName(ta.AreaID,"id"))){
+                if(cboTaArea.getItemAtPosition(i).equals(rs.getAreaToName(ta.AreaID,"genid"))){
                     cboTaArea.setSelection(i);
                 }
             }
@@ -168,55 +209,37 @@ public class TableAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                JSONObject catObj = (JSONObject) jarr.get(0);
-                Log.d("sql",catObj.getString("sql"));
-                if(catObj.getString("success").equals("1")){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(TableAddActivity.this);
-                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            btnTaSave.setEnabled(false);
-                        }
-                    }).create().show();
-                }
-            } catch (JSONException e) {
-
-            }
+            getTableInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
         }
     }
+    private void getTableInsert(){
+        try {
+            JSONObject catObj = (JSONObject) jarr.get(0);
+            Log.d("sql",catObj.getString("sql"));
+            if(catObj.getString("success").equals("1")){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(TableAddActivity.this);
+                builder1.setMessage("บันทึกข้อมูล  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnTaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+
+        }
+    }
     class retrieveTable extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
-            try {
-                ta = new Table();
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("userdb",rs.UserDB));
-                params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-                params.add(new BasicNameValuePair(ta.dbID, rs.taID));
-                Log.d("table_id ",rs.taID);
-                jarr = jsonparser.getJSONFromUrl(rs.hostTableSelectByID,params);
-                if((jarr!=null) && (!jarr.equals("[]")) && jarr.length()>0){
-                    JSONObject catObj = (JSONObject) jarr.get(0);
-                    ta.ID = catObj.getString(ta.dbID);
-                    ta.Code = catObj.getString(ta.dbCode);
-                    ta.Name = rs.StringNull(catObj.getString(ta.dbName)).trim();
-                    ta.Remark = rs.StringNull(catObj.getString(ta.dbRemark)).trim();
-                    ta.Sort1 = catObj.getString(ta.dbSort1);
-                    ta.Active = rs.StringNull(catObj.getString(ta.dbActive)).trim();
-                    ta.AreaID = rs.StringNull(catObj.getString(ta.dbAreaID)).trim();
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+
             return ab;
         }
         @Override

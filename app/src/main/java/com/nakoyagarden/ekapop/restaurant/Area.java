@@ -32,13 +32,18 @@ public class Area extends Database{
             +" ENGINE = MyISAM "
             +" CHARACTER SET utf8 COLLATE utf8_bim "
             +"COMMENT = ''";
-    public String cAreaSQLi=creaT+" "+tbNameRes+" "
+    public String cAreaSQLi=creaT+" "+tbNameArea+" "
             +"( "+dbID+" "+tex+" PRIMARY KEY "
             +", "+dbCode+" "+tex+"  NULL "
             +", "+dbName+" "+tex+"  NULL "
             +", "+dbRemark+" "+tex+"  NULL "
             +", "+dbActive+" "+tex+"  NULL "
             +", "+dbSort1+" "+tex+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
             +"); ";
     public String cDropArea="DROP TABLE IF EXISTS "+tbNameArea+" ;";
 }

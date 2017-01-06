@@ -101,7 +101,7 @@ public class PrintCloseDayEpson  extends Activity implements ReceiveListener {
         return true;
     }
     private void dispPrinterWarnings(PrinterStatusInfo status) {
-//        EditText edtWarnings = (EditText)findViewById(R.id.edtWarnings);
+//        EditText edtWarnings = (EditText)findViewById(R.genid.edtWarnings);
         String warningsMsg = "";
 
         if (status == null) {

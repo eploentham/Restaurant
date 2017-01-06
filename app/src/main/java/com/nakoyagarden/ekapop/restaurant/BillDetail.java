@@ -4,10 +4,10 @@ package com.nakoyagarden.ekapop.restaurant;
  * Created by ekapop on 9/14/2016.
  */
 public class BillDetail extends Database{
-    public String ID="", BillId="", ORderId="", StatusVoid="", Row1="", FoodsId="", FoodsCode="", Price="", Qty="", Amt="";
+    public String ID="", BillId="", ORderId="", StatusVoid="", Row1="", FoodsId="", FoodsCode="", Price="", Qty="", Amt="",Active="";
 
     public String dbID="bill_detail_id", dbBillId="bill_id", dbORderId="order_id", dbStatusVoid="status_id", dbRow1="row1", dbFoodsId="foods_id", dbFoodsCode="foods_code", dbPrice="price", dbQty="qty", dbAmt="amount";
-    public String dbFlagVoid="flag_void";
+    public String dbFlagVoid="flag_void", dbActive="active";
 
     public String cBillDetailMySQL=creaT+" '"+dbNameD+"'.'"+tbNameBillDetail+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -20,6 +20,7 @@ public class BillDetail extends Database{
             +", '"+dbPrice+"' "+deci+"  NULL "+ defMySQL_d
             +", '"+dbQty+"' "+deci+"  NULL "+ defMySQL_d
             +", '"+dbAmt+"' "+deci+"  NULL "+ defMySQL_d
+            +", '"+dbActive+"' "+varc+"  NULL "+ defMySQL_v
             +", PRIMARY KEY('"+dbID+"')) "
             +" ENGINE = MyISAM "
             +" CHARACTER SET utf8 COLLATE utf8_bim "
@@ -35,6 +36,12 @@ public class BillDetail extends Database{
             +", "+dbPrice+" "+rea+"  NULL "
             +", "+dbQty+" "+rea+"  NULL "
             +", "+dbAmt+" "+rea+"  NULL "
+            +", "+dbDateCreate+" "+tex+"  NULL "
+            +", "+dbDateModi+" "+tex+"  NULL "
+            +", "+dbHostId+" "+tex+"  NULL "
+            +", "+dbBranchId+" "+tex+"  NULL "
+            +", "+dbDeviceId+" "+tex+"  NULL "
+            +", "+dbActive+" "+tex+"  NULL "
             +"); ";
     public String cDropBillDetail="DROP TABLE IF EXISTS "+tbNameBillDetail+" ;";
 }

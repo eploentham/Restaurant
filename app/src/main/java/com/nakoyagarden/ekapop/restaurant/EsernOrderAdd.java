@@ -71,7 +71,7 @@ public class EsernOrderAdd  extends Activity implements HorizontalNumberPickerLi
         //setContentView(R.layout.activity_esern_order_add);
         //getSupportActionBar().hide();
 
-        //RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.layoutEsern);
+        //RelativeLayout linearLayout = (RelativeLayout) findViewById(R.genid.layoutEsern);
         //linearLayout.setBackgroundColor(Color.parseColor("#f62355"));
 
         cboTable = (Spinner)findViewById(R.id.cboTable);
@@ -422,7 +422,7 @@ public class EsernOrderAdd  extends Activity implements HorizontalNumberPickerLi
         @Override
         protected String doInBackground(String... arg0) {
             // TODO Auto-generated method stub
-            //lbMessage = (TextView) findViewById(R.id.lbMessage);
+            //lbMessage = (TextView) findViewById(R.genid.lbMessage);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));

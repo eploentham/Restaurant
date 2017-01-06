@@ -34,7 +34,7 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ArrayList<String> arrayList;
     ProgressDialog pd;
-
+    DatabaseSQLi daS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,8 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         btnFtAdd = (Button)findViewById(R.id.btnFtAdd);
         btnFtAdd.setText(getResources().getString(R.string.add)+getResources().getString(R.string.foodstype));
         btnFtAdd.setOnClickListener(new View.OnClickListener() {
@@ -79,10 +81,24 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
-        if(!pageLoad){
-            super.onResume();
-            new retrieveFoodsType().execute();
-            setLvFoodsType();
+        if(rs.AccessMode.equals("Standalone")) {
+            if(!pageLoad) {
+                super.onResume();
+                jarrFt = daS.FoodsTypeSelectAll();
+                setLvFoodsType();
+            }
+        }else if(rs.AccessMode.equals("Internet")){
+            if(!pageLoad){
+                super.onResume();
+                new retrieveFoodsType().execute();
+                setLvFoodsType();
+            }
+        }else{
+            if(!pageLoad){
+                super.onResume();
+                new retrieveFoodsType().execute();
+                setLvFoodsType();
+            }
         }
     }
     class retrieveFoodsType extends AsyncTask<String,String,String> {
@@ -142,7 +158,7 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
                     //a.AreaID = catObj.getString("area_id");
                     a.Sort1 = catObj.getString(a.dbSort1);
                     lRes.add(a);
-                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
+                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"genid")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"genid")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                     arrayList.add(a.Code+" "+a.Name+" "+a.Remark);
                 }
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
@@ -161,7 +177,7 @@ public class FoodsTypeViewActivity extends AppCompatActivity {
                         return view;
                     }
                 };
-                //lvAvView = (ListView)findViewById(R.id.lvFoods);
+                //lvAvView = (ListView)findViewById(R.genid.lvFoods);
                 lvFtView.setAdapter(adapter);
             }
         } catch (JSONException e) {

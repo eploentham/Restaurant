@@ -34,6 +34,7 @@ public class ResViewActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ArrayList<String> arrayList;
     ProgressDialog pd;
+    DatabaseSQLi daS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class ResViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
+
         btnResAdd = (Button)findViewById(R.id.btnRvAdd);
         btnResAdd.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
         btnResAdd.setOnClickListener(new View.OnClickListener() {
@@ -78,10 +81,24 @@ public class ResViewActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume() {
-        if(!pageLoad){
-            super.onResume();
-            new retrieveRes().execute();
-            setLvRes();
+        if(rs.AccessMode.equals("Standalone")) {
+            if(!pageLoad) {
+                super.onResume();
+                jarrR = daS.ResSelectAll();
+                setLvRes();
+            }
+        }else if(rs.AccessMode.equals("Internet")){
+            if(!pageLoad){
+                super.onResume();
+                new retrieveRes().execute();
+                //setLvRes();
+            }
+        }else{
+            if(!pageLoad){
+                super.onResume();
+                new retrieveRes().execute();
+                //setLvRes();
+            }
         }
     }
     class retrieveRes extends AsyncTask<String,String,String> {
@@ -146,7 +163,7 @@ public class ResViewActivity extends AppCompatActivity {
                     //a.AreaID = catObj.getString("area_id");
                     //a.Sort1 = catObj.getString("sort1");
                     lRes.add(a);
-                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"id")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"id")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
+                    //arrayList.add(f.Code+" "+f.Name+" "+f.Price+" "+f.Remark+" ร้าน "+rs.getResToName(f.ResId,"genid")+" ประเภท "+rs.getFoodsTypeToName(f.TypeId,"genid")+" สถานะ "+f.StatusFoods+" เครื่องพิมพ์ "+f.PrinterName);
                     arrayList.add(a.Code+" "+a.Name+" "+a.Remark+" "+a.RH1+" "+a.RH2+" "+a.RF1+" "+a.RF2);
                 }
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList){
@@ -165,7 +182,7 @@ public class ResViewActivity extends AppCompatActivity {
                         return view;
                     }
                 };
-                //lvAvView = (ListView)findViewById(R.id.lvFoods);
+                //lvAvView = (ListView)findViewById(R.genid.lvFoods);
                 lvResView.setAdapter(adapter);
             }
         } catch (JSONException e) {

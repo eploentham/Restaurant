@@ -101,7 +101,7 @@ public class BillVoidActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!pageLoad){
-                    String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"id");
+                    String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
                     String areacode = rs.getArea(cboBvArea.getSelectedItem().toString(),"code");
                     new retrieveOrderByTable().execute(tableid);
 //                    pageLoad=true;
@@ -148,7 +148,7 @@ public class BillVoidActivity extends AppCompatActivity {
                         }).create().show();
                     }else{
                         if(rs.chkPasswordVoid(txtBvPassword.getText().toString())){
-//                            String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"id");
+//                            String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
                             new retrieveBillVoid().execute(rs.chkUserByPassword(txtBvPassword.getText().toString()), bill.ID);
                             setTable(rs.getTableToName(bill.TableId,"idtocode"));
                         }else{

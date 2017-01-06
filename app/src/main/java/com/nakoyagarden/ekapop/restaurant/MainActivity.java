@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
     JsonParser jsonparser = new JsonParser();
     String ab;
     JSONObject jobj = null;
-    JSONArray jarrA, jarrT, jarrR, jarrF,jarrU, jarrP;
+    JSONArray jarrA, jarrT, jarrR, jarrF,jarrU, jarrP, jarrFt;
     //Button btnMInt;
     ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA, btnMCloseDay, btnMInt;
-    ImageView imageRes, imageArea,imageTable,imageFoods,imageFoodsType;
+    ImageView imageRes, imageArea,imageTable,imageFoods,imageFoodsType, imageUser;
     TextView lbMMessage;
     public RestaurantControl rs;
     ProgressDialog pd;
@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         btnCookV = (ImageButton)findViewById(R.id.btnCookView);
         btnOrderA = (ImageButton)findViewById(R.id.btnOrderAdd);
 
-//        btnMFt = (Button)findViewById(R.id.btnMFoodsType);
-//        btnMTable = (Button)findViewById(R.id.btnMTable);
-//        btnMArea = (Button)findViewById(R.id.btnMArea);
+//        btnMFt = (Button)findViewById(R.genid.btnMFoodsType);
+//        btnMTable = (Button)findViewById(R.genid.btnMTable);
+//        btnMArea = (Button)findViewById(R.genid.btnMArea);
         lbMMessage = (TextView)findViewById(R.id.lbMMessage);
         btnMBill = (ImageButton)findViewById(R.id.btnMBill);
-        //btnMOrderV = (ImageButton)findViewById(R.id.btnMOrderView);
+        //btnMOrderV = (ImageButton)findViewById(R.genid.btnMOrderView);
         btnMCloseDay = (ImageButton)findViewById(R.id.btnMCloseDay);
 //        btnMFt.setText(getResources().getString(R.string.add)+getResources().getString(R.string.type)+getResources().getString(R.string.foods));
 //        btnMTable.setText(getResources().getString(R.string.add)+getResources().getString(R.string.table));
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         imageTable = (ImageView)findViewById(R.id.imageTable);
         imageFoods = (ImageView)findViewById(R.id.imageFoods);
         imageFoodsType = (ImageView)findViewById(R.id.imageFoodsType);
+        imageUser = (ImageView)findViewById(R.id.imageUser);
 
         btnOrderA.setBackgroundResource(R.mipmap.menu_icon1);
         btnCookV.setBackgroundResource(R.mipmap.menu_cook);
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         imageTable.setImageResource(R.mipmap.red_big);
         imageFoods.setImageResource(R.mipmap.red_big);
         imageFoodsType.setImageResource(R.mipmap.red_big);
+        imageUser.setImageResource(R.mipmap.red_big);
 
         //btnMFoodsType.setText(Re);
         rs = new RestaurantControl();
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 rs.UserDB =p[6].replace("UserDB=","").replace("\n","");
                 rs.PasswordDB =p[7].replace("PasswordDB=","").replace("\n","");
                 rs.TextSize =p[8].replace("TextSize=","").replace("\n","");
+                rs.AccessMode =p[13].replace("AccessMethod=","").replace("\n","");
+                rs.HostID =p[12].replace("HostID=","").replace("\n","");
 //                txtIaTaxID.setText(p[3].replace("TaxID=",""));
 //                txtIaPortID.setText(p[4].replace("PortNumber=",""));
 //                txtIaWebDirectory.setText(p[5].replace("WebDirectory=",""));
@@ -185,15 +189,40 @@ public class MainActivity extends AppCompatActivity {
 
 //        String txt = rs.hostIP;
 //        txt = txt.replace("http://","").trim();
+        if(rs.AccessMode.equals("Standalone")) {
+            DatabaseSQLi daS = new DatabaseSQLi(this,"");
+            jarrT = daS.TableSelectAll();
+            Log.d("jarrT length ",String.valueOf(jarrT.length()));
+            setCboTable();
 
-        if(!rs.hostIP.equals("")) {
-            new chkServerReachable().execute();
+            jarrA = daS.AreaSelectAll();
+            setCboArea();
+
+            jarrR = daS.ResSelectAll();
+            setRes();
+            jarrU = daS.UserSelectAll();
+            setUser();
+            jarrF = daS.FoodsSelectAll();
+            setFoods();
+            jarrFt = daS.FoodsTypeSelectAll();
+            setFoodsType();
+
+
+        }else if(rs.AccessMode.equals("Internet")){
+//            rs.hostIP = "";
+            if(!rs.hostIP.equals("")) {
+                new chkServerReachable().execute();
+            }
+        }else{
+            if(!rs.hostIP.equals("")) {
+                new chkServerReachable().execute();
+            }
         }
 
 //        pageLoad=false;
-//        Spinner sp=(Spinner)findViewById(R.id.spinner);
+//        Spinner sp=(Spinner)findViewById(R.genid.spinner);
 //        SpinnerAdapter adapter=new SpinnerAdapter(this,
-//                R.layout.spinner_layout,R.id.cbotxt,list);
+//                R.layout.spinner_layout,R.genid.cbotxt,list);
 //        sp.setAdapter(adapter);
     }
 //    @Override
@@ -227,28 +256,32 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            if(jarrA!=null){
-                rs.sCboArea.clear();
-                rs.sArea.clear();
-                imageArea.setImageResource(R.mipmap.green);
-                //JSONArray categories = jobj.getJSONArray("area");
-                //JSONArray json = new JSONArray(jobj);
-                try {
-                    for (int i = 0; i < jarrA.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrA.get(i);
-                        rs.sCboArea.add(catObj.getString(ar.dbName));
-                        rs.sArea.add(catObj.getString(ar.dbID)+"@"+catObj.getString(ar.dbCode)+"@"+catObj.getString(ar.dbName));
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            setCboArea();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
 
+        }
+    }
+    private void setCboArea(){
+        if(jarrA!=null){
+            rs.sCboArea.clear();
+            rs.sArea.clear();
+            //JSONArray categories = jobj.getJSONArray("area");
+            //JSONArray json = new JSONArray(jobj);
+            try {
+                for (int i = 0; i < jarrA.length(); i++) {
+                    JSONObject catObj = (JSONObject) jarrA.get(i);
+                    rs.sCboArea.add(catObj.getString(ar.dbName));
+                    rs.sArea.add(catObj.getString(ar.dbID)+"@"+catObj.getString(ar.dbCode)+"@"+catObj.getString(ar.dbName));
+                }
+                imageArea.setImageResource(R.mipmap.green);
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                Log.e("setCboArea ",e.getMessage());
+            }
         }
     }
     public class retrieveTable extends AsyncTask<String,String,String>{
@@ -272,40 +305,44 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String ab){
-            String table="";
-            try {
-                if(jarrT!=null){
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    rs.sCboTable.clear();
-                    rs.sTable.clear();
-                    imageTable.setImageResource(R.mipmap.green);
-                    for (int i = 0; i < jarrT.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrT.get(i);
-                        rs.sCboTable.add(catObj.getString(ta.dbName));
-                        rs.sTable.add(catObj.getString(ta.dbID)+"@"+catObj.getString(ta.dbCode)+"@"+catObj.getString(ta.dbName)+"@"+catObj.getString(ta.dbStatusUse));
-                        table += catObj.getString(ta.dbCode)+"="+catObj.getString(ta.dbStatusUse)+";\n";
-                    }
-                }
-                try {
-                    FileOutputStream outputStream;
-//                    File file =getFileStreamPath("table.cnf");
-                    outputStream = openFileOutput("table.cnf", Context.MODE_PRIVATE);
-//            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
-                    outputStream.write(table.getBytes());
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
+            setCboTable();
         }
         @Override
         protected void onPreExecute() {
 
+        }
+    }
+    private void setCboTable(){
+        String table="";
+        try {
+            if(jarrT!=null){
+                //JSONArray categories = jobj.getJSONArray("area");
+                //JSONArray json = new JSONArray(jobj);
+                rs.sCboTable.clear();
+                rs.sTable.clear();
+                for (int i = 0; i < jarrT.length(); i++) {
+                    JSONObject catObj = (JSONObject) jarrT.get(i);
+                    rs.sCboTable.add(catObj.getString(ta.dbName));
+                    rs.sTable.add(catObj.getString(ta.dbID)+"@"+catObj.getString(ta.dbCode)+"@"+catObj.getString(ta.dbName)+"@"+catObj.getString(ta.dbStatusUse));
+                    table += catObj.getString(ta.dbCode)+"="+catObj.getString(ta.dbStatusUse)+";\n";
+                }
+                imageTable.setImageResource(R.mipmap.green);
+            }
+            try {
+                FileOutputStream outputStream;
+//                    File file =getFileStreamPath("table.cnf");
+                outputStream = openFileOutput("table.cnf", Context.MODE_PRIVATE);
+//            outputStream = openFileOutput(file.getPath(), Context.MODE_PRIVATE);
+                outputStream.write(table.getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("outputStream ",e.getMessage());
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("setCboTable ",e.getMessage());
         }
     }
     class retrieveRes extends AsyncTask<String,String,String>{
@@ -320,34 +357,38 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String ab){
-            try {
-                if(jarrR!=null){
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    rs.sCboRes.clear();
-                    rs.sRes.clear();
-                    imageRes.setImageResource(R.mipmap.green);
-                    for (int i = 0; i < jarrR.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrR.get(i);
-                        rs.sCboRes.add(catObj.getString(res.dbName));
-                        rs.sRes.add(catObj.getString(res.dbID)+"@"+catObj.getString(res.dbCode)+"@"+catObj.getString(res.dbName));
-                        if(catObj.getString(res.dbDefaultRes).equals("1")){
-                            rs.ResName = catObj.getString(res.dbName);
-                            rs.ReceiptH1 = catObj.getString(res.dbRH1);
-                            rs.ReceiptH2 = catObj.getString(res.dbRH2);
-                            rs.ReceiptF1 = catObj.getString(res.dbRF1);
-                            rs.ReceiptF2 = catObj.getString(res.dbRF2);
-                        }
-                    }
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            setRes();
         }
         @Override
         protected void onPreExecute() {
 
+        }
+    }
+    private void setRes(){
+        try {
+            if(jarrR!=null){
+                //JSONArray categories = jobj.getJSONArray("area");
+                //JSONArray json = new JSONArray(jobj);
+                rs.sCboRes.clear();
+                rs.sRes.clear();
+                for (int i = 0; i < jarrR.length(); i++) {
+                    JSONObject catObj = (JSONObject) jarrR.get(i);
+                    rs.sCboRes.add(catObj.getString(res.dbName));
+                    rs.sRes.add(catObj.getString(res.dbID)+"@"+catObj.getString(res.dbCode)+"@"+catObj.getString(res.dbName));
+                    if(catObj.getString(res.dbDefaultRes).equals("1")){
+                        rs.ResName = catObj.getString(res.dbName);
+                        rs.ReceiptH1 = catObj.getString(res.dbRH1);
+                        rs.ReceiptH2 = catObj.getString(res.dbRH2);
+                        rs.ReceiptF1 = catObj.getString(res.dbRF1);
+                        rs.ReceiptF2 = catObj.getString(res.dbRF2);
+                    }
+                }
+                imageRes.setImageResource(R.mipmap.green);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("setRes ",e.getMessage());
         }
     }
 
@@ -376,12 +417,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String a = ab;
-            imageFoods.setImageResource(R.mipmap.green);
+            setFoods();
         }
         @Override
         protected void onPreExecute() {
 
         }
+    }
+    private void setFoods(){
+        imageFoods.setImageResource(R.mipmap.green);
     }
     class retrievePrinterName extends AsyncTask<String,String,String>{
         @Override
@@ -404,6 +448,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                Log.e("retrievePrinterName ",e.getMessage());
             }
             return ab;
         }
@@ -423,34 +468,37 @@ public class MainActivity extends AppCompatActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            jarrR = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,params);
+            jarrFt = jsonparser.getJSONFromUrl(rs.hostGetFoodsType,params);
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
-            try {
-                imageFoodsType.setImageResource(R.mipmap.green);
-
-                if(jarrR!=null){
-                    //JSONArray categories = jobj.getJSONArray("area");
-                    //JSONArray json = new JSONArray(jobj);
-                    rs.sCboFoodsType.clear();
-                    rs.sFoodsType.clear();
-                    for (int i = 0; i < jarrR.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrR.get(i);
-                        rs.sCboFoodsType.add(catObj.getString(ft.dbName));
-                        rs.sFoodsType.add(catObj.getString(ft.dbID)+"@"+catObj.getString(ft.dbCode)+"@"+catObj.getString(ft.dbName));
-                    }
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            setFoodsType();
             pd.dismiss();
         }
         @Override
         protected void onPreExecute() {
 
+        }
+    }
+    private void setFoodsType(){
+        try {
+            if(jarrFt!=null){
+                //JSONArray categories = jobj.getJSONArray("area");
+                //JSONArray json = new JSONArray(jobj);
+                rs.sCboFoodsType.clear();
+                rs.sFoodsType.clear();
+                for (int i = 0; i < jarrFt.length(); i++) {
+                    JSONObject catObj = (JSONObject) jarrFt.get(i);
+                    rs.sCboFoodsType.add(catObj.getString(ft.dbName));
+                    rs.sFoodsType.add(catObj.getString(ft.dbID)+"@"+catObj.getString(ft.dbCode)+"@"+catObj.getString(ft.dbName));
+                }
+                imageFoodsType.setImageResource(R.mipmap.green);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("setFoodsType ",e.getMessage());
         }
     }
     class retrieveUser extends AsyncTask<String,String,String>{
@@ -465,26 +513,31 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String ab){
-            try {
-                if(jarrU!=null){
-                    rs.sCboUser.clear();
-                    rs.sUser.clear();
-                    for (int i = 0; i < jarrU.length(); i++) {
-                        JSONObject catObj = (JSONObject) jarrU.get(i);
-                        rs.sCboUser.add(catObj.getString(us.dbName));
-                        rs.sUser.add(catObj.getString(us.dbID)+"@"+catObj.getString(us.dbLogin)+"@"+catObj.getString(us.dbName)+"@"+
-                                catObj.getString(us.dbPassword1)+"@"+catObj.getString(us.dbPrivilege)+"@"+catObj.getString(us.dbRemark));
-                    }
-                }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            setUser();
             pd.dismiss();
         }
         @Override
         protected void onPreExecute() {
 
+        }
+    }
+    private void setUser(){
+        try {
+            if(jarrU!=null){
+                rs.sCboUser.clear();
+                rs.sUser.clear();
+                for (int i = 0; i < jarrU.length(); i++) {
+                    JSONObject catObj = (JSONObject) jarrU.get(i);
+                    rs.sCboUser.add(catObj.getString(us.dbName));
+                    rs.sUser.add(catObj.getString(us.dbID)+"@"+catObj.getString(us.dbLogin)+"@"+catObj.getString(us.dbName)+"@"+
+                            catObj.getString(us.dbPassword1)+"@"+catObj.getString(us.dbPrivilege)+"@"+catObj.getString(us.dbRemark));
+                }
+                imageUser.setImageResource(R.mipmap.green);
+            }
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("setUser ",e.getMessage());
         }
     }
     class chkServerReachable extends AsyncTask<String,String,String>{
