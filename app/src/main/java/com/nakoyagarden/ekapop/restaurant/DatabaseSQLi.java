@@ -1130,14 +1130,16 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
                 }
                 c1.close();
                 wheredate=" and order_date >= '"+date1+"' and order_date <= '"+date2+"'";
-                sql = "Select count(1) as cnt_order, sum(price*qty) as amt_order From t_order Where status_closeday <> '1' "+wheredate+" and active = '1'";
+                sql = "Select count(1) as cnt_order, sum(price*qty) as amount_order From t_order Where status_closeday <> '1' "+wheredate+" and active = '1'";
                 c2 = db.rawQuery(sql,null);
-                if(!c2.moveToFirst()){
+                if(c2.moveToFirst()){
                     do {
                         jsonObj.put(cd.dbCntOrder, c2.getString(c2.getColumnIndex(cd.dbCntOrder)));
                         jsonObj.put(cd.dbAmtOrder, c2.getString(c2.getColumnIndex(cd.dbAmtOrder)));
                     }while(c2.moveToNext());
                 }
+                c2.close();
+                jarr.put(jsonObj);
             }else{
                 do {
 //                    jsonObj = getJsonObjectCloseday(c);
@@ -1153,17 +1155,17 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             Log.e("BillByCloseday 1 ",e1.getMessage());
             err=e1.getMessage();
         }
-        try{
-            jsonObj = new JSONObject();
-            jsonObj.put("success", "1");
-            jsonObj.put("message", "insert BillDetail success");
-            jsonObj.put("sql", sql);
-            jsonObj.put("error", err);
-            jarr.put(jsonObj);
-        }catch (JSONException e) {
-            Log.e("BillByCloseday 2 ",e.getMessage());
-            err=e.getMessage();
-        }
+//        try{
+//            jsonObj = new JSONObject();
+//            jsonObj.put("success", "1");
+//            jsonObj.put("message", "insert BillDetail success");
+//            jsonObj.put("sql", sql);
+//            jsonObj.put("error", err);
+//            jarr.put(jsonObj);
+//        }catch (JSONException e) {
+//            Log.e("BillByCloseday 2 ",e.getMessage());
+//            err=e.getMessage();
+//        }
         return jarr;
     }
     private JSONObject getJsonObjectCloseday(Cursor c) {
@@ -1249,5 +1251,26 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             Log.e("getJsonObjectCloseday2 ",e.getMessage());
         }
         return jsonObj;
+    }
+    public JSONArray ClosedayInsert(String closedate){
+        String sql="",err="", code1="",resID="", code="",year="",month="",date1="",date2="", wheredate="";
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        try{
+            date1 = closedate+" 00:00:00";
+            date2 = closedate+" 23:59:59";
+            $sql1 = "Insert into "da.tbNameCloseday+"("+cd.dbID+","+cd.dbCloseDayDate+","+cd.dbResId+","+cd.dbAmt+","+cd.dbDiscount+","+cd.dbTotal+","+cd.dbSC+","
+                    +cd.dbVat+","+cd.dbNetTotal+","+cd.dbRemark+","+cd.dbActive+","+cd.dbStatusVoid+","+cd.dbVoidDate+","+cd.dbVoidUser+","+cd.dbCntBill+","+cd.dbAmtBill+","
+                    +cd.dbCntOrder+","+cd.dbAmtOrder+","+cd.CloseDayUser+","+cd.dbCashR1+","+cd.dbCashR2+","+cd.dbCashR3+","+cd.dbCashD1+","+cd.dbCashD2+","+cd.dbCashD3+","
+                    +cd.dbCashR1Remark+","+cd.dbCashR2Remark+","+cd.dbCashR3Remark+","+cd.dbCashD1Remark+","+cd.dbCashD2Remark+","+cd.dbCashD3Remark+","+cd.dbWeather+")"
+                    +" Values ('".$_POST['closeday_id']."',now(),'".$_POST['res_id']."',".$_POST['amount'].",".$_POST['discount'].",".$_POST['total'].",".$_POST['sc'].","
+                    .$_POST['vat'].",".$_POST['nettotal'].",'".$_POST['remark']."','1','0','','',".$_POST['cnt_bill'].",".$_POST['bill_amount'].","
+                    .$_POST['cnt_order'].",".$_POST['amount_order'].",'".$_POST['closeday_user']."',".$_POST['cash_receive1'].",".$_POST['cash_receive2'].",".$_POST['cash_receive3'].",".$_POST['cash_draw1'].",".$_POST['cash_draw2'].",".$_POST['cash_draw3'].",'"
+                    .$_POST['cash_receive1_remark']."','".$_POST['cash_receive2_remark']."','".$_POST['cash_receive3_remark']."','".$_POST['cash_draw1_remark']."','".$_POST['cash_draw2_remark']."','".$_POST['cash_draw3_remark']."','".$_POST['weather']."')";
+        }catch (Exception e1) {
+
+        }
+        return jarr;
     }
 }

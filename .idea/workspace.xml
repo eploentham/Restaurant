@@ -20,50 +20,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/mockable-android-24.jar" afterPath="$PROJECT_DIR$/build/generated/mockable-android-24.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Area.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Area.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillDetail.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillDetail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillVoidActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillVoidActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDayAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDayAddActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/EsernOrderAdd.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/EsernOrderAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FirstResActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Foods.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Foods.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsType.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsTypeViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/InitailActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/InitailActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MailarapOrderAdd.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MailarapOrderAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Order.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Order.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/PrintBillEpson.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/PrintBillEpson.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/PrintCloseDayEpson.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/PrintCloseDayEpson.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/PrintOrderEpson.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/PrintOrderEpson.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Restaurant.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Restaurant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Table.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Table.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/TableViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/User.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserAddActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserAddActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserViewActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/UserViewActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="Restaurant.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -101,8 +62,8 @@
       <file leaf-file-name="DatabaseSQLi.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="1129" column="17" selection-start-line="1129" selection-start-column="17" selection-end-line="1129" selection-end-column="17" />
+            <state relative-caret-position="569">
+              <caret line="1266" column="20" selection-start-line="1266" selection-start-column="20" selection-end-line="1266" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -110,10 +71,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CloseDay.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Bill.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="698">
+            <state relative-caret-position="714">
               <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
               <folding />
             </state>
@@ -123,12 +94,9 @@
       <file leaf-file-name="CloseDayAddActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDayAddActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="245" column="72" selection-start-line="245" selection-start-column="72" selection-end-line="245" selection-end-column="72" />
-              <folding>
-                <element signature="e#12449#13883#0" expanded="true" />
-                <element signature="e#13882#13883#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="262">
+              <caret line="225" column="0" selection-start-line="225" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -146,26 +114,12 @@
       <file leaf-file-name="BillAddActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillAddActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1870">
+            <state relative-caret-position="1445">
               <caret line="126" column="40" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="40" />
               <folding>
-                <element signature="e#24492#24532#0" expanded="true" />
-                <element signature="e#24775#24815#0" expanded="true" />
-                <element signature="e#24858#24896#0" expanded="true" />
                 <element signature="e#33142#33143#0" expanded="true" />
                 <element signature="e#33187#33188#0" expanded="true" />
-                <marker date="1483684580036" expanded="false" signature="6727:6822" ph="(view) → {" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="326" column="93" selection-start-line="326" selection-start-column="93" selection-end-line="326" selection-end-column="93" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -173,13 +127,9 @@
       <file leaf-file-name="AreaAddActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
+            <state relative-caret-position="1139">
               <caret line="88" column="28" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
-              <folding>
-                <element signature="e#3101#3118#0" expanded="true" />
-                <element signature="e#3243#3585#0" expanded="true" />
-                <element signature="e#3584#3585#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -187,7 +137,7 @@
       <file leaf-file-name="RestaurantControl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
+            <state relative-caret-position="4369">
               <caret line="272" column="49" selection-start-line="272" selection-start-column="49" selection-end-line="272" selection-end-column="49" />
               <folding />
             </state>
@@ -197,7 +147,7 @@
       <file leaf-file-name="MailarapOrderAdd.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MailarapOrderAdd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
+            <state relative-caret-position="3196">
               <caret line="243" column="127" selection-start-line="243" selection-start-column="127" selection-end-line="243" selection-end-column="127" />
               <folding>
                 <marker date="1483493839503" expanded="false" signature="5164:5179" ph="&quot;สถานะ&quot;" />
@@ -209,12 +159,9 @@
       <file leaf-file-name="ResAddActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResAddActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
+            <state relative-caret-position="1632">
               <caret line="120" column="35" selection-start-line="120" selection-start-column="35" selection-end-line="120" selection-end-column="35" />
-              <folding>
-                <element signature="e#4840#5426#0" expanded="true" />
-                <element signature="e#5425#5426#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1934,66 +1881,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Restaurant" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Restaurant" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Restaurant" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Restaurant" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="restaurant" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane">
         <subPane />
       </pane>
@@ -2120,6 +2007,30 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
+      </pane>
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Restaurant" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Restaurant" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane />
       </pane>
     </panes>
   </component>
@@ -2556,8 +2467,8 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3496659" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41577825" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39019188" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2569,8 +2480,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18215811" sideWeight="0.5044543" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3464819" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18215811" sideWeight="0.5044543" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2681,14 +2592,8 @@
           <properties />
           <option name="timeStamp" value="589" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java</url>
-          <line>1105</line>
-          <properties />
-          <option name="timeStamp" value="617" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="623" />
+      <option name="time" value="627" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -2764,14 +2669,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_bill_void.xml">
@@ -2897,14 +2802,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
-          <caret line="71" column="45" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/FoodsType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -2985,7 +2882,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="136" column="63" selection-start-line="136" selection-start-column="63" selection-end-line="136" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3047,7 +2943,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
+        <state relative-caret-position="5032">
           <caret line="326" column="93" selection-start-line="326" selection-start-column="93" selection-end-line="326" selection-end-column="93" />
           <folding />
         </state>
@@ -3055,12 +2951,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/ResAddActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
+        <state relative-caret-position="1632">
           <caret line="120" column="35" selection-start-line="120" selection-start-column="35" selection-end-line="120" selection-end-column="35" />
-          <folding>
-            <element signature="e#4840#5426#0" expanded="true" />
-            <element signature="e#5425#5426#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3074,7 +2967,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/MailarapOrderAdd.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
+        <state relative-caret-position="3196">
           <caret line="243" column="127" selection-start-line="243" selection-start-column="127" selection-end-line="243" selection-end-column="127" />
           <folding>
             <marker date="1483493839503" expanded="false" signature="5164:5179" ph="&quot;สถานะ&quot;" />
@@ -3094,11 +2987,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
           <caret line="96" column="35" selection-start-line="96" selection-start-column="35" selection-end-line="96" selection-end-column="35" />
-          <folding>
-            <element signature="e#3270#3271#0" expanded="true" />
-            <element signature="e#16365#16366#0" expanded="true" />
-            <element signature="e#16416#16417#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3106,15 +2994,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
-          <folding>
-            <element signature="e#1508#1509#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/RestaurantControl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
+        <state relative-caret-position="4369">
           <caret line="272" column="49" selection-start-line="272" selection-start-column="49" selection-end-line="272" selection-end-column="49" />
           <folding />
         </state>
@@ -3122,34 +3007,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/BillAddActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1870">
+        <state relative-caret-position="1445">
           <caret line="126" column="40" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="40" />
           <folding>
-            <element signature="e#24492#24532#0" expanded="true" />
-            <element signature="e#24775#24815#0" expanded="true" />
-            <element signature="e#24858#24896#0" expanded="true" />
             <element signature="e#33142#33143#0" expanded="true" />
             <element signature="e#33187#33188#0" expanded="true" />
-            <marker date="1483684580036" expanded="false" signature="6727:6822" ph="(view) → {" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/AreaAddActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
+        <state relative-caret-position="1139">
           <caret line="88" column="28" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
-          <folding>
-            <element signature="e#3101#3118#0" expanded="true" />
-            <element signature="e#3243#3585#0" expanded="true" />
-            <element signature="e#3584#3585#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/Bill.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="698">
+        <state relative-caret-position="714">
           <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
           <folding />
         </state>
@@ -3157,19 +3034,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDayAddActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="245" column="72" selection-start-line="245" selection-start-column="72" selection-end-line="245" selection-end-column="72" />
-          <folding>
-            <element signature="e#12449#13883#0" expanded="true" />
-            <element signature="e#13882#13883#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="262">
+          <caret line="225" column="0" selection-start-line="225" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/CloseDay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/nakoyagarden/ekapop/restaurant/DatabaseSQLi.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="1129" column="17" selection-start-line="1129" selection-start-column="17" selection-end-line="1129" selection-end-column="17" />
+        <state relative-caret-position="569">
+          <caret line="1266" column="20" selection-start-line="1266" selection-start-column="20" selection-end-line="1266" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

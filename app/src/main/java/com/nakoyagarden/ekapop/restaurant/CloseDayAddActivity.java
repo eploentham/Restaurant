@@ -62,7 +62,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
 
     ProgressDialog pd;
     Bill bill;
-    CloseDay cd;
+    CloseDay cd = new CloseDay();
     private int year,textSize=20;
     private int month;
     private int day;
@@ -221,8 +221,18 @@ public class CloseDayAddActivity extends AppCompatActivity {
                         }).create().show();
                     }else{
                         if(rs.chkPasswordCloseDay(txtCaUserPassword.getText().toString())){
-                            setCloseDay();
-                            new retrieveCloseDayInsert().execute();
+                            if(rs.AccessMode.equals("Standalone")) {
+                                setCloseDay();
+
+                                getClosedayInsert();
+                            }else if(rs.AccessMode.equals("Internet")){
+                                setCloseDay();
+                                new retrieveCloseDayInsert().execute();
+                            }else{
+                                setCloseDay();
+                                new retrieveCloseDayInsert().execute();
+                            }
+
                         }
                     }
                 }
@@ -449,7 +459,6 @@ public class CloseDayAddActivity extends AppCompatActivity {
                 bill = new Bill();
                 ID = catObj.getString(cd.dbID);
                 if(!ID.equals("")){
-
                     txtCaAmt.setText(catObj.getString(cd.dbAmt));
                     txtCaDiscount.setText(catObj.getString(cd.dbDiscount));
                     txtCaTotal.setText(catObj.getString(cd.dbTotal));
@@ -492,7 +501,10 @@ public class CloseDayAddActivity extends AppCompatActivity {
         } catch (JSONException e){
             // TODO Auto-generated catch block
             e.printStackTrace();
-            Log.e("retrieveCloseDay",e.getMessage());
+            Log.e("retrieveCloseDay 1 ",e.getMessage());
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e("retrieveCloseDay 2 ",e.getMessage());
         }
     }
     class retrieveCloseDayInsert extends AsyncTask<String,String,String> {
@@ -547,35 +559,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                if(jaCa!=null){
-                    JSONObject catObj = (JSONObject) jaCa.get(0);
-
-                    Log.d("sql",catObj.getString("sql"));
-                    if(!catObj.getString("success").equals("1")){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
-                        builder1.setMessage("บันทึกข้อมูล  เรียบร้อย")
-                        ;
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                btnCaSave.setEnabled(false);
-                            }
-                        }).create().show();
-                        txtCaUserPassword.setText("");
-                    }
-                    if(rs.PrnC.equals("ON")){
-                        pBE = new PrintCloseDayEpson(CloseDayAddActivity.this);
-//                        pBE.runPrintCloseDayEpson(getResources(), ab, rs.ResName, rs.ReceiptH1,rs.ReceiptH2,rs.ReceiptF1,rs.ReceiptF2, cboBaArea.getSelectedItem().toString(),cboBaTable.getSelectedItem().toString(), prn,lbBaAmt1.getText().toString(),
-//                                lbBaDiscount1.getText().toString(),lbBaTotal1.getText().toString(), lbBaSC1.getText().toString(),lbBaVat1.getText().toString(),lbBaNetTotal1.getText().toString());
-                        pBE = null;
-                    }
-                }
-            } catch (JSONException e){
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            getClosedayInsert();
 //            setControlNewCloseDay();
 //            pd.dismiss();
         }
@@ -591,6 +575,37 @@ public class CloseDayAddActivity extends AppCompatActivity {
 //            pd.setMax(100);
 //            pd.setProgress(0);
 //            pd.show();
+        }
+    }
+    private void getClosedayInsert(){
+        try {
+            if(jaCa!=null){
+                JSONObject catObj = (JSONObject) jaCa.get(0);
+
+                Log.d("sql",catObj.getString("sql"));
+                if(!catObj.getString("success").equals("1")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                    builder1.setMessage("บันทึกข้อมูล  เรียบร้อย")
+                    ;
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnCaSave.setEnabled(false);
+                        }
+                    }).create().show();
+                    txtCaUserPassword.setText("");
+                }
+                if(rs.PrnC.equals("ON")){
+                    pBE = new PrintCloseDayEpson(CloseDayAddActivity.this);
+//                        pBE.runPrintCloseDayEpson(getResources(), ab, rs.ResName, rs.ReceiptH1,rs.ReceiptH2,rs.ReceiptF1,rs.ReceiptF2, cboBaArea.getSelectedItem().toString(),cboBaTable.getSelectedItem().toString(), prn,lbBaAmt1.getText().toString(),
+//                                lbBaDiscount1.getText().toString(),lbBaTotal1.getText().toString(), lbBaSC1.getText().toString(),lbBaVat1.getText().toString(),lbBaNetTotal1.getText().toString());
+                    pBE = null;
+                }
+            }
+        } catch (JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     class retrieveCloseDayVoid extends AsyncTask<String,String,String> {
