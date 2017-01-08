@@ -561,6 +561,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 
     private void setLFoods(){
         lFoo.clear();
+        if(jarrF==null) return;
         try {
             for (int i = 0; i < jarrF.length(); i++) {
                 JSONObject catObj = (JSONObject) jarrF.get(i);

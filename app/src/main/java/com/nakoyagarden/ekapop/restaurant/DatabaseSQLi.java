@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -245,8 +245,6 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
 //        jarr = new JSONArray(json);
         return  jarr;
     }
-
-    @NonNull
     private JSONObject getJsonObjectArea(Cursor c) {
         JSONObject jsonObj = new JSONObject();
         try {
@@ -309,7 +307,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         return  jarr;
     }
 
-    @NonNull
+
     private JSONObject getJsonObjectRes(Cursor c) {
         JSONObject jsonObj = new JSONObject();
         try {
@@ -380,7 +378,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         return  jarr;
     }
 
-    @NonNull
+
     private JSONObject getJsonObjectUser(Cursor c) {
         JSONObject jsonObj = new JSONObject();
         try {
@@ -447,7 +445,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         return  jarr;
     }
 
-    @NonNull
+
     private JSONObject getJsonObjectFoodsType(Cursor c) {
         JSONObject jsonObj = new JSONObject();
         try {
@@ -515,7 +513,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         return  jarr;
     }
 
-    @NonNull
+
     private JSONObject getJsonObjectFoods(Cursor c) {
         JSONObject jsonObj = new JSONObject();
         try {
@@ -965,7 +963,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             jsonObj.put(or.dbID, c.getString(c.getColumnIndex(or.dbID)));
             jsonObj.put(or.dbLotId, chkNull(c.getString(c.getColumnIndex(or.dbLotId)))?"":c.getString(c.getColumnIndex(or.dbLotId)));
             jsonObj.put(or.dbrow1, chkNull(c.getString(c.getColumnIndex(or.dbrow1)))?"":c.getString(c.getColumnIndex(or.dbrow1)));
-            jsonObj.put(or.dbFoodsId, c.getDouble(c.getColumnIndex(or.dbFoodsId)));
+            jsonObj.put(or.dbFoodsId, chkNull(c.getString(c.getColumnIndex(or.dbFoodsId)))?"":c.getString(c.getColumnIndex(or.dbFoodsId)));
             jsonObj.put(or.dbFoodsCode, chkNull(c.getString(c.getColumnIndex(or.dbFoodsCode)))?"":c.getString(c.getColumnIndex(or.dbFoodsCode)));
             jsonObj.put(or.dbOrderDate, chkNull(c.getString(c.getColumnIndex(or.dbOrderDate)))?"":c.getString(c.getColumnIndex(or.dbOrderDate)));
             jsonObj.put(or.dbPrice, chkNull(c.getString(c.getColumnIndex(or.dbPrice)))?"":c.getString(c.getColumnIndex(or.dbPrice)));
@@ -996,6 +994,77 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             jsonObj.put(or.dbStatusToGo, chkNull(c.getString(c.getColumnIndex(or.dbStatusToGo)))?"":c.getString(c.getColumnIndex(or.dbStatusToGo)));
 
         } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("getJsonObjectOrder ",e.getMessage());
+        }catch (Exception e){
+            Log.e("getJsonObjectOrder ",e.getMessage());
+        }
+        return jsonObj;
+    }
+    private JSONObject getJsonObjectBill(Cursor c){
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put(bi.dbID, c.isNull(c.getColumnIndex(bi.dbID))?"":c.getString(c.getColumnIndex(bi.dbID)));
+            jsonObj.put(bi.dbCode, c.isNull(c.getColumnIndex(bi.dbCode))?"":c.getString(c.getColumnIndex(bi.dbCode)));
+            jsonObj.put(bi.dbBillDate, c.isNull(c.getColumnIndex(bi.dbBillDate))?"":c.getString(c.getColumnIndex(bi.dbBillDate)));
+            jsonObj.put(bi.dbLotID, c.isNull(c.getColumnIndex(bi.dbLotID))?"":c.getString(c.getColumnIndex(bi.dbLotID)));
+            jsonObj.put(bi.dbActive, c.isNull(c.getColumnIndex(bi.dbActive))?"":c.getString(c.getColumnIndex(bi.dbActive)));
+            jsonObj.put(bi.dbRemark, c.isNull(c.getColumnIndex(bi.dbRemark))?"":c.getString(c.getColumnIndex(bi.dbRemark)));
+            jsonObj.put(bi.dbStatusVoid, c.isNull(c.getColumnIndex(bi.dbStatusVoid))?"":c.getString(c.getColumnIndex(bi.dbStatusVoid)));
+            jsonObj.put(bi.dbVoidDate, c.isNull(c.getColumnIndex(bi.dbVoidDate))?"":c.getString(c.getColumnIndex(bi.dbVoidDate)));
+            jsonObj.put(bi.dbVoidUser, c.isNull(c.getColumnIndex(bi.dbVoidUser))?"":c.getString(c.getColumnIndex(bi.dbVoidUser)));
+            jsonObj.put(bi.dbTableId, c.isNull(c.getColumnIndex(bi.dbTableId))?"":c.getString(c.getColumnIndex(bi.dbTableId)));
+            jsonObj.put(bi.dbResId, c.isNull(c.getColumnIndex(bi.dbResId))?"":c.getString(c.getColumnIndex(bi.dbResId)));
+            jsonObj.put(bi.dbAreaId, c.isNull(c.getColumnIndex(bi.dbAreaId))?"":c.getString(c.getColumnIndex(bi.dbAreaId)));
+            jsonObj.put(bi.dbDeviceId, c.isNull(c.getColumnIndex(bi.dbDeviceId))?"":c.getString(c.getColumnIndex(bi.dbDeviceId)));
+            jsonObj.put(bi.dbAmt, c.isNull(c.getColumnIndex(bi.dbAmt))?"":c.getString(c.getColumnIndex(bi.dbAmt)));
+            jsonObj.put(bi.dbDiscount, c.isNull(c.getColumnIndex(bi.dbDiscount))?"":c.getString(c.getColumnIndex(bi.dbDiscount)));
+            jsonObj.put(bi.dbSC, c.isNull(c.getColumnIndex(bi.dbSC))?"":c.getString(c.getColumnIndex(bi.dbSC)));
+            jsonObj.put(bi.dbVat, c.isNull(c.getColumnIndex(bi.dbVat))?"":c.getString(c.getColumnIndex(bi.dbVat)));
+            jsonObj.put(bi.dbTotal, c.isNull(c.getColumnIndex(bi.dbTotal))?"":c.getString(c.getColumnIndex(bi.dbTotal)));
+            jsonObj.put(bi.dbNetTotal, c.isNull(c.getColumnIndex(bi.dbNetTotal))?"":c.getString(c.getColumnIndex(bi.dbNetTotal)));
+            jsonObj.put(bi.dbCashReceive, c.isNull(c.getColumnIndex(bi.dbCashReceive))?"":c.getString(c.getColumnIndex(bi.dbCashReceive)));
+            jsonObj.put(bi.dbCashTon, c.isNull(c.getColumnIndex(bi.dbCashTon))?"":c.getString(c.getColumnIndex(bi.dbCashTon)));
+            jsonObj.put(bi.dbDateCreate, c.isNull(c.getColumnIndex(bi.dbDateCreate))?"":c.getString(c.getColumnIndex(bi.dbDateCreate)));
+            jsonObj.put(bi.dbDateModi, c.isNull(c.getColumnIndex(bi.dbDateModi))?"":c.getString(c.getColumnIndex(bi.dbDateModi)));
+            jsonObj.put(bi.dbBillUser, c.isNull(c.getColumnIndex(bi.dbBillUser))?"":c.getString(c.getColumnIndex(bi.dbBillUser)));
+            jsonObj.put(bi.dbStatusCloseday, c.isNull(c.getColumnIndex(bi.dbStatusCloseday))?"":c.getString(c.getColumnIndex(bi.dbStatusCloseday)));
+            jsonObj.put(bi.dbClosedayId, c.isNull(c.getColumnIndex(bi.dbClosedayId))?"":c.getString(c.getColumnIndex(bi.dbClosedayId)));
+            jsonObj.put(bi.dbHostId, c.isNull(c.getColumnIndex(bi.dbHostId))?"":c.getString(c.getColumnIndex(bi.dbHostId)));
+            jsonObj.put(bi.dbBranchId, c.isNull(c.getColumnIndex(bi.dbBranchId))?"":c.getString(c.getColumnIndex(bi.dbBranchId)));
+//            jsonObj.put(bi.dbID, c.getString(c.getColumnIndex(bi.dbID)));
+        }catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("getJsonObjectOrder ",e.getMessage());
+        }catch (Exception e){
+            Log.e("getJsonObjectOrder ",e.getMessage());
+        }
+        return jsonObj;
+    }
+    private JSONObject getJsonObjectBillDetail(Cursor c){
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put(bid.dbID, c.isNull(c.getColumnIndex(bid.dbID))?"":c.getString(c.getColumnIndex(bid.dbID)));
+            jsonObj.put(bid.dbBillId, c.isNull(c.getColumnIndex(bid.dbBillId))?"":c.getString(c.getColumnIndex(bid.dbBillId)));
+            jsonObj.put(bid.dbORderId, c.isNull(c.getColumnIndex(bid.dbORderId))?"":c.getString(c.getColumnIndex(bid.dbORderId)));
+            jsonObj.put(bid.dbLotID, c.isNull(c.getColumnIndex(bid.dbLotID))?"":c.getString(c.getColumnIndex(bid.dbLotID)));
+            jsonObj.put(bid.dbStatusVoid, c.isNull(c.getColumnIndex(bid.dbStatusVoid))?"":c.getString(c.getColumnIndex(bid.dbStatusVoid)));
+            jsonObj.put(bid.dbRow1, c.isNull(c.getColumnIndex(bid.dbRow1))?"":c.getString(c.getColumnIndex(bid.dbRow1)));
+            jsonObj.put(bid.dbFoodsId, c.isNull(c.getColumnIndex(bid.dbFoodsId))?"":c.getString(c.getColumnIndex(bid.dbFoodsId)));
+            jsonObj.put(bid.dbFoodsCode, c.isNull(c.getColumnIndex(bid.dbFoodsCode))?"":c.getString(c.getColumnIndex(bid.dbFoodsCode)));
+            jsonObj.put(bid.dbPrice, c.isNull(c.getColumnIndex(bid.dbPrice))?"":c.getString(c.getColumnIndex(bid.dbPrice)));
+            jsonObj.put(bid.dbQty, c.isNull(c.getColumnIndex(bid.dbQty))?"":c.getString(c.getColumnIndex(bid.dbQty)));
+            jsonObj.put(bid.dbAmt, c.isNull(c.getColumnIndex(bid.dbAmt))?"":c.getString(c.getColumnIndex(bid.dbAmt)));
+            jsonObj.put(bid.dbDateCreate, c.isNull(c.getColumnIndex(bid.dbDateCreate))?"":c.getString(c.getColumnIndex(bid.dbDateCreate)));
+            jsonObj.put(bid.dbDateModi, c.isNull(c.getColumnIndex(bid.dbDateModi))?"":c.getString(c.getColumnIndex(bid.dbDateModi)));
+            jsonObj.put(bid.dbActive, c.isNull(c.getColumnIndex(bid.dbActive))?"":c.getString(c.getColumnIndex(bid.dbActive)));
+            jsonObj.put(bid.dbRemark, c.isNull(c.getColumnIndex(bid.dbRemark))?"":c.getString(c.getColumnIndex(bid.dbRemark)));
+            jsonObj.put(bid.dbHostId, c.isNull(c.getColumnIndex(bid.dbHostId))?"":c.getString(c.getColumnIndex(bid.dbHostId)));
+            jsonObj.put(bid.dbBranchId, c.isNull(c.getColumnIndex(bid.dbBranchId))?"":c.getString(c.getColumnIndex(bid.dbBranchId)));
+            jsonObj.put(bid.dbBillCode, c.isNull(c.getColumnIndex(bid.dbBillCode))?"":c.getString(c.getColumnIndex(bid.dbBillCode)));
+            jsonObj.put(bid.dbTableId, c.isNull(c.getColumnIndex(bid.dbTableId))?"":c.getString(c.getColumnIndex(bid.dbTableId)));
+            jsonObj.put(bid.dbFoodsName, c.isNull(c.getColumnIndex(bid.dbFoodsName))?"":c.getString(c.getColumnIndex(bid.dbFoodsName)));
+        }catch (JSONException e) {
             e.printStackTrace();
             Log.e("getJsonObjectOrder ",e.getMessage());
         }catch (Exception e){
@@ -1061,6 +1130,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
     }
     public JSONArray BillDetailInsert(String billID,String LotId,String Qty,String FoodsCode,String FoodsName,
             String FoodsId,String Price,String Amt,String orderID,String row1,String FlagVoid){
+
         String sql="",err="", code1="",resID="", code="",year="",month="";
         JSONArray jarr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -1130,7 +1200,8 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
                 }
                 c1.close();
                 wheredate=" and order_date >= '"+date1+"' and order_date <= '"+date2+"'";
-                sql = "Select count(1) as cnt_order, sum(price*qty) as amount_order From t_order Where status_closeday <> '1' "+wheredate+" and active = '1'";
+                sql = "Select count(1) as cnt_order, sum(price*qty) as amount_order From t_order Where status_closeday = '2" +
+                        "' "+wheredate+"  and "+or.dbStatusBill+"='1'";
                 c2 = db.rawQuery(sql,null);
                 if(c2.moveToFirst()){
                     do {
@@ -1252,7 +1323,9 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         }
         return jsonObj;
     }
-    public JSONArray ClosedayInsert(String closedate){
+    public JSONArray ClosedayInsert(String id,String closedate, String resid, String amt, String discount, String total, String sc, String vat
+            ,String nettotal, String remark, String cntbill, String billamt, String cntorder, String amtorder, String closeuser, String cashr1, String cashr2
+            ,String cashr3, String cashd1, String cashd2, String cashd3, String cashr1r, String cashr2r, String cashr3r, String cashd1r, String cashd2r, String cashd3r, String weather){
         String sql="",err="", code1="",resID="", code="",year="",month="",date1="",date2="", wheredate="";
         JSONArray jarr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -1260,16 +1333,138 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         try{
             date1 = closedate+" 00:00:00";
             date2 = closedate+" 23:59:59";
-            $sql1 = "Insert into "da.tbNameCloseday+"("+cd.dbID+","+cd.dbCloseDayDate+","+cd.dbResId+","+cd.dbAmt+","+cd.dbDiscount+","+cd.dbTotal+","+cd.dbSC+","
+            sql = "Insert into "+da.tbNameCloseday+"("+cd.dbID+","+cd.dbCloseDayDate+","+cd.dbResId+","+cd.dbAmt+","+cd.dbDiscount+","+cd.dbTotal+","+cd.dbSC+","
                     +cd.dbVat+","+cd.dbNetTotal+","+cd.dbRemark+","+cd.dbActive+","+cd.dbStatusVoid+","+cd.dbVoidDate+","+cd.dbVoidUser+","+cd.dbCntBill+","+cd.dbAmtBill+","
-                    +cd.dbCntOrder+","+cd.dbAmtOrder+","+cd.CloseDayUser+","+cd.dbCashR1+","+cd.dbCashR2+","+cd.dbCashR3+","+cd.dbCashD1+","+cd.dbCashD2+","+cd.dbCashD3+","
+                    +cd.dbCntOrder+","+cd.dbAmtOrder+","+cd.dbCloseDayUser+","+cd.dbCashR1+","+cd.dbCashR2+","+cd.dbCashR3+","+cd.dbCashD1+","+cd.dbCashD2+","+cd.dbCashD3+","
                     +cd.dbCashR1Remark+","+cd.dbCashR2Remark+","+cd.dbCashR3Remark+","+cd.dbCashD1Remark+","+cd.dbCashD2Remark+","+cd.dbCashD3Remark+","+cd.dbWeather+")"
-                    +" Values ('".$_POST['closeday_id']."',now(),'".$_POST['res_id']."',".$_POST['amount'].",".$_POST['discount'].",".$_POST['total'].",".$_POST['sc'].","
-                    .$_POST['vat'].",".$_POST['nettotal'].",'".$_POST['remark']."','1','0','','',".$_POST['cnt_bill'].",".$_POST['bill_amount'].","
-                    .$_POST['cnt_order'].",".$_POST['amount_order'].",'".$_POST['closeday_user']."',".$_POST['cash_receive1'].",".$_POST['cash_receive2'].",".$_POST['cash_receive3'].",".$_POST['cash_draw1'].",".$_POST['cash_draw2'].",".$_POST['cash_draw3'].",'"
-                    .$_POST['cash_receive1_remark']."','".$_POST['cash_receive2_remark']."','".$_POST['cash_receive3_remark']."','".$_POST['cash_draw1_remark']."','".$_POST['cash_draw2_remark']."','".$_POST['cash_draw3_remark']."','".$_POST['weather']."')";
-        }catch (Exception e1) {
+                    +" Values ('"+id+"',"+gendate+",'"+resid+"',"+amt+","+discount+","+total+","+sc+","
+                    +vat+","+nettotal+",'"+remark+"','1','0','','',"+cntbill+","+billamt+","
+                    +cntorder+","+amtorder+",'"+closeuser+"',"+cashr1+","+cashr2+","+cashr3+","+cashd1+","+cashd2+","+cashd3+",'"
+                    +cashr1r+"','"+cashr2r+"','"+cashr3r+"','"+cashd1r+"','"+cashd2r+"','"+cashd3r+"','"+weather+"')";
+            db.execSQL(sql);
+            wheredate=" and bill_date >= '"+date1+"' and bill_date <= '"+date2+"'";
+            sql = "Update t_bill Set status_closeday ='1', closeday_id = '"+id+"' Where status_closeday ='0' "+wheredate ;
+            db.execSQL(sql);
+            wheredate=" and order_date >= '"+date1+"' and order_date <= '"+date2+"'";
+            sql = "Update t_order Set status_closeday ='1', closeday_id = '"+id+"' Where status_closeday ='0' "+wheredate ;
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.e("ClosedayInsert ",e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "insert BillDetail success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("BillDetailInsert 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray BillByTableID(String tableid, String billdate){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c,c1,c2;
+        String sql="",date1="",date2="", wheredate="";
+        date1 = billdate+" 00:00:00";
+        date2 = billdate+" 23:59:59";
+        sql="Select * From "+da.tbNameBill
+                +" Where "+bi.dbActive+" = '1' and table_id = '"+tableid+"' and bill_date >= '"+date1+"' and bill_date <= '"+date2+"' and "+bi.dbStatusCloseday + "<>'2' "
+                +" Order By bill_date";
+//        sql="Select * From "+da.tbNameBill
+////                +" Where "+bi.dbActive+" = '1' and table_id = '"+tableid+"' and bill_date >= '"+date1+"' and bill_date <= '"+date1+"' and "+bi.dbStatusCloseday + "<>'2' "
+//                +" Where "+bi.dbActive+" = '1'  and table_id = '"+tableid+"' and "+bi.dbStatusCloseday + "<>'2' and bill_date >= '"+date1+"' and bill_date <= '"+date1+"' "
+//                +" Order By bill_date";
+        try {
+            Log.d("BillByTableID ", "ok");
+            c = db.rawQuery(sql,null);
+            if(c.moveToFirst()){
+                do{
+                    jarr.put(getJsonObjectBill(c));
+                }while(c.moveToNext());
+            }
+        }catch (Exception e) {
+            Log.d("BillByTableID ", "ok");
+        }
 
+        return jarr;
+    }
+    public JSONArray BillDetailByBillCode(String billcode){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+        String sql="Select "+da.tbNameBillDetail+".*, b_foods.foods_name, t_bill.bill_code, t_bill.table_id "
+                +"From "+da.tbNameBillDetail+" left join "+da.tbNameFoods+" on "+da.tbNameBillDetail+".foods_id = b_foods.foods_id "
+                +" left join "+da.tbNameBill+" on t_bill.bill_id = "+da.tbNameBillDetail+".bill_id "
+                +"Where "+da.tbNameBillDetail+".active = '1' and t_bill.bill_code = '"+billcode+"' Order By t_bill_detail.row1";
+
+        try {
+            Log.d("BillDetailByBillCode ", "ok");
+            c = db.rawQuery(sql,null);
+            if(c.moveToFirst()){
+                do{
+                    jarr.put(getJsonObjectBillDetail(c));
+                }while(c.moveToNext());
+            }
+        }catch (Exception e) {
+            Log.d("BillDetailByBillCode ", "ok");
+        }
+        return jarr;
+    }
+    public JSONArray BillDetailByBillId(String billid){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c;
+        String sql="Select "+da.tbNameBillDetail+".*, b_foods.foods_name, t_bill.bill_code, t_bill.table_id "
+                +"From "+da.tbNameBillDetail+" left join "+da.tbNameFoods+" on "+da.tbNameBillDetail+".foods_id = b_foods.foods_id "
+                +" left join "+da.tbNameBill+" on t_bill.bill_id = "+da.tbNameBillDetail+".bill_id "
+                +"Where "+da.tbNameBillDetail+".active = '1' and t_bill.bill_id = '"+billid+"' Order By t_bill_detail.row1";
+
+        try {
+            Log.d("BillDetailByBillCode ", "ok");
+            c = db.rawQuery(sql,null);
+            if(c.moveToFirst()){
+                do{
+                    jarr.put(getJsonObjectBillDetail(c));
+                }while(c.moveToNext());
+            }
+        }catch (Exception e) {
+            Log.d("BillDetailByBillCode ", "ok");
+        }
+        return jarr;
+    }
+    public JSONArray BillVoid(String billid,String user){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameBill+" Set "+bi.dbActive+" = '3', "+bi.dbStatusVoid+" = '1', "+bi.dbVoidUser+" = '"+user+"', "+bi.VoidDate+" = "+gendate+" Where "+bi.dbID+" = '"+billid+"' ";
+            db.execSQL(sql);
+            sql="Update "+da.tbNameOrder+" Set "+or.dbStatusBill+" ='1' Where "+or.dbBillId+" ='"+billid+"'";
+            db.execSQL(sql);
+
+        }catch (Exception e) {
+            Log.d("BillVoid 1 ", "ok");
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "insert BillDetail success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("BillVoid 2 ",e.getMessage());
+            err=e.getMessage();
         }
         return jarr;
     }

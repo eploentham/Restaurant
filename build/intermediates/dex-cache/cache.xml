@@ -48,6 +48,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\ekapop\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
+        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.1.1_0d9f48c8fb80c6830b06cfb544e774e56d1329d6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\source\Restaurant\app\build\intermediates\exploded-aar\com.hrules\horizontalnumberpicker\1.1.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -106,7 +115,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="4fc87e18a63272200b2462b17a648feb1dc753d6">
+        sha1="1272197e95b9e2d13a3afd3241f66aa5ea872812">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_c0db1b17eca5d9bd91ce27616160df8ad11d5f43\classes.dex" />
     </item>
     <item
@@ -160,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="65df6d5c043c71370c84e97891a82037fe676f72">
+        sha1="3e75ba73088fdd674df1c996e8b2c7d7bd576201">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_40b267fd9b95d8d112977f5cda0d8a1a1479ddb7\classes.dex" />
     </item>
     <item
@@ -180,15 +189,6 @@
         revision="24.0.1"
         sha1="1256c10604bb098490eab070d76754ac5ceab35c">
         <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.1.1_83ca021c14caf20ebe22a8ca38f446409c89d652\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\ekapop\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
-        <dex dex="C:\source\Restaurant\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.1.1_5b8dbe9657c6e8f62f625b21068581e4022cf6aa\classes.dex" />
     </item>
     <item
         is-multidex="true"

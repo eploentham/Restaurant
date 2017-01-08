@@ -142,7 +142,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         lbCaCashDraw1.setText(R.string.CashDraw1);
         lbCaCashDraw2.setText(R.string.CashDraw2);
         lbCaCashDraw3.setText(R.string.CashDraw3);
-        lbCaCloseDayDate.setText("ไม่ระบุวัยที่");
+        lbCaCloseDayDate.setText("ระบุวันที่");
         btnCaSave.setText(R.string.save);
         btnCaVoid.setText(R.string.void1);
         chkCaActive.setChecked(true);
@@ -221,15 +221,16 @@ public class CloseDayAddActivity extends AppCompatActivity {
                         }).create().show();
                     }else{
                         if(rs.chkPasswordCloseDay(txtCaUserPassword.getText().toString())){
+                            setCloseDay();
                             if(rs.AccessMode.equals("Standalone")) {
-                                setCloseDay();
-
+                                Log.d("cd.ID ",cd.ID);
+                                jaCa = daS.ClosedayInsert(cd.ID,cd.CloseDayDate, cd.ResId,cd.Amt,cd.Discount,cd.Total,cd.SC,cd.Vat,cd.NetTotal,cd.Remark,cd.CntBill
+                                        ,cd.Amt,cd.CntOrder,cd.AmtOrder,cd.CloseDayUser,cd.CashR1,cd.CashR2,cd.CashR3,cd.CashD1,cd.CashD2,cd.CashD3
+                                        ,cd.CashR1Remark,cd.CashR2Remark,cd.CashR3Remark,cd.CashD1Remark,cd.CashD2Remark,cd.CashD3Remark,cd.Weather);
                                 getClosedayInsert();
                             }else if(rs.AccessMode.equals("Internet")){
-                                setCloseDay();
                                 new retrieveCloseDayInsert().execute();
                             }else{
-                                setCloseDay();
                                 new retrieveCloseDayInsert().execute();
                             }
 
@@ -376,10 +377,17 @@ public class CloseDayAddActivity extends AppCompatActivity {
 //        lbCaAmt.setTextSize(textSize);
     }
     private void setCloseDay(){
+        String id = UUID.randomUUID().toString();
+        String month1="", day1="";
+        month1 = "00"+(month+1);
+        month1 = month1.substring(month1.length()-2);
+        day1 = "00"+day;
+        day1 = day1.substring(day1.length()-2);
         cd = new CloseDay();
         cd.Active="";
         cd.Amt = txtCaAmt.getText().toString();
         cd.AmtOrder = "0.0";
+        cd.ID = id;
         cd.CashD1 = rs.chkNumber(txtCaCashDraw1.getText().toString());
         cd.CashD1Remark = txtCaCashDraw1Remark.getText().toString();
         cd.CashD2 = rs.chkNumber(txtCaCashDraw2.getText().toString());
@@ -392,13 +400,13 @@ public class CloseDayAddActivity extends AppCompatActivity {
         cd.CashR2Remark = txtCaCashReceive2Remark.getText().toString();
         cd.CashR3 = rs.chkNumber(txtCaCashReceive3.getText().toString());
         cd.CashR3Remark = txtCaCashReceive3Remark.getText().toString();
-        cd.CloseDayDate = year+"-"+(month+1)+"-"+day;
-        cd.CloseDayUser = txtCaUserPassword.getText().toString();
+        cd.CloseDayDate = year+"-"+month1+"-"+day1;
+        cd.CloseDayUser = rs.chkUserByPassword(txtCaUserPassword.getText().toString());
         cd.Cnt = rs.chkNumber(lbCaCntBill.getText().toString().replace("จำนวนบิล",""));
         cd.CntOrder = rs.chkNumber(lbCaCntOrder.getText().toString());
         cd.CntBill = rs.chkNumber(lbCaCntBill.getText().toString().replace("จำนวนบิล",""));
         cd.Discount = txtCaDiscount.getText().toString();
-        cd.ID = ID;
+//        cd.ID = ID;
         cd.NetTotal = txtCaNetTotal.getText().toString();
         cd.Remark = txtCaRemark.getText().toString();
         cd.ResId = rs.getRes(cboCaRes.getSelectedItem().toString(),"genid");
@@ -513,11 +521,10 @@ public class CloseDayAddActivity extends AppCompatActivity {
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
 //            try {+
-            String id = UUID.randomUUID().toString();
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
-            params.add(new BasicNameValuePair(cd.dbID, id));
+            params.add(new BasicNameValuePair(cd.dbID, cd.ID));
             params.add(new BasicNameValuePair(cd.dbCloseDayDate, cd.CloseDayDate));
             params.add(new BasicNameValuePair(cd.dbResId, cd.ResId));
             params.add(new BasicNameValuePair(cd.dbAmt, cd.Amt));

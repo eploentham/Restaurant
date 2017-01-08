@@ -67,6 +67,8 @@ public class BillVoidActivity extends AppCompatActivity {
     int textSize=20;
     String ab;
     Boolean pageLoad=false, pageTxtSearch =false;
+    DatabaseSQLi daS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,7 @@ public class BillVoidActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        daS = new DatabaseSQLi(this,"");
 
         ArrayAdapter<String> adaArea = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboArea);
         cboBvArea.setAdapter(adaArea);
@@ -103,7 +106,16 @@ public class BillVoidActivity extends AppCompatActivity {
                 if(!pageLoad){
                     String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
                     String areacode = rs.getArea(cboBvArea.getSelectedItem().toString(),"code");
-                    new retrieveOrderByTable().execute(tableid);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String currentDate = sdf .format(new Date());
+                    if(rs.AccessMode.equals("Standalone")) {
+                        jarrBv = daS.BillByTableID(tableid,currentDate);
+                        setlvBill();
+                    }else if(rs.AccessMode.equals("Internet")){
+                        new retrieveOrderByTable().execute(tableid,currentDate);
+                    }else{
+                        new retrieveOrderByTable().execute(tableid,currentDate);
+                    }
 //                    pageLoad=true;
                 }
             }
@@ -117,13 +129,19 @@ public class BillVoidActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                txtBvBillCode.setFocusable(false);
-                new retrieveOrderByBillCode().execute(txtBvBillCode.getText().toString());
-//                btnBvVoid.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(getContentView().getWindowToken(), 0);
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(txtBvBillCode.getWindowToken(), 0);
+                if(rs.AccessMode.equals("Standalone")) {
+                    jarrOv = daS.BillDetailByBillCode(txtBvBillCode.getText().toString());
+                    setlvBillShowOrder();
+                }else if(rs.AccessMode.equals("Internet")){
+                    new retrieveOrderByBillCode().execute(txtBvBillCode.getText().toString());
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(txtBvBillCode.getWindowToken(), 0);
+                }else{
+                    new retrieveOrderByBillCode().execute(txtBvBillCode.getText().toString());
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(txtBvBillCode.getWindowToken(), 0);
+                }
+
             }
         });
         btnBvVoid.setOnClickListener(new View.OnClickListener() {
@@ -149,8 +167,18 @@ public class BillVoidActivity extends AppCompatActivity {
                     }else{
                         if(rs.chkPasswordVoid(txtBvPassword.getText().toString())){
 //                            String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
-                            new retrieveBillVoid().execute(rs.chkUserByPassword(txtBvPassword.getText().toString()), bill.ID);
-                            setTable(rs.getTableToName(bill.TableId,"idtocode"));
+                            if(rs.AccessMode.equals("Standalone")) {
+                                jarrBv1 = daS.BillVoid(rs.chkUserByPassword(txtBvPassword.getText().toString()), bill.ID);
+                                getBillVoid();
+                                setTable(rs.getTableToName(bill.TableId,"idtocode"));
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new retrieveBillVoid().execute(rs.chkUserByPassword(txtBvPassword.getText().toString()), bill.ID);
+                                setTable(rs.getTableToName(bill.TableId,"idtocode"));
+                            }else{
+                                new retrieveBillVoid().execute(rs.chkUserByPassword(txtBvPassword.getText().toString()), bill.ID);
+                                setTable(rs.getTableToName(bill.TableId,"idtocode"));
+                            }
+
                         }else{
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
                             builder1.setMessage("Password ไม่ถูกต้อง");
@@ -198,12 +226,20 @@ public class BillVoidActivity extends AppCompatActivity {
         lvBvBill.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(pageLoad){
+                if(!pageLoad){
                     String[] txt = ((TextView)view).getText().toString().split(" ");
 //                bill = new Bill();
                     bill = lBill.get(i);
                     txtBvBillCode.setText(txt[1]);
-                    new retrieveOrderByBillId().execute(bill.ID);
+                    if(rs.AccessMode.equals("Standalone")) {
+                        jarrOv = daS.BillDetailByBillId(bill.ID);
+                        setlvBillShowOrder();
+                    }else if(rs.AccessMode.equals("Internet")){
+                        new retrieveOrderByBillId().execute(bill.ID);
+                    }else{
+                        new retrieveOrderByBillId().execute(bill.ID);
+                    }
+
                 }
             }
         });
@@ -428,48 +464,7 @@ public class BillVoidActivity extends AppCompatActivity {
             String a = ab;
 //            setlvBill();
             pd.dismiss();
-            for(int i=0;i<jarrBv1.length();i++){
-                try {
-                    JSONObject catObj = (JSONObject) jarrBv1.get(i);
-                    Log.d("retrieveBillVoid", catObj.getString("status"));
-                    if(catObj.getString("status").equals("3")){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
-                        builder1.setMessage("Password ไม่๔ุกต้อง");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                txtBvPassword.setSelection(0,txtBvPassword.getText().length());
-                                txtBvPassword.setFocusable(true);
-                            }
-                        }).create().show();
-                    }else if(catObj.getString("status").equals("1")){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
-                        builder1.setMessage("ทำการยกเลิก เรียบร้อย");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                txtBvPassword.setSelection(0,txtBvPassword.getText().length());
-                                txtBvPassword.setFocusable(false);
-                            }
-                        }).create().show();
-                    }else{
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
-                        builder1.setMessage("ทำการยกเลิกไม่สำเร็จ");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                txtBvPassword.setSelection(0,txtBvPassword.getText().length());
-                                txtBvPassword.setFocusable(true);
-                            }
-                        }).create().show();
-                    }
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
+            getBillVoid();
         }
         @Override
         protected void onPreExecute() {
@@ -486,6 +481,50 @@ public class BillVoidActivity extends AppCompatActivity {
         }
     }
 
+    private void getBillVoid(){
+        for(int i=0;i<jarrBv1.length();i++){
+            try {
+                JSONObject catObj = (JSONObject) jarrBv1.get(i);
+                Log.d("retrieveBillVoid", catObj.getString("status"));
+                if(catObj.getString("status").equals("3")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
+                    builder1.setMessage("Password ไม่๔ุกต้อง");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtBvPassword.setSelection(0,txtBvPassword.getText().length());
+                            txtBvPassword.setFocusable(true);
+                        }
+                    }).create().show();
+                }else if(catObj.getString("status").equals("1")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
+                    builder1.setMessage("ทำการยกเลิก เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtBvPassword.setSelection(0,txtBvPassword.getText().length());
+                            txtBvPassword.setFocusable(false);
+                        }
+                    }).create().show();
+                }else{
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
+                    builder1.setMessage("ทำการยกเลิกไม่สำเร็จ");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            txtBvPassword.setSelection(0,txtBvPassword.getText().length());
+                            txtBvPassword.setFocusable(true);
+                        }
+                    }).create().show();
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
     private void setlvBill(){
         lvBvBill.setBackgroundColor(getResources().getColor(R.color.BackScreenSearch));
 //        lvMOrder.setBackgroundColor(getResources().getColor(R.color.BackScreenSearch));
@@ -535,6 +574,7 @@ public class BillVoidActivity extends AppCompatActivity {
         lOrder.clear();
         arrayList.clear();
         Double amt=0.0, total=0.0;
+        if(jarrOv==null) return;
         Log.d("jarrOv.length()",String.valueOf(jarrOv.length()));
         for(int i=0;i<jarrOv.length();i++){
             try {
