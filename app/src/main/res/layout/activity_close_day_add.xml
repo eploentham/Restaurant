@@ -419,7 +419,7 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
+            android:inputType="numberPassword"
             android:ems="5"
             android:id="@+id/txtCaPasswordVoid"
             android:layout_gravity="center"

@@ -82,6 +82,7 @@ class Order
 {
 	var $id, $foodsid, $orderdate, $price, $qty, $remark, $lotid, $rescode, $tablecode, $deviceid, $areacode, $active, $statusfoods1,$foodscode,$foodsname,$cntcust;
 	var $statusfoods2,$statusfoods3,$statusbill,$billcheckdate,$statuscook,$cookreceivedate,$cookfinishdate,$statusvoid,$voiddate,$table,$pkfield,$statustogo,$datecreate,$datemodi;
+	var $hostid;
 	function __construct()
 	{
 		# code...
@@ -95,6 +96,7 @@ class Order
 		$rescode="";
 		$tablecode="";
 		$deviceid="";
+		$hostid="";
 		$areacode="";
 		$active="";
 		$statusfoods1="";

@@ -9,103 +9,128 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nakoyagarden.ekapop.restaurant.FoodsTypeAddActivity">
 
-    <GridLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
+        android:layout_height="wrap_content"
+        android:id="@+id/layout1"
+        android:gravity="top">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFtaCode"
-            android:layout_row="0"
-            android:layout_column="0" />
+            android:id="@+id/lbFtaCode" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtFtaCode"
-            android:ems="10"
-            android:layout_row="0"
-            android:layout_column="1" />
-
+            android:ems="10" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout2"
+        android:layout_below="@id/layout1">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFtaName"
-            android:layout_row="1"
-            android:layout_column="0" />
+            android:id="@+id/lbFtaName"/>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtFtaName"
-            android:ems="10"
-            android:layout_row="1"
-            android:layout_column="1" />
-
+            android:ems="10" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout3"
+        android:layout_below="@id/layout2">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFtaRemark"
-            android:layout_row="2"
-            android:layout_column="0" />
+            android:id="@+id/lbFtaRemark" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtFtaRemark"
-            android:ems="10"
-            android:layout_row="2"
-            android:layout_column="1" />
-
+            android:ems="10" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout4"
+        android:layout_below="@id/layout3">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFtaActive"
-            android:layout_row="3"
-            android:layout_column="0" />
+            android:id="@+id/lbFtaActive" />
 
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Switch"
-            android:id="@+id/chkFtaActive"
-            android:layout_row="3"
-            android:layout_column="1" />
-
+            android:id="@+id/chkFtaActive" />
+        <EditText
+            android:inputType="numberPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtFtaPasswordVoid"
+            android:ems="5"
+            android:layout_gravity="left"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnFtaVoid"
+            android:layout_gravity="left"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout5"
+        android:layout_below="@id/layout4">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFtaSort1"
-            android:layout_row="4"
-            android:layout_column="0" />
+            android:id="@+id/lbFtaSort1" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtFtaSort1"
-            android:ems="10"
-            android:layout_row="4"
-            android:layout_column="1" />
-
+            android:ems="10" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout6"
+        android:layout_below="@id/layout5">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/btnFtaSave"
-            android:layout_row="5"
-            android:layout_column="1" />
-    </GridLayout>
+            android:id="@+id/btnFtaSave" />
+    </LinearLayout>
+
+
+
+
 </RelativeLayout>

@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".RestaurantControl"
@@ -48,7 +49,8 @@
         <activity android:name=".UserAddActivity" />
         <activity android:name=".UserViewActivity" />
         <activity android:name=".Initial2Activity" />
-        <activity android:name=".FirstResActivity"></activity>
+        <activity android:name=".FirstResActivity" />
+        <activity android:name=".TableChangeActivity"></activity>
     </application>
 
 </manifest>

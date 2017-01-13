@@ -143,10 +143,10 @@ public class AreaViewActivity extends AppCompatActivity {
     private void setLvArea(){
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
+            //jarrR = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
             //jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
             if(jarrR!=null){
-                //jarrF =  new JSONArray(rs.jarrR);
+                //jarrR =  new JSONArray(rs.jarrR);
                 arrayList = new ArrayList<String>();
                 //JSONArray categories = jobj.getJSONArray("area");
                 //JSONArray json = new JSONArray(jobj);

@@ -2,6 +2,7 @@ package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.AlertDialog;
 import android.app.LocalActivityManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -66,7 +67,7 @@ public class BillAddActivity extends AppCompatActivity {
     String[] prn ;
     Integer row1=0, rowDel=0;
     String lotID="";
-    int textSize=20,textSize1=18, row=0, insertErr=0, insertSucc=0, insertSuccB=0;
+    int textSize=20,textSize1=18, row=0, insertErr=0, insertSucc=0, insertSuccB=0,rowInsert=0;
     String ab;
     private ArrayAdapter<String> alvBaOrder;
     ArrayList<ItemData> listTable=new ArrayList<>();
@@ -75,7 +76,7 @@ public class BillAddActivity extends AppCompatActivity {
     DatabaseSQLi daS;
     Bill bi = new Bill();
     BillDetail bid = new BillDetail();
-
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +126,7 @@ public class BillAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
         daS = new DatabaseSQLi(this,"");
+        pd = new ProgressDialog(BillAddActivity.this);
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         //ArrayAdapter<String> adaTable = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,rs.sCboTable);
@@ -184,17 +186,20 @@ public class BillAddActivity extends AppCompatActivity {
                         }).create().show();
                     }else{
                         if(rs.chkPasswordBill(txtBaUserPassword.getText().toString())){
-                            String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"genid");
+                            btnBaSave.setEnabled(false);
+                            txtBaUserPassword.setText("");
+                            String tableid = rs.getTable(cboBaTable.getSelectedItem().toString(),"id");
                             String tablecode = rs.getTable(cboBaTable.getSelectedItem().toString(),"code");
-                            String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"genid");
+                            String areaid = rs.getArea(cboBaArea.getSelectedItem().toString(),"id");
                             String deviceid = "";
                             String user = rs.chkUserByPassword(txtBaUserPassword.getText().toString());
                             String billID = UUID.randomUUID().toString();
                             row = lOrderT.size();
+                            pd.setMax(lOrderT.size());
                             if(rs.AccessMode.equals("Standalone")) {
                                 jarr = daS.BillInsert(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
                                         lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
-                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user,"");
+                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user,"",rs.HostID);
                                 getBillInsert();
                                 for(int i=0;i<lOrderT.size();i++){
                                     Order ord = (Order)lOrderT.get(i);
@@ -204,7 +209,7 @@ public class BillAddActivity extends AppCompatActivity {
                             }else if(rs.AccessMode.equals("Internet")){
                                 new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
                                         lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
-                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
+                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user, rs.imei,rs.HostID);
                                 for(int i=0;i<lOrderT.size();i++){
                                     Order ord = (Order)lOrderT.get(i);
                                     new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
@@ -212,7 +217,7 @@ public class BillAddActivity extends AppCompatActivity {
                             }else{
                                 new insertBill().execute(tableid,areaid, deviceid,lbBaDiscount1.getText().toString(),lbBaAmt1.getText().toString(), lbBaSC1.getText().toString(),
                                         lbBaVat1.getText().toString(),lbBaTotal1.getText().toString(),lbBaNetTotal1.getText().toString(),billID,
-                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user);
+                                        txtBaCashReceive.getText().toString(),txtBaCashTon.getText().toString(),user, rs.imei,rs.HostID);
                                 for(int i=0;i<lOrderT.size();i++){
                                     Order ord = (Order)lOrderT.get(i);
                                     new insertBillDetail().execute(billID,ord.LotId,ord.Qty, ord.FoodsCode, ord.FoodsName,ord.FoodsId,ord.Price, ord.Amt, ord.ID,String.valueOf(i+1),ord.FlagVoid);
@@ -545,7 +550,7 @@ public class BillAddActivity extends AppCompatActivity {
             //params.add(new BasicNameValuePair("table_code",tableCode));
             jarrBa = jsonparser.getJSONFromUrl(rs.hostOrderByTableCode,params);
 
-            //rs.jarrF = jarrF.toString();
+            //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -590,6 +595,8 @@ public class BillAddActivity extends AppCompatActivity {
                 params.add(new BasicNameValuePair(bi.dbCashReceive, arg0[10].equals("")?"0.0":arg0[10]));
                 params.add(new BasicNameValuePair(bi.dbCashTon, arg0[11].equals("")?"0.0":arg0[11]));
                 params.add(new BasicNameValuePair(bi.dbBillUser, arg0[12]));
+                params.add(new BasicNameValuePair(bi.dbDeviceId, arg0[13]));
+                params.add(new BasicNameValuePair(bi.dbHostId, arg0[14]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostBillInsert, params);
             return ab;
@@ -599,10 +606,20 @@ public class BillAddActivity extends AppCompatActivity {
             String aaa = ab;
             //new retrieveFoods1().execute();
             getBillInsert();
+//            pd.dismiss();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+//            pd = new ProgressDialog(BillAddActivity.this);
+//            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//            pd.setTitle("Loading...");
+//            pd.setMessage("Save Order ...");
+//            pd.setCancelable(false);
+//            pd.setIndeterminate(false);
+//            pd.setMax(100);
+//            pd.setProgress(0);
+//            pd.show();
         }
     }
     private void getBillInsert(){
@@ -657,11 +674,22 @@ public class BillAddActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String ab){
+            pd.setProgress(rowInsert++);
             getBillDetailInsert();
         }
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+            if(!pd.isShowing()){
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setTitle("Saveing...");
+                pd.setMessage("Save Bill ...");
+                pd.setCancelable(false);
+                pd.setIndeterminate(false);
+//                pd.setMax(100);
+                pd.setProgress(0);
+                pd.show();
+            }
         }
     }
     private void getBillDetailInsert(){
@@ -680,6 +708,7 @@ public class BillAddActivity extends AppCompatActivity {
         }
 //            if(((insertSucc+insertErr)==row) && insertSuccB==1){
         if(((insertSucc+insertErr)==row)){
+            pd.dismiss();
             AlertDialog.Builder builder1 = new AlertDialog.Builder(BillAddActivity.this);
             builder1.setMessage("บันทึกข้อมูล ทั้งหมก"+(insertSucc+insertErr)+"รายการ เรียบร้อย");
             builder1.setCancelable(true);

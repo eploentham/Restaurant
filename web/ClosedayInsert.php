@@ -50,31 +50,40 @@ $cd->table="t_closeday";
 //" value ('".$f->id."','".$f->code."','".$f->name."','".$f->active."','".$f->foodstypeid."','".$f->remark."')";
 //$sql = "Insert into ".$or->table."(".$or->id.",".$or->foodsid.",".$or->orderdate.",".$or->price.",".$or->qty.",".$or->remark.")".
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
-$sql1 = "Insert into ".$cd->table."(".$cd->id.",".$cd->closeday_date.",".$cd->res_id.",".$cd->amount.",".$cd->discount.",".$cd->total.",".$cd->service_charge.","
+$sql = "Insert into ".$cd->table."(".$cd->id.",".$cd->closeday_date.",".$cd->res_id.",".$cd->amount.",".$cd->discount.",".$cd->total.",".$cd->service_charge.","
 .$cd->vat.",".$cd->nettotal.",".$cd->remark.",".$cd->active.",".$cd->status_void.",".$cd->void_date.",".$cd->void_user.",".$cd->cnt_bill.",".$cd->bill_amount.","
 .$cd->cnt_order.",".$cd->amount_order.",".$cd->closeday_user.",".$cd->cash_receive1.",".$cd->cash_receive2.",".$cd->cash_receive3.",".$cd->cash_draw1.",".$cd->cash_draw2.",".$cd->cash_draw3.","
-.$cd->cash_receive1_remark.",".$cd->cash_receive2_remark.",".$cd->cash_receive3_remark.",".$cd->cash_draw1_remark.",".$cd->cash_draw2_remark.",".$cd->cash_draw3_remark.",".$bi->weather.")".
-" value ('".$_POST['closeday_id']."',now(),'".$_POST['res_id']."',".$_POST['amount'].",".$_POST['discount'].",".$_POST['total'].",".$_POST['sc'].","
+.$cd->cash_receive1_remark.",".$cd->cash_receive2_remark.",".$cd->cash_receive3_remark.",".$cd->cash_draw1_remark.",".$cd->cash_draw2_remark.",".$cd->cash_draw3_remark.",".$cd->weather.")".
+" value ('".$_POST['closeday_id']."',now(),'".$_POST['res_id']."',".$_POST['amount'].",".$_POST['discount'].",".$_POST['total'].",".$_POST['service_charge'].","
 .$_POST['vat'].",".$_POST['nettotal'].",'".$_POST['remark']."','1','0','','',".$_POST['cnt_bill'].",".$_POST['bill_amount'].","
 .$_POST['cnt_order'].",".$_POST['amount_order'].",'".$_POST['closeday_user']."',".$_POST['cash_receive1'].",".$_POST['cash_receive2'].",".$_POST['cash_receive3'].",".$_POST['cash_draw1'].",".$_POST['cash_draw2'].",".$_POST['cash_draw3'].",'"
 .$_POST['cash_receive1_remark']."','".$_POST['cash_receive2_remark']."','".$_POST['cash_receive3_remark']."','".$_POST['cash_draw1_remark']."','".$_POST['cash_draw2_remark']."','".$_POST['cash_draw3_remark']."','".$_POST['weather']."')";
-$objQuery = mysql_query($sql1);
+$objQuery = mysql_query($sql);
+$ok="";
+$err="";
+if(!$objQuery){
+    $ok="0";
+    $err= mysql_error();
+}else{
+    $ok="1";
+}
 
 $wheredate=" and bill_date >= '".$date1."' and bill_date <= '".$date2."'";
-$sql = "Update t_bill Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
-$objQuery = mysql_query($sql);
+$sql1 = "Update t_bill Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
+$objQuery = mysql_query($sql1);
 
 $wheredate=" and order_date >= '".$date1."' and order_date <= '".$date2."'";
-$sql = "Update t_order Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
-$objQuery = mysql_query($sql);
+$sql2 = "Update t_order Set status_closeday ='1', closeday_id = '".$_POST['closeday_id']."' Where status_closeday ='0' ".$wheredate ;
+$objQuery = mysql_query($sql2);
 
 mysql_close($objConnect);
 
 $response = array();
 $resultArray = array();
-$response["success"] = 1;
+$response["success"] = $ok;
 $response["message"] = "insert Closeday success";
 $response["sql"] = $sql;
+$response["error"] = $err;
 //$response["close"] = $code1;
 array_push($resultArray,$response);
 echo json_encode($resultArray);

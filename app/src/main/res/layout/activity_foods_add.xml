@@ -8,153 +8,175 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nakoyagarden.ekapop.restaurant.FoodsAddActivity">
-
-    <GridLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
+        android:layout_height="wrap_content"
+        android:id="@+id/layout0"
+        android:gravity="top">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFoodsCode"
-            android:layout_row="0"
-            android:layout_column="0" />
+            android:id="@+id/lbFaResCode"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboFaFoodsRes"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout1"
+        android:layout_below="@id/layout0">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbFaFoodsCode" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtFoodsCode"
-            android:ems="5"
-            android:layout_row="0"
-            android:layout_column="1" />
-
+            android:id="@+id/txtFaFoodsCode"
+            android:ems="5"/>
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout2"
+        android:layout_below="@id/layout1">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFoodsName"
-            android:layout_row="1"
-            android:layout_column="0" />
+            android:id="@+id/lbFaFoodsName"/>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtFoodsName"
-            android:ems="10"
-            android:layout_row="1"
-            android:layout_column="1" />
-
+            android:id="@+id/txtFaFoodsName"
+            android:ems="10"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout3"
+        android:layout_below="@id/layout2">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/lbFoodsPrice"
-            android:layout_row="2"
-            android:layout_column="0" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/lbFoodsRemark"
-            android:layout_row="3"
-            android:layout_column="0" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtFoodsRemark"
-            android:ems="10"
-            android:layout_row="3"
-            android:layout_column="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/lbResCode"
-            android:layout_row="4"
-            android:layout_column="0" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cboFoodsRes"
-            android:layout_row="4"
-            android:layout_column="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/lbFaFoodsType"
-            android:layout_row="5"
-            android:layout_column="0" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cboFaFoodsType"
-            android:layout_row="5"
-            android:layout_column="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/lbFaPrinter"
-            android:layout_row="6"
-            android:layout_column="0" />
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cboFaPrinter"
-            android:layout_row="6"
-            android:layout_column="1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/lbActive"
-            android:layout_row="7"
-            android:layout_column="0" />
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Switch"
-            android:id="@+id/chkFoodsActive"
-            android:layout_row="7"
-            android:layout_column="1" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/btnFoodsSave"
-            android:layout_row="8"
-            android:layout_column="1" />
-
+            android:id="@+id/lbFaFoodsPrice"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="10"
-            android:id="@+id/txtFoodsPrice"
-            android:layout_row="2"
-            android:layout_column="1" />
-    </GridLayout>
+            android:id="@+id/txtFaFoodsPrice"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout4"
+        android:layout_below="@id/layout3">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbFaFoodsRemark" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtFaFoodsRemark"
+            android:ems="10"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout5"
+        android:layout_below="@id/layout4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbFaFoodsType" />
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboFaFoodsType"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout6"
+        android:layout_below="@id/layout5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbFaPrinter"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboFaPrinter"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout7"
+        android:layout_below="@id/layout6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbFooActive"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Switch"
+            android:id="@+id/chkFoodsActive"/>
+        <EditText
+            android:inputType="numberPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtFooPasswordVoid"
+            android:ems="5"
+            android:layout_gravity="left"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnFooVoid"
+            android:layout_gravity="left"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout8"
+        android:layout_below="@id/layout7">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnFoodsSave"/>
+    </LinearLayout>
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -74,14 +75,15 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
     Table ta = new Table();
     String ab, Code="";
     Integer row1=0;
-    Boolean pageLoad=false, pageLoadFromlvmClick=false, pageSearchFoods=true,flagDel=false;
+    Boolean pageLoad=false, pageLoadFromlvmClick=false, pageSearchFoods=true,flagDel=false, flagSave=false;
     String lotID="";
-    int textSize=20,textSize1=18, row=0,rowDel=0, insertErr=0, insertSucc=0;
+    int textSize=20,textSize1=18, row=0,rowDel=0, insertErr=0, insertSucc=0,rowInsert=0;
     ArrayList<ItemData> listTable=new ArrayList<>();
 //    private Printer mPrinter = null;
 //    private Context mContext = null;
 //    MainActivity ma;
     DatabaseSQLi daS;
+    ProgressDialog pd ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
 
         RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.layout_mailarap_order);
         linearLayout.setBackgroundColor(getResources().getColor(R.color.BackScreenMailarap));
+
+        pd = new ProgressDialog(MailarapOrderAdd.this);
 
         cboTable = (Spinner)findViewById(R.id.cboMailarapTable);
         cboArea = (Spinner)findViewById(R.id.cboMailarapArea);
@@ -227,6 +231,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                     }).create().show();
                 }else{
                     if(rs.chkPasswordOrder(txtMPassword.getText().toString())){
+                        btnMSave.setEnabled(false);
+                        txtMPassword.setText("");
                         String lotID = UUID.randomUUID().toString();
                         String areacode = rs.getArea(cboArea.getSelectedItem().toString(),"code");
                         String tablecode = rs.getTable(cboTable.getSelectedItem().toString(),"code");
@@ -237,18 +243,23 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                         String[] prn = new String[lorder.size()];
                         String user = rs.chkUserByPassword(txtMPassword.getText().toString());
                         row = lorder.size();
+                        flagSave=true;
+                        pd.setMax(lorder.size());
                         for(int i=0;i<lorder.size();i++){
                             Order ord = (Order)lorder.get(i);
                             if(rs.AccessMode.equals("Standalone")) {
                                 jarr = daS.OrderInsert(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId,
+                                        ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()),rs.imei,rs.HostID);
                                 chkInsert();
                             }else if(rs.AccessMode.equals("Internet")){
                                 new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId
+                                        , ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()),rs.imei,rs.HostID);
                             }else{
                                 new insertOrder().execute(String.valueOf(i+1),lotID, areacode,tablecode,ord.Qty, ord.FoodsCode,
-                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId, ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()));
+                                        ord.FoodsName,ord.Remark,ord.ResCode, ord.Price, ord.PrinterName, ord.FoodsId
+                                        , ord.StatusToGo,user,tableid, String.valueOf(txtMCntCust.getValue()),rs.imei,rs.HostID);
                             }
 
 //                    pOE.runPrintReceiptSequenceEpson(cboArea.getSelectedItem().toString(),cboTable.getSelectedItem().toString(), ord.FoodsName,ord.Qty,ord.Remark);
@@ -722,7 +733,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
 
-            //rs.jarrF = jarrF.toString();
+            //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -748,9 +759,9 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair(foo.dbCode,Code));
-            //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByCode,params);
+            //jarrR = jsonparser.getJSONFromUrl(rs.hostSelectFoodsByCode,params);
             jarrF = jsonparser.getJSONFromUrl(rs.hostFoodsSearch,params);
-            //rs.jarrF = jarrF.toString();
+            //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -821,6 +832,8 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
                 params.add(new BasicNameValuePair(or.dbStatusToGo, arg0[12]));
                 params.add(new BasicNameValuePair(or.dbOrderUser, arg0[13]));
                 params.add(new BasicNameValuePair(or.dbTableId, arg0[14]));
+                params.add(new BasicNameValuePair(or.dbDeviceId, arg0[16]));
+                params.add(new BasicNameValuePair(or.dbHostId, arg0[17]));
                 params.add(new BasicNameValuePair(or.dbCntCust, arg0[15].equals("")?"1":arg0[15]));
 
                 jarr = jsonparser.getJSONFromUrl(rs.hostSaveOrder, params);
@@ -844,8 +857,9 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         @Override
         protected void onPostExecute(String ab1){
             String[] aaa = ab1.split(";");
+            pd.setProgress(rowInsert++);
+//            pd.dismiss();
             chkInsert();
-
             //new retrieveFoods1().execute();
 //            if(aaa.length>=5){
 //                runPrintReceiptSequenceEpson(rs.getAreaToName(aaa[0],"code"),rs.getTableToName(aaa[1],"code"), aaa[2],aaa[3],aaa[4]);
@@ -858,6 +872,16 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
         @Override
         protected void onPreExecute() {
             String aaa = ab;
+            if(!pd.isShowing()){
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setTitle("Saveing...");
+                pd.setMessage("Save Order ...");
+                pd.setCancelable(false);
+                pd.setIndeterminate(false);
+//                pd.setMax(100);
+                pd.setProgress(0);
+                pd.show();
+            }
         }
     }
     private void chkInsert(){
@@ -875,6 +899,7 @@ public class MailarapOrderAdd  extends Activity implements ReceiveListener {
             }
         }
         if((insertSucc+insertErr)==row){
+            pd.dismiss();
 
             AlertDialog.Builder builder1 = new AlertDialog.Builder(MailarapOrderAdd.this);
             builder1.setMessage("บันทึกข้อมูลทั้งหมด"+(insertSucc+insertErr)+"รายการ  เรียบร้อย");

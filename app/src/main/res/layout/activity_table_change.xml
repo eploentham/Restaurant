@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_table_change"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.nakoyagarden.ekapop.restaurant.TableChangeActivity">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout1"
+        android:gravity="top">
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboTcAreaFrom"
+            android:layout_weight="1" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboTcTableFrom"
+            android:layout_gravity="end"
+            android:layout_toEndOf="@+id/cboTvAreaFrom"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvTcOrderFrom"
+        android:layout_below="@+id/layout1"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout2"
+        android:layout_below="@+id/lvTcOrderFrom">
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboTcAreaTo"
+            android:layout_weight="1" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboTcTableTo"
+            android:layout_gravity="end"
+            android:layout_toEndOf="@+id/cboTvAreaFrom"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvTcOrderTo"
+        android:layout_below="@+id/layout2"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout3"
+        android:layout_below="@+id/lvTcOrderTo">
+        <EditText
+            android:inputType="numberPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTcPassword"
+            android:ems="5"
+            android:layout_gravity="left"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnTcSave"
+            android:layout_gravity="left"/>
+    </LinearLayout>
+</RelativeLayout>

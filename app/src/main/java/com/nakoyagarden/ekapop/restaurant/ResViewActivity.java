@@ -110,7 +110,7 @@ public class ResViewActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
-            //rs.jarrF = jarrF.toString();
+            //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -139,10 +139,10 @@ public class ResViewActivity extends AppCompatActivity {
     private void setLvRes(){
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
+            //jarrR = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
             //jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
             if(jarrR!=null){
-                //jarrF =  new JSONArray(rs.jarrF);
+                //jarrR =  new JSONArray(rs.jarrR);
                 arrayList = new ArrayList<String>();
 
                 //JSONArray categories = jobj.getJSONArray("area");

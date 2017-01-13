@@ -42,7 +42,7 @@ public class InitailActivity extends Activity implements ReceiveListener {
     TextView lbIaHost, lbIaPrint, lbIaPosID, lbIaTaxID, lbIaWebDirectory, lbIaPortID, lbIaUserDB, lbIaPasswordDB;
     EditText txtIaHost, txtIaPrint, txtIaPosID, txtIaTaxID, txtIaWebDirectory, txtIaPortID, txtIaUserDB, txtIaPasswordDB;
     Button btnIaSave, btnIaPrint, btnIaTest,btnFoodsV, btnMUser;
-    Button btnMFt, btnMBillVoid, btnFristRes;
+    Button btnMFt, btnMBillVoid, btnFristRes, btnMTChange, btnMTMerge;
     ImageButton btnMTable,btnMArea, btnMRes;
     Spinner cboIaPrinter, cboIaTextSize;
     CheckBox chkPrintOrder, chkPrintBill, chkPrintCloseDay;
@@ -108,6 +108,8 @@ public class InitailActivity extends Activity implements ReceiveListener {
         btnMBillVoid = (Button)findViewById(R.id.btnMBillVoid);
         btnMUser = (Button)findViewById(R.id.btnMUser);
         btnFristRes = (Button)findViewById(R.id.btnFristRes);
+        btnMTChange = (Button)findViewById(R.id.btnMTChange);
+        btnMTMerge = (Button)findViewById(R.id.btnMTMerge);
 
         lbIaUserDB = (TextView)findViewById(R.id.lbIaUserDB);
         lbIaPasswordDB = (TextView)findViewById(R.id.lbIaPasswordDB);
@@ -130,12 +132,15 @@ public class InitailActivity extends Activity implements ReceiveListener {
         chkPrintCloseDay.setText("พิมพ์ใบปิดวัน");
 
         btnMTable.setBackgroundResource(R.mipmap.menu_table);
-        btnMArea.setBackgroundResource(R.mipmap.menu_table);
+        btnMArea.setBackgroundResource(R.mipmap.menu_area);
         btnMRes.setBackgroundResource(R.mipmap.menu_res);
 
         btnIaSave.setText(R.string.save);
         btnIaTest.setText("Test");
-        btnMBillVoid.setText("ยกเลิกรับชำระ");
+        btnMBillVoid.setText(R.string.btnMBillVoid);
+        btnMTChange.setText(R.string.btnMTChange);
+        btnFristRes.setText(R.string.btnFristRes);
+        btnMTMerge.setText(R.string.btnMTMerge);
         btnMFt.setText(getResources().getString(R.string.add)+getResources().getString(R.string.type)+getResources().getString(R.string.foods));
 //        btnMTable.setText(getResources().getString(R.string.add)+getResources().getString(R.string.table));
 //        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
@@ -143,7 +148,6 @@ public class InitailActivity extends Activity implements ReceiveListener {
         btnMUser.setText(R.string.user);
         //btnFristRes.setText(R.string.btnFristRes);
         btnIaSave.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 saveText();
@@ -213,6 +217,12 @@ public class InitailActivity extends Activity implements ReceiveListener {
                 startActivityForResult(new Intent(view.getContext(), UserViewActivity.class).putExtra("RestaurantControl",rs), 0);
             }
         });
+        btnMTChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(view.getContext(), TableChangeActivity.class).putExtra("RestaurantControl",rs), 0);
+            }
+        });
         sCboPrinter.add("Epson T82");
         sCboPrinter.add("Custom Kute II");
 
@@ -235,6 +245,13 @@ public class InitailActivity extends Activity implements ReceiveListener {
 
             }
         });
+        if(rs.AccessMode.equals("Standalone")) {
+            setScreenStandAlone();
+        }else if(rs.AccessMode.equals("Internet")){
+            setScreenInternet();
+        }else{
+            setScreenSever();
+        }
         getText();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 //        InitEverything(savedInstanceState);
@@ -250,6 +267,42 @@ public class InitailActivity extends Activity implements ReceiveListener {
     protected void onResume() {
         super.onResume();
         mLocalActivityManager.dispatchResume();
+    }
+    private void setScreenStandAlone(){
+        lbIaHost.setVisibility(View.VISIBLE);
+        txtIaHost.setVisibility(View.VISIBLE);
+        lbIaPortID.setVisibility(View.VISIBLE);
+        txtIaPortID.setVisibility(View.VISIBLE);
+        lbIaWebDirectory.setVisibility(View.VISIBLE);
+        txtIaWebDirectory.setVisibility(View.VISIBLE);
+        lbIaUserDB.setVisibility(View.VISIBLE);
+        txtIaUserDB.setVisibility(View.VISIBLE);
+        lbIaPasswordDB.setVisibility(View.VISIBLE);
+        txtIaPasswordDB.setVisibility(View.VISIBLE);
+    }
+    private void setScreenInternet(){
+        lbIaHost.setVisibility(View.INVISIBLE);
+        txtIaHost.setVisibility(View.INVISIBLE);
+        lbIaPortID.setVisibility(View.INVISIBLE);
+        txtIaPortID.setVisibility(View.INVISIBLE);
+        lbIaWebDirectory.setVisibility(View.INVISIBLE);
+        txtIaWebDirectory.setVisibility(View.INVISIBLE);
+        lbIaUserDB.setVisibility(View.INVISIBLE);
+        txtIaUserDB.setVisibility(View.INVISIBLE);
+        lbIaPasswordDB.setVisibility(View.INVISIBLE);
+        txtIaPasswordDB.setVisibility(View.INVISIBLE);
+    }
+    private void setScreenSever(){
+        lbIaHost.setVisibility(View.VISIBLE);
+        txtIaHost.setVisibility(View.VISIBLE);
+        lbIaPortID.setVisibility(View.VISIBLE);
+        txtIaPortID.setVisibility(View.VISIBLE);
+        lbIaWebDirectory.setVisibility(View.VISIBLE);
+        txtIaWebDirectory.setVisibility(View.VISIBLE);
+        lbIaUserDB.setVisibility(View.VISIBLE);
+        txtIaUserDB.setVisibility(View.VISIBLE);
+        lbIaPasswordDB.setVisibility(View.VISIBLE);
+        txtIaPasswordDB.setVisibility(View.VISIBLE);
     }
     private void saveText(){
         FileOutputStream outputStream;

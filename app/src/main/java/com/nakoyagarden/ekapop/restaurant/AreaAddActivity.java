@@ -25,16 +25,16 @@ import java.util.List;
 
 public class AreaAddActivity extends AppCompatActivity {
     TextView lbAaCode, lbAaName, lbAaRemark, lbAaSort1, lbAaActive;
-    EditText txtAaCode, txtAaName, txtAaRemark, txtAaSort1;
+    EditText txtAaCode, txtAaName, txtAaRemark, txtAaSort1, txtAaPasswordVoid;
     Switch chkAaActive;
-    Button btnAaSave;
+    Button btnAaSave, btnAaVoid;
 
     Area ar;
 
     private RestaurantControl rs;
     JSONArray jarr;
     JsonParser jsonparser = new JsonParser();
-//    JSONArray jarrF;
+//    JSONArray jarrR;
     String ab;
     int textSize=20,textSize1=18, row;
     DatabaseSQLi daS;
@@ -47,6 +47,7 @@ public class AreaAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
         daS = new DatabaseSQLi(this,"");
+        ar = new Area();
 
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbAaCode = (TextView)findViewById(R.id.lbAaCode);
@@ -58,14 +59,17 @@ public class AreaAddActivity extends AppCompatActivity {
         txtAaName = (EditText) findViewById(R.id.txtAaName);
         txtAaRemark = (EditText) findViewById(R.id.txtAaRemark);
         txtAaSort1 = (EditText) findViewById(R.id.txtAaSort1);
+        txtAaPasswordVoid = (EditText) findViewById(R.id.txtAaPasswordVoid);
         chkAaActive = (Switch) findViewById(R.id.chkAaActive);
         btnAaSave = (Button) findViewById(R.id.btnAaSave);
+        btnAaVoid = (Button) findViewById(R.id.btnAaVoid);
 
         lbAaCode.setText(R.string.code);
         lbAaName.setText(R.string.name);
         lbAaRemark.setText(R.string.remark);
         lbAaSort1.setText(R.string.sort);
         lbAaActive.setText(R.string.active);
+        btnAaVoid.setText(R.string.void1);
 
         btnAaSave.setText(R.string.save);
         btnAaSave.setOnClickListener(new View.OnClickListener() {
@@ -87,13 +91,17 @@ public class AreaAddActivity extends AppCompatActivity {
         chkAaActive.setText(R.string.activeon);
         chkAaActive.setChecked(true);
         txtAaCode.setEnabled(false);
+        btnAaVoid.setVisibility(View.INVISIBLE);
+        txtAaPasswordVoid.setVisibility(View.INVISIBLE);
         chkAaActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if(b){
                 chkAaActive.setText(R.string.activeon);
+                btnAaVoid.setVisibility(View.INVISIBLE);
             }else{
                 chkAaActive.setText(R.string.activeoff);
+                btnAaVoid.setVisibility(View.VISIBLE);
             }
             }
         });
@@ -105,7 +113,87 @@ public class AreaAddActivity extends AppCompatActivity {
         }else{
             new retrieveArea().execute();
         }
+        btnAaVoid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btnAaVoid.getText().toString().equals(getResources().getString(R.string.void1confrim))){
+                    if(txtAaPasswordVoid.getText().toString().equals("")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
+                        builder1.setMessage("Password ไม่ได้ป้อน");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtAaPasswordVoid.setSelection(0,txtAaPasswordVoid.getText().length());
+                                txtAaPasswordVoid.setFocusable(true);
+                            }
+                        }).create().show();
+                    }else{
+                        if(rs.chkPasswordVoid(txtAaPasswordVoid.getText().toString())){
+//                            String user = rs.chkUserByPassword(txtAaPasswordVoid.getText().toString());
+//                            String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
+                            if(rs.AccessMode.equals("Standalone")) {
+                                jarr = daS.AreaVoid(rs.chkUserByPassword(txtAaPasswordVoid.getText().toString()), ar.ID);
+                                getAreaVoid();
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new AreaVoid().execute(rs.chkUserByPassword(txtAaPasswordVoid.getText().toString()), ar.ID);
+                            }else{
+                                new AreaVoid().execute(rs.chkUserByPassword(txtAaPasswordVoid.getText().toString()), ar.ID);
+                            }
 
+                        }else{
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
+                            builder1.setMessage("Password ไม่ถูกต้อง");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    txtAaPasswordVoid.setSelection(0,txtAaPasswordVoid.getText().length());
+                                    txtAaPasswordVoid.setFocusable(true);
+                                }
+                            }).create().show();
+                        }
+                    }
+
+
+                    if(rs.AccessMode.equals("Standalone")) {
+
+                    }else if(rs.AccessMode.equals("Internet")){
+
+                    }else{
+
+                    }
+                }else{
+                    if(!chkAaActive.isChecked()){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
+                        builder1.setMessage("ต้องการเยกเลิกรายการนี้.\n\nลำดับ "+" รหัส "+txtAaCode.getText().toString()+" "+ txtAaName.getText().toString()+"\n");
+                        builder1.setCancelable(true);
+                        builder1.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                finish();
+//                                flagDel=false;
+//                                Toast.makeText(MailarapOrderAdd.this,"You clicked no button",Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder1.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Whatever...
+                                txtAaPasswordVoid.setVisibility(View.VISIBLE);
+                                btnAaVoid.setText(R.string.void1confrim);
+                                txtAaPasswordVoid.setSelection(0,txtAaPasswordVoid.getText().length());
+                                txtAaPasswordVoid.setFocusable(true);
+
+                            }
+                        }).create().show();
+
+                    }
+                }
+            }
+        });
+        if(rs.ftID.equals("")) chkAaActive.setChecked(true);
         setTheme();
     }
     private void setTheme(){
@@ -214,6 +302,25 @@ public class AreaAddActivity extends AppCompatActivity {
             Log.e("sql",e.getMessage());
         }
     }
+    private void getAreaVoid(){
+        try {
+            JSONObject catObj = (JSONObject) jarr.get(0);
+            Log.d("sql",catObj.getString("sql"));
+            if(catObj.getString("status").equals("1")){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(AreaAddActivity.this);
+                builder1.setMessage("ยกเลิกข้อมูล  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnAaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+            Log.e("sql",e.getMessage());
+        }
+    }
     class retrieveArea extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
@@ -231,6 +338,29 @@ public class AreaAddActivity extends AppCompatActivity {
             String aaa = ab;
 
             setControl();
+        }
+        @Override
+        protected void onPreExecute() {
+            String aaa = ab;
+        }
+    }
+    class AreaVoid extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... arg0) {
+            //Log.d("Login attempt", jobj.toString());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(ar.dbID, arg0[1]));
+            params.add(new BasicNameValuePair(ar.dbVoidUser, arg0[0]));
+
+            jarr = jsonparser.getJSONFromUrl(rs.hostAreaVoid,params);
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+            String aaa = ab;
+            getAreaVoid();
         }
         @Override
         protected void onPreExecute() {

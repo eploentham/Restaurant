@@ -24,7 +24,7 @@ if($intNumRows==0){
     //echo "cccccccccccc ".$sql;
     //return;
     $wheredate=" and bill_date >= '".$date1."' and bill_date <= '".$date2."'";
-    $sql = "Select sum(amount) as amt, sum(discount) as discount, sum(total) as total, sum(service_charge) as sc, sum(vat) as vat, sum(nettotal) as nettotal, count(1) as cnt_bill From t_bill Where status_closeday <> '1' ".$wheredate." and active = '1'";
+    $sql = "Select sum(amount) as amt, sum(discount) as discount, sum(total) as total, sum(service_charge) as service_charge, sum(vat) as vat, sum(nettotal) as nettotal, count(1) as cnt_bill From t_bill Where status_closeday <> '1' ".$wheredate." and active = '1'";
     $objQuery = mysql_query($sql);
     $intNumRows = mysql_num_rows($objQuery);
     while($row = mysql_fetch_array($objQuery)){
@@ -32,10 +32,10 @@ if($intNumRows==0){
         
 
         $tmp["closeday_id"] = "";
-        $tmp["amt"] = $row["amt"];
+        $tmp["amount"] = $row["amt"];
         $tmp["discount"] = $row["discount"];
         $tmp["total"] = $row["total"];
-        $tmp["sc"] = $row["sc"];
+        $tmp["service_charge"] = $row["service_charge"];
         $tmp["vat"] = $row["vat"];
         $tmp["nettotal"] = $row["nettotal"];
         $tmp["cnt_bill"] = $row["cnt_bill"];
@@ -53,6 +53,9 @@ if($intNumRows==0){
         $tmp["cash_receive1_remark"] = "";
         $tmp["cash_receive2_remark"] = "";
         $tmp["cash_receive3_remark"] = "";
+        $tmp["cash_draw1_remark"] = "";
+        $tmp["cash_draw2_remark"] = "";
+        $tmp["cash_draw3_remark"] = "";
         $tmp["closeday_user"] = "";
         
         array_push($resultArray,$tmp);
@@ -76,10 +79,10 @@ if($intNumRows==0){
         $tmp["closeday_id"] = $row["closeday_id"];
         $tmp["closeday_date"] = $row["closeday_date"];
         $tmp["res_id"] = $row["res_id"];
-        $tmp["amt"] = $row["amount"];
+        $tmp["amount"] = $row["amount"];
         $tmp["discount"] = $row["discount"];
         $tmp["total"] = $row["total"];
-        $tmp["sc"] = $row["service_charge"];
+        $tmp["service_charge"] = $row["service_charge"];
         $tmp["vat"] = $row["vat"];
         $tmp["nettotal"] = $row["nettotal"];
         $tmp["remark"] = $row["remark"];
@@ -95,6 +98,9 @@ if($intNumRows==0){
         $tmp["cash_receive1_remark"] = $row["cash_receive1_remark"];
         $tmp["cash_receive2_remark"] = $row["cash_receive2_remark"];
         $tmp["cash_receive3_remark"] = $row["cash_receive3_remark"];
+        $tmp["cash_draw1_remark"] = $row["cash_draw1_remark"];
+        $tmp["cash_draw2_remark"] = $row["cash_draw2_remark"];
+        $tmp["cash_draw3_remark"] = $row["cash_draw3_remark"];
         $tmp["closeday_user"] = $row["closeday_user"];
 
         array_push($resultArray,$tmp);

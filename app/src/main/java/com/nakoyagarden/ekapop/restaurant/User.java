@@ -5,10 +5,11 @@ package com.nakoyagarden.ekapop.restaurant;
  */
 
 public class User extends Database{
-    public String ID="", Login="", Name="", Password1 ="",Active="", Remark="", Privilege="", Sort1="", VoidBill="",VoidCloseday="";
+    public String ID="", Login="", Name="", Password1 ="",Active="", Remark="", Privilege="", Sort1="", VoidBill="",VoidCloseday="", VoidDate="", VoidUser="";
 
     public String dbID="user_id", dbLogin="user_login", dbName="user_name", dbPassword1="password1",dbActive="active", dbRemark="remark";
     public String dbPrivilege="privilege", dbSort1="sort1", dbVoidBill="permission_void_bill",dbVoidCloseday="permission_void_closeday";
+    public String dbVoidDate="void_date", dbVoidUser="void_user";
 
     public String cUserMySQL=creaT+" '"+dbNameD+"'.'"+tbNameUser+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -41,6 +42,8 @@ public class User extends Database{
             +", "+dbHostId+" "+tex+"  NULL "
             +", "+dbBranchId+" "+tex+"  NULL "
             +", "+dbDeviceId+" "+tex+"  NULL "
+            +", "+dbVoidDate+" "+tex+"  NULL "
+            +", "+dbVoidUser+" "+tex+"  NULL "
             +"); ";
     public String cDropUser="DROP TABLE IF EXISTS "+tbNameUser+" ;";
 }

@@ -5,218 +5,234 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.nakoyagarden.ekapop.restaurant.InitailActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/lbIaHost"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/layout0"
+        android:gravity="top">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaPosID"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaPosID"
+            android:inputType="numberSigned"
+            android:ems="7"
+            android:layout_weight="3"/>
+        <CheckBox
+            android:text="CheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkPrintOrder"
+            android:gravity="right"
+            android:layout_weight="2"
+            android:layout_marginRight="@dimen/default_gap"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtIaHost"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaHost"
-        android:layout_toRightOf="@+id/lbIaHost"/>
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
+        android:id="@+id/layout1"
+        android:layout_below="@id/layout0">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaTaxID"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:layout_weight="1"/>
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaTaxID"
+            android:ems="7"
+            android:layout_weight="3"/>
+        <CheckBox
+            android:text="CheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkPrintBill"
+            android:gravity="right"
+            android:layout_weight="2"
+            android:layout_marginRight="@dimen/default_gap"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/chkPrintOrder"
-        android:layout_alignBaseline="@+id/lbIaHost"
-        android:layout_toRightOf="@+id/txtIaHost"/>
-
-    <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/layout2"
+        android:layout_below="@id/layout1">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaPrint"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaPrint"
+            android:ems="7"
+            android:layout_weight="3"/>
+        <CheckBox
+            android:text="CheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkPrintCloseDay"
+            android:gravity="right"
+            android:layout_weight="2"
+            android:layout_marginRight="@dimen/default_gap"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:layout_below="@+id/lbIaHost"
-        android:id="@+id/lbIaPrint"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
+        android:id="@+id/layout3"
+        android:layout_below="@id/layout2">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaHost"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingTop="@dimen/default_gap"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaHost"
+            android:ems="7"
+            android:layout_weight="1"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboIaPrinter"
+            android:gravity="right"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtIaHost"
-        android:id="@+id/txtIaPrint"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaPrint"
-        android:layout_toRightOf="@+id/lbIaPrint"/>
-    <Spinner
-        android:layout_width="wrap_content"
+        android:id="@+id/layout4"
+        android:layout_below="@id/layout3">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaPortID"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingTop="@dimen/default_gap"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaPortID"
+            android:inputType="numberSigned"
+            android:ems="7"
+            android:layout_toRightOf="@+id/lbIaPortID" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cboIaPrinter"
-        android:layout_alignBaseline="@+id/lbIaPrint"
-        android:layout_toRightOf="@+id/txtIaPrint"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:layout_below="@+id/lbIaPrint"
-        android:id="@+id/lbIaPosID"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtIaPrint"
-        android:id="@+id/txtIaPosID"
-        android:inputType="numberSigned"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaPosID"
-        android:layout_toRightOf="@+id/lbIaPosID"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:layout_below="@+id/lbIaPosID"
-        android:id="@+id/lbIaTaxID"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtIaPosID"
-        android:id="@+id/txtIaTaxID"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaTaxID"
-        android:layout_toRightOf="@+id/lbIaTaxID"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:layout_below="@+id/lbIaTaxID"
-        android:id="@+id/lbIaPortID"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtIaPortID"
-        android:inputType="numberSigned"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaPortID"
-        android:layout_toRightOf="@+id/lbIaPortID" />
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chkPrintBill"
-        android:layout_alignBaseline="@+id/lbIaPortID"
-        android:layout_toRightOf="@+id/txtIaPortID"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:layout_below="@+id/lbIaPortID"
-        android:id="@+id/lbIaWebDirectory"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/lbIaWebDirectory"
-        android:layout_alignBaseline="@+id/lbIaWebDirectory"
-        android:id="@+id/txtIaWebDirectory"
-        android:ems="7" />
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chkPrintCloseDay"
-        android:layout_alignBaseline="@+id/lbIaWebDirectory"
-        android:layout_toRightOf="@+id/txtIaWebDirectory"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/lbIaUserDB"
-        android:layout_below="@+id/lbIaWebDirectory"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtIaPosID"
-        android:id="@+id/txtIaUserDB"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaUserDB"
-        android:layout_toRightOf="@+id/lbIaUserDB"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/lbIaPasswordDB"
-        android:layout_below="@+id/lbIaUserDB"
-        android:ems="7"
-        android:paddingLeft="@dimen/default_gap"
-        android:paddingTop="@dimen/default_gap"
-        android:layout_marginTop="@dimen/activity_vertical_margin"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtIaPasswordDB"
-        android:ems="7"
-        android:layout_alignBaseline="@+id/lbIaPasswordDB"
-        android:layout_toRightOf="@+id/lbIaPasswordDB"/>
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cboIaTextSize"
-        android:layout_alignBaseline="@+id/lbIaPasswordDB"
-        android:layout_toRightOf="@+id/txtIaPasswordDB"
-        android:gravity="right"
-        android:layout_alignParentEnd="true"/>
-
+        android:id="@+id/layout5"
+        android:layout_below="@id/layout4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaWebDirectory"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingTop="@dimen/default_gap"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaWebDirectory"
+            android:ems="7" />
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout6"
-        android:layout_below="@id/lbIaPasswordDB"
-        android:layout_marginTop="@dimen/default_gap">
+        android:layout_below="@id/layout5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaUserDB"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingTop="@dimen/default_gap"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaUserDB"
+            android:ems="7"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout7"
+        android:layout_below="@id/layout6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/lbIaPasswordDB"
+            android:ems="7"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingTop="@dimen/default_gap"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtIaPasswordDB"
+            android:ems="7"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout8"
+        android:layout_below="@id/layout7">
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:layout_below="@+id/lbIaPasswordDB"
             android:id="@+id/btnIaPrint"
             android:layout_weight="1"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/btnIaPrint"
-            android:layout_alignBaseline="@+id/btnIaPrint"
             android:text="New Button"
             android:id="@+id/btnIaSave"
             android:layout_weight="1"/>
@@ -225,15 +241,49 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnIaTest"
-            android:layout_toRightOf="@+id/btnIaSave"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout7"
-        android:layout_below="@id/layout6">
+        android:id="@+id/layout9"
+        android:layout_below="@id/layout8">
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout10"
+        android:layout_below="@id/layout9">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMBillVoid"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMTChange"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMTMerge"
+            android:layout_toEndOf="@+id/btnMTChange"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout11"
+        android:layout_below="@id/layout10">
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -246,82 +296,94 @@
             android:text="New Button"
             android:id="@+id/btnMFoodsType"
             android:layout_weight="1"/>
-    </LinearLayout>
-    <!--<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:layout_below="@+id/btnMFoodsType"
-        android:id="@+id/btnMTable"/>-->
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMTable"
-        android:layout_below="@+id/layout7"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-    <!--<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMArea"
-        android:layout_below="@+id/btnMTable"/>-->
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMArea"
-        android:layout_alignBaseline="@+id/btnMTable"
-        android:layout_toRightOf="@+id/btnMTable"
-        android:layout_below="@+id/layout7"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-    <!--<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMRes"
-        android:layout_marginBottom ="10dp"
-        android:layout_below="@+id/btnMArea"/>-->
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btnMRes"
-        android:layout_alignBaseline="@+id/btnMTable"
-        android:layout_toRightOf="@+id/btnMArea"
-        android:layout_below="@+id/layout7"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"/>
-
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout8"
-        android:layout_below="@id/btnMTable"
-        android:gravity="bottom">
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/btnMUser"
             android:layout_weight="1"/>
-        <Button
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout12"
+        android:layout_below="@id/layout11">
+        <!--<Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:layout_below="@+id/btnMFoodsType"
+        android:id="@+id/btnMTable"/>-->
+        <ImageButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="New Button"
-            android:id="@+id/btnMBillVoid"
-            android:layout_toEndOf="@+id/btnMUser"
+            android:id="@+id/btnMTable"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_weight="1"/>
-
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMArea"
+            android:layout_below="@+id/btnMTable"/>-->
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMArea"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_weight="1"/>
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMRes"
+            android:layout_marginBottom ="10dp"
+            android:layout_below="@+id/btnMArea"/>-->
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btnMRes"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/default_gap"
+            android:layout_weight="1"/>
     </LinearLayout>
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnFristRes"
-        android:layout_weight="1"
-        android:layout_below="@id/layout8"/>
+        android:id="@+id/layout13"
+        android:layout_below="@id/layout12">
+        <Button
+            android:text="Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFristRes"
+            android:layout_weight="1"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cboIaTextSize"
+            android:layout_weight="1"
+            android:gravity="right"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout14"
+        android:layout_below="@id/layout13">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="98dp" />
+    </LinearLayout>
+
+
 </RelativeLayout>

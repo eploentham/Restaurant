@@ -38,6 +38,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
     Bill bi = new Bill();
     BillDetail bid = new BillDetail();
     CloseDay cd = new CloseDay();
+    TableChange tc = new TableChange();
 
     Context c;
     SQLiteDatabase mDb;
@@ -128,10 +129,13 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             db.execSQL(or.cDropOrder);
             db.execSQL(or.cOrderSQLi);
 
-
             Log.d("onCreate ",cd.cClosedaySQLi);
             db.execSQL(cd.cDropCloseday);
             db.execSQL(cd.cClosedaySQLi);
+
+            Log.d("onCreate ",tc.cTableChangeSQLi);
+            db.execSQL(tc.cDropTableChange);
+            db.execSQL(tc.cTableChangeSQLi);
         }catch(Exception e){
             Log.e("onCreate ",e.getMessage());
         }
@@ -222,6 +226,45 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             Log.e("TableSelectAll ",e.getMessage());
         }
         return jsonObj;
+    }
+    private JSONObject getJsonObjectTableChange(Cursor c){
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put(tc.dbID, c.getString(c.getColumnIndex(tc.dbID)));
+            jsonObj.put(tc.dbTableIdFrom, chkNull(c.getString(c.getColumnIndex(tc.dbTableIdFrom)))?"":c.getString(c.getColumnIndex(tc.dbTableIdFrom)));
+            jsonObj.put(tc.dbTableIdTo, chkNull(c.getString(c.getColumnIndex(tc.dbTableIdTo)))?"":c.getString(c.getColumnIndex(tc.dbTableIdTo)));
+            jsonObj.put(tc.dbTableChangeDate, chkNull(c.getString(c.getColumnIndex(tc.dbTableChangeDate)))?"":c.getString(c.getColumnIndex(tc.dbTableChangeDate)));
+            jsonObj.put(tc.dbTableChangeUser, chkNull(c.getString(c.getColumnIndex(tc.dbTableChangeUser)))?"":c.getString(c.getColumnIndex(tc.dbTableChangeUser)));
+            jsonObj.put(tc.dbActive, chkNull(c.getString(c.getColumnIndex(tc.dbActive)))?"":c.getString(c.getColumnIndex(tc.dbActive)));
+            jsonObj.put(tc.dbDateCreate, chkNull(c.getString(c.getColumnIndex(tc.dbDateCreate)))?"":c.getString(c.getColumnIndex(tc.dbDateCreate)));
+            jsonObj.put(tc.dbDateModi, chkNull(c.getString(c.getColumnIndex(tc.dbDateModi)))?"":c.getString(c.getColumnIndex(tc.dbDateModi)));
+            jsonObj.put(tc.dbHostId, chkNull(c.getString(c.getColumnIndex(tc.dbHostId)))?"":c.getString(c.getColumnIndex(tc.dbHostId)));
+            jsonObj.put(tc.dbBranchId, chkNull(c.getString(c.getColumnIndex(tc.dbBranchId)))?"":c.getString(c.getColumnIndex(tc.dbBranchId)));
+            jsonObj.put(tc.dbDeviceId, chkNull(c.getString(c.getColumnIndex(tc.dbDeviceId)))?"":c.getString(c.getColumnIndex(tc.dbDeviceId)));
+            jsonObj.put(tc.dbVoidDate, chkNull(c.getString(c.getColumnIndex(tc.dbVoidDate)))?"":c.getString(c.getColumnIndex(tc.dbVoidDate)));
+            jsonObj.put(tc.dbVoidUser, chkNull(c.getString(c.getColumnIndex(tc.dbVoidUser)))?"":c.getString(c.getColumnIndex(tc.dbVoidUser)));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("TableSelectAll ",e.getMessage());
+        }catch (Exception e){
+            Log.e("TableSelectAll ",e.getMessage());
+        }
+        return jsonObj;
+    }
+    public JSONArray TableChangeById(String id){
+        JSONArray jarr = new JSONArray();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("Select * From "+da.tbNameTableChange+" Where "+tc.dbID+" = '"+id+"' ", null);
+        if(c.moveToFirst()){
+            do{
+                jarr.put(getJsonObjectTableChange(c));
+            }while(c.moveToNext());
+        }
+        c.close();
+        db.close();
+//        jarr = new JSONArray(json);
+        return  jarr;
     }
 
     public JSONArray AreaSelectAll(){
@@ -566,7 +609,8 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         }
     }
     public JSONArray OrderInsert(String row1,String lotID,String areacode,String tablecode,String Qty,String FoodsCode,
-                            String FoodsName,String Remark,String ResCode,String Price,String PrinterName,String FoodsId,String StatusToGo,String user,String tableid,String CntCust){
+                        String FoodsName,String Remark,String ResCode,String Price,String PrinterName,
+                         String FoodsId,String StatusToGo,String user,String tableid,String CntCust, String imei,String hostid){
         String sql="",err="";
         JSONArray jarr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -575,11 +619,11 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             sql = "Insert into "+da.tbNameOrder+"("+or.dbID+","+or.dbFoodsCode+","+or.dbOrderDate+","+or.dbPrice+","+or.dbQty+","+or.dbLotId+","+or.dbResCode+","+or.dbTableCode+","
                     +or.dbAreaCode+","+or.dbStatusFoods1+","+or.dbStatusFoods2+","+or.dbStatusFoods3+","+or.dbActive+","+or.dbStatusVoid+","+or.dbStatusBill+","+or.dbStatusCook+","+or.dbDateCreate+","
                     +or.dbPrinterName+","+or.dbRemark+","+or.dbrow1+","+or.dbFoodsId+","+or.dbFoodsName+","+or.dbStatusToGo+","
-                    +or.dbOrderUser+","+or.dbStatusCloseday+","+or.dbClosedayId+","+or.dbCntCust+","+or.dbBillId+")"
-                    +" Values(lower(hex(randomblob(16))),'"+FoodsCode+"',"+gendate+",'"+Price+"','"+Qty+"','"+lotID+"','"+ResCode+"','"+tablecode+"','"
+                    +or.dbOrderUser+","+or.dbStatusCloseday+","+or.dbClosedayId+","+or.dbCntCust+","+or.dbBillId+","+or.dbHostId+","+or.dbDeviceId+")"
+                    +" Values("+genid+",'"+FoodsCode+"',"+gendate+",'"+Price+"','"+Qty+"','"+lotID+"','"+ResCode+"','"+tablecode+"','"
                     +areacode+"','','','','1','0','0','0',"+gendate+",'"
                     +PrinterName+"','"+Remark+"','"+row1+"','"+FoodsId+"','"+FoodsName+"','"+StatusToGo+"','"
-                    +user+"','0','','"+CntCust+"','')";
+                    +user+"','0','','"+CntCust+"','','"+hostid+"','"+imei+"')";
             db.execSQL(sql);
             sql = "Update "+da.tbNameTable+" Set "+ta.dbStatusUse+" ='1' Where "+ta.dbID+" ='"+tableid+"'";
             db.execSQL(sql);
@@ -598,22 +642,49 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         }catch (JSONException e) {
             Log.e("OrderInsert ",e.getMessage());
         }
-
-//        try {
-//
-//        }catch (Exception e){
-//            Log.e("OrderInsert ",e.getMessage());
-//        }
-
-//        $response = array();
-//        $resultArray = array();
-//        $response["success"] = $ok;
-//        $response["message"] = "insert Order success";
-//        $response["sql"] = $sql;
-//        $response["error"] = $err;
-//        array_push($resultArray,$response);
         return  jarr;
     }
+//    public JSONArray TableChangeInsert(String id, String from, String to, String tadate, String tauser, String hostid,String deviceid){
+//        String sql="",err="", code1="";
+//        JSONArray jarr = new JSONArray();
+//        JSONObject jsonObj = new JSONObject();
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        try{
+//            int cnt=0;
+//            Cursor c = db.rawQuery("Select count(1) as cnt From "+da.tbNameTableChange+" ", null);
+//            if(c.moveToFirst()){
+//                do{
+//                    Log.d("AreaInsert rawQuery ",String.valueOf(c.getInt(c.getColumnIndex("cnt"))));
+//                    cnt = c.getInt(c.getColumnIndex("cnt"))+1;
+//                    code1 = "00"+cnt;
+//                    code1 = code1.substring(code1.length()-2);
+//                    Log.d("AreaInsert code1 ",code1);
+//                }while(c.moveToNext());
+//            }
+//            c.close();
+////                db.close();
+//            sql ="Insert Into "+da.tbNameTableChange+"("+tc.dbID+","+tc.dbTableIdFrom+","+tc.dbTableIdTo+","+tc.dbTableChangeDate+","
+//                    +tc.dbTableChangeUser+","+tc.dbHostId+","+tc.dbDeviceId+","+tc.dbDateCreate+","+tc.dbActive+") "
+//                    +"Values ("+this.genid +",'"+from+"','"+to+"','"+tadate+"','"
+//                    +tauser+"',"+ hostid +",'"+deviceid+"','"+gendate+"','1')";
+//            db.execSQL(sql);
+//        }catch (Exception e){
+//            Log.e("TableChangeInsert 1 ",e.getMessage());
+//            err = e.getMessage();
+//        }
+//        db.close();
+//        try{
+//            jsonObj = new JSONObject();
+//            jsonObj.put("success", "1");
+//            jsonObj.put("message", "insert TableChange success");
+//            jsonObj.put("sql", sql);
+//            jsonObj.put("error", err);
+//            jarr.put(jsonObj);
+//        }catch (JSONException e) {
+//            Log.e("TableChangeInsert 2 ",e.getMessage());
+//        }
+//        return  jarr;
+//    }
     public JSONArray AreaInsert(String id, String code, String name, String remark, String sort1){
         String sql="",err="", code1="";
         JSONArray jarr = new JSONArray();
@@ -1073,7 +1144,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         return jsonObj;
     }
     public JSONArray BillInsert(String tableid,String areaid,String deviceid,String discount,String amt,String  sc,
-            String vat,String total,String nettotal,String billID, String cashreceive,String cashton,String user, String remark){
+            String vat,String total,String nettotal,String billID, String cashreceive,String cashton,String user, String remark, String hostid){
         String sql="",err="", code1="",resID="", code="",year="",month="";
         JSONArray jarr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
@@ -1104,10 +1175,10 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             db.execSQL("update "+da.tbNameRes+" set "+res.dbBillCode+" = '"+code+"' Where "+res.dbID+"  = '"+resID+"'");
             sql = "Insert into "+da.tbNameBill+"("+bi.dbID+","+bi.dbBillDate+","+bi.dbDateCreate+","+bi.dbRemark+","+bi.dbStatusVoid+","+bi.dbTableId+","+bi.dbResId+","
                     +bi.dbAreaId+","+bi.dbDeviceId+","+bi.dbAmt+","+bi.dbDiscount+","+bi.dbActive+","+bi.dbSC+","+bi.dbVat+","+bi.dbTotal+","+bi.dbNetTotal+","
-                    +bi.dbCode+","+bi.dbBillUser+","+bi.dbCashReceive+","+bi.dbCashTon+","+bi.dbStatusCloseday+","+bi.dbClosedayId+")"
+                    +bi.dbCode+","+bi.dbBillUser+","+bi.dbCashReceive+","+bi.dbCashTon+","+bi.dbStatusCloseday+","+bi.dbClosedayId+","+bi.dbHostId+")"
                     +" Values ('"+billID+"',"+gendate+","+gendate+",'"+remark+"','0','"+tableid+"','"+resID+"','"
                     +areaid+"','"+deviceid+"',"+amt+","+discount+",'1',"+sc+","+vat+","+total+","+nettotal+",'"
-                    +code1+"','"+user+"',"+cashreceive+","+cashton+",'0','')";
+                    +code1+"','"+user+"',"+cashreceive+","+cashton+",'0','','"+hostid+"')";
             db.execSQL(sql);
             db.execSQL("Update "+da.tbNameTable+" Set "+ta.dbStatusUse+" ='0' Where table_id ='"+tableid+"'");
         }catch (Exception e){
@@ -1226,6 +1297,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
             Log.e("BillByCloseday 1 ",e1.getMessage());
             err=e1.getMessage();
         }
+        db.close();
 //        try{
 //            jsonObj = new JSONObject();
 //            jsonObj.put("success", "1");
@@ -1369,7 +1441,7 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
         JSONArray jarr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c,c1,c2;
+        Cursor c;
         String sql="",date1="",date2="", wheredate="";
         date1 = billdate+" 00:00:00";
         date2 = billdate+" 23:59:59";
@@ -1388,10 +1460,11 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
                     jarr.put(getJsonObjectBill(c));
                 }while(c.moveToNext());
             }
+            c.close();
         }catch (Exception e) {
             Log.d("BillByTableID ", "ok");
         }
-
+        db.close();
         return jarr;
     }
     public JSONArray BillDetailByBillCode(String billcode){
@@ -1412,9 +1485,11 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
                     jarr.put(getJsonObjectBillDetail(c));
                 }while(c.moveToNext());
             }
+            c.close();
         }catch (Exception e) {
             Log.d("BillDetailByBillCode ", "ok");
         }
+        db.close();
         return jarr;
     }
     public JSONArray BillDetailByBillId(String billid){
@@ -1435,35 +1510,263 @@ public class DatabaseSQLi extends SQLiteOpenHelper {
                     jarr.put(getJsonObjectBillDetail(c));
                 }while(c.moveToNext());
             }
+            c.close();
         }catch (Exception e) {
             Log.d("BillDetailByBillCode ", "ok");
         }
+        db.close();
         return jarr;
     }
-    public JSONArray BillVoid(String billid,String user){
+    public JSONArray BillVoid(String user,String billid){
         JSONArray jarr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
         SQLiteDatabase db = this.getReadableDatabase();
         String sql="",err="";
         try{
-            sql = "update "+da.tbNameBill+" Set "+bi.dbActive+" = '3', "+bi.dbStatusVoid+" = '1', "+bi.dbVoidUser+" = '"+user+"', "+bi.VoidDate+" = "+gendate+" Where "+bi.dbID+" = '"+billid+"' ";
+            sql = "update "+da.tbNameBill+" Set "+bi.dbActive+" = '3', "+bi.dbStatusVoid+" = '1', "+bi.dbVoidUser+" = '"+user+"', "+bi.dbVoidDate+" = "+gendate+" Where "+bi.dbID+" = '"+billid+"' ";
             db.execSQL(sql);
             sql="Update "+da.tbNameOrder+" Set "+or.dbStatusBill+" ='1' Where "+or.dbBillId+" ='"+billid+"'";
             db.execSQL(sql);
 
         }catch (Exception e) {
-            Log.d("BillVoid 1 ", "ok");
+            Log.d("BillVoid 1 ", e.getMessage());
         }
         db.close();
         try{
             jsonObj = new JSONObject();
             jsonObj.put("success", "1");
-            jsonObj.put("message", "insert BillDetail success");
+            jsonObj.put("message", "Void BillVoid success");
             jsonObj.put("sql", sql);
             jsonObj.put("error", err);
+            jsonObj.put("status", "1");
             jarr.put(jsonObj);
         }catch (JSONException e) {
             Log.e("BillVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray FoodsTypeVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameFoodsType+" Set "+ft.dbActive+" = '3', "+ft.dbVoidUser+" = '"+user+"', "+ft.dbVoidDate+" = "+gendate+" Where "+ft.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.d("FoodsTypeVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void FoodsTypeVoid success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("BillVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray AreaVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameArea+" Set "+ar.dbActive+" = '3', "+ar.dbVoidUser+" = '"+user+"', "+ar.dbVoidDate+" = "+gendate+" Where "+ar.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.d("AreaVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void AreaVoid success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("AreaVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray FoodsVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameFoods+" Set "+foo.dbActive+" = '3', "+foo.dbVoidUser+" = '"+user+"', "+foo.dbVoidDate+" = "+gendate+" Where "+foo.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.d("FoodsVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void FoodsVoid success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("FoodsVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray ResVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameRes+" Set "+res.dbActive+" = '3', "+res.dbVoidUser+" = '"+user+"', "+res.dbVoidDate+" = "+gendate+" Where "+res.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.d("ResVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void ResVoid success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("ResVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray TableVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameTable+" Set "+ta.dbActive+" = '3', "+ta.dbVoidUser+" = '"+user+"', "+ta.dbVoidDate+" = "+gendate+" Where "+ta.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.d("TableVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void TableVoid success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("TableVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray UserVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameUser+" Set "+us.dbActive+" = '3', "+us.dbVoidUser+" = '"+user+"', "+us.dbVoidDate+" = "+gendate+" Where "+us.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.d("UserVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void UserVoid success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("UserVoid 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray TableChangeInsert(String id,String tableidFrom, String tableidTo, String user, String hostid, String deviceid, String tableCodeTo, String tableCodeFrom){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        Log.d("TableChangeInsert 0 ", "TableChangeInsert");
+        try{
+            sql = "Insert into "+da.tbNameTableChange+" ("+tc.dbID+","+tc.dbTableIdFrom+","+tc.dbTableIdTo+","+tc.dbTableChangeUser+","
+                    +tc.dbHostId+","+tc.dbDeviceId+","+tc.dbDateCreate+","+tc.dbActive+") "
+            +"Values ('"+id+"','"+tableidFrom+"','"+tableidTo+"','"+user+"','"
+                    +hostid+"','"+deviceid+"',"+gendate+",'1')" + "";
+            db.execSQL(sql);
+            sql="Update "+da.tbNameOrder+" Set "+or.dbTableId+"='"+tableidTo+"' "
+                    +","+or.dbTableCode+"='"+tableCodeTo+"' "
+                    +","+or.dbTableChangeId +"='"+id+"' "
+                    +" Where "+or.dbTableCode+" = '"+tableCodeFrom+"' and "+or.dbActive+"='1' and "+or.dbStatusBill+"= '0'";
+            db.execSQL(sql);
+            sql="Update "+da.tbNameTable+" Set "+ta.dbStatusUse+"='1' "
+                +"Where "+ta.dbID+"='"+tableidTo+"'";
+            db.execSQL(sql);
+            sql="Update "+da.tbNameTable+" Set "+ta.dbStatusUse+"='0' "
+                    +"Where "+ta.dbID+"='"+tableidFrom+"'";
+            db.execSQL(sql);
+        }catch (Exception e) {
+            Log.e("TableChangeInsert 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void TableChangeInsert success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("TableChangeInsert 2 ",e.getMessage());
+            err=e.getMessage();
+        }
+        return jarr;
+    }
+    public JSONArray ClosedayVoid(String user,String id){
+        JSONArray jarr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql="",err="";
+        try{
+            sql = "update "+da.tbNameCloseday+" Set "+cd.dbActive+" = '3', "+cd.dbVoidUser+" = '"+user+"', "+cd.dbVoidDate+" = "+gendate+" Where "+cd.dbID+" = '"+id+"' ";
+            db.execSQL(sql);
+            db.execSQL("Update t_bill Set status_closeday ='0', closeday_id = '' Where closeday_id = '"+id+"'");
+            db.execSQL("Update t_order Set status_closeday ='0', closeday_id = '' Where closeday_id = '"+id+"'");
+        }catch (Exception e) {
+            Log.d("ClosedayVoid 1 ", e.getMessage());
+        }
+        db.close();
+        try{
+            jsonObj = new JSONObject();
+            jsonObj.put("success", "1");
+            jsonObj.put("message", "Void Closeday success");
+            jsonObj.put("sql", sql);
+            jsonObj.put("error", err);
+            jsonObj.put("status", "1");
+            jarr.put(jsonObj);
+        }catch (JSONException e) {
+            Log.e("ClosedayVoid 2 ",e.getMessage());
             err=e.getMessage();
         }
         return jarr;

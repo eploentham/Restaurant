@@ -4,8 +4,9 @@ package com.nakoyagarden.ekapop.restaurant;
  * Created by ekapop on 9/1/2016.
  */
 public class Table extends  Database{
-    public String ID="", Code="", Name="", Remark="", Active="", Sort1="", AreaID="", StatusUse="", DateUse="", StatusToGo="";
+    public String ID="", Code="", Name="", Remark="", Active="", Sort1="", AreaID="", StatusUse="", DateUse="", StatusToGo="", VoidDate="", VoidUser="";
     public String dbID="table_id", dbCode="table_code", dbName="table_name", dbRemark="remark", dbActive="active", dbSort1="sort1", dbAreaID="area_id", dbStatusUse="status_use", dbDateUse="date_use", dbStatusToGo="status_togo";
+    public String dbVoidDate="void_date", dbVoidUser="void_user";
 
     public String cTableMySQL=creaT+" '"+dbNameD+"'.'"+tbNameTable+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -38,6 +39,8 @@ public class Table extends  Database{
             +", "+dbBranchId+" "+tex+"  NULL "
             +", "+dbDeviceId+" "+tex+"  NULL "
             +", "+dbStatusToGo+" "+tex+"  NULL "
+            +", "+dbVoidDate+" "+tex+"  NULL "
+            +", "+dbVoidUser+" "+tex+"  NULL "
             +"); ";
     public String cDropTable="DROP TABLE IF EXISTS "+tbNameTable+" ;";
 

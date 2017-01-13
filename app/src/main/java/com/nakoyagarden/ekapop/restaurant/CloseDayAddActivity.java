@@ -53,12 +53,12 @@ public class CloseDayAddActivity extends AppCompatActivity {
     LinearLayout layout16, layout17;
     Switch chkCaActive;
 
-    String ID="";
+//    String ID="";
 
     JsonParser jsonparser = new JsonParser();
     String ab;
     JSONObject jobj = null;
-    JSONArray jaCa;
+    JSONArray jaCa, jarr;
 
     ProgressDialog pd;
     Bill bill;
@@ -82,6 +82,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
         daS = new DatabaseSQLi(this,"");
+        pd = new ProgressDialog(CloseDayAddActivity.this);
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
         cboCaRes = (Spinner)findViewById(R.id.cboCaRes);
@@ -131,6 +132,11 @@ public class CloseDayAddActivity extends AppCompatActivity {
         lbCaAmt.setText(R.string.amt);
 //        lbCaCntBill.setText(R.string.discount);
         lbCaDiscount.setText(R.string.discount);
+        txtCaDiscount.setText(R.string.zero);
+        txtCaNetTotal.setText(R.string.zero);
+        txtCaVat.setText(R.string.zero);
+        txtCaSC.setText(R.string.zero);
+        txtCaTotal.setText(R.string.zero);
         lbCaTotal.setText(R.string.total);
         lbCaSC.setText(R.string.sc);
         lbCaVat.setText(R.string.vat);
@@ -146,6 +152,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         btnCaSave.setText(R.string.save);
         btnCaVoid.setText(R.string.void1);
         chkCaActive.setChecked(true);
+        lbCaCntBill.setText(R.string.lbCaCntBill);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
@@ -160,8 +167,12 @@ public class CloseDayAddActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     chkCaActive.setText(R.string.activeon);
+                    btnCaVoid.setVisibility(View.INVISIBLE);
+                    txtCaPasswordVoid.setVisibility(View.INVISIBLE);
                 }else{
                     chkCaActive.setText(R.string.activeoff);
+                    btnCaVoid.setVisibility(View.VISIBLE);
+                    txtCaPasswordVoid.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -195,7 +206,16 @@ public class CloseDayAddActivity extends AppCompatActivity {
                         }).create().show();
                     }else{
                         if(rs.chkPasswordVoid(txtCaPasswordVoid.getText().toString())){
-
+//                            String user = rs.chkUserByPassword(txtCaUserPassword.getText().toString());
+                            if(rs.AccessMode.equals("Standalone")) {
+                                Log.d("cd.ID ",cd.ID);
+                                jarr = daS.ClosedayVoid(rs.chkUserByPassword(txtCaPasswordVoid.getText().toString()), cd.ID);
+                                getClosedayVoid();
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new CloseDayVoid().execute(cd.ID,rs.chkUserByPassword(txtCaUserPassword.getText().toString()));
+                            }else{
+                                new CloseDayVoid().execute(cd.ID,rs.chkUserByPassword(txtCaUserPassword.getText().toString()));
+                            }
                         }
                     }
                 }
@@ -233,7 +253,6 @@ public class CloseDayAddActivity extends AppCompatActivity {
                             }else{
                                 new retrieveCloseDayInsert().execute();
                             }
-
                         }
                     }
                 }
@@ -259,7 +278,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
                 new retrieveCloseDay().execute(year+"-"+month1+"-"+day1,resid);
             }
         }
-
+        chkCaActive.setChecked(false);
+        txtCaPasswordVoid.setVisibility(View.INVISIBLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     @Override
@@ -403,7 +423,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         cd.CloseDayDate = year+"-"+month1+"-"+day1;
         cd.CloseDayUser = rs.chkUserByPassword(txtCaUserPassword.getText().toString());
         cd.Cnt = rs.chkNumber(lbCaCntBill.getText().toString().replace("จำนวนบิล",""));
-        cd.CntOrder = rs.chkNumber(lbCaCntOrder.getText().toString());
+        cd.CntOrder = rs.chkNumber(lbCaCntOrder.getText().toString().replace("จำนวนบิล",""));
         cd.CntBill = rs.chkNumber(lbCaCntBill.getText().toString().replace("จำนวนบิล",""));
         cd.Discount = txtCaDiscount.getText().toString();
 //        cd.ID = ID;
@@ -448,7 +468,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         protected void onPreExecute() {
 
             String aaa = ab;
-            pd = new ProgressDialog(CloseDayAddActivity.this);
+
             pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             pd.setTitle("Loading...");
             pd.setMessage("Loading Close day...");
@@ -465,8 +485,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
                 Log.d("jaCa",jaCa.toString());
                 JSONObject catObj = (JSONObject) jaCa.get(0);
                 bill = new Bill();
-                ID = catObj.getString(cd.dbID);
-                if(!ID.equals("")){
+                cd.ID = catObj.getString(cd.dbID);
+                if(!cd.ID.equals("")){
                     txtCaAmt.setText(catObj.getString(cd.dbAmt));
                     txtCaDiscount.setText(catObj.getString(cd.dbDiscount));
                     txtCaTotal.setText(catObj.getString(cd.dbTotal));
@@ -474,7 +494,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
                     txtCaNetTotal.setText(catObj.getString(cd.dbNetTotal));
                     txtCaSC.setText(catObj.getString(cd.dbSC));
                     lbCaCntBill.setText("จำนวนบิล "+catObj.getString(cd.dbCntBill));
-                    lbCaCntOrder.setText("จำนวนบิล "+catObj.getString(cd.dbCntOrder));
+                    lbCaCntOrder.setText("จำนวนรายการ "+catObj.getString(cd.dbCntOrder));
                     txtCaRemark.setText(catObj.getString(cd.dbRemark));
                     txtCaCashReceive1.setText(catObj.getString(cd.dbCashR1));
                     txtCaCashReceive2.setText(catObj.getString(cd.dbCashR2));
@@ -492,7 +512,6 @@ public class CloseDayAddActivity extends AppCompatActivity {
                     layout17.setVisibility(View.VISIBLE);
                     layout16.setVisibility(View.INVISIBLE);
                     chkCaActive.setChecked(true);
-
                 }else{
                     txtCaAmt.setText(catObj.getString(bill.dbAmt));
                     txtCaDiscount.setText(catObj.getString(bill.dbDiscount));
@@ -503,6 +522,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
                     lbCaCntBill.setText("จำนวนบิล "+catObj.getString("cnt_bill"));
                     layout17.setVisibility(View.INVISIBLE);
                     layout16.setVisibility(View.VISIBLE);
+                    chkCaActive.setChecked(false);
                 }
 //                    bill.SC = catObj.getString("sc");
             }
@@ -574,14 +594,14 @@ public class CloseDayAddActivity extends AppCompatActivity {
         protected void onPreExecute() {
             String aaa = ab;
 //            pd = new ProgressDialog(CloseDayAddActivity.this);
-//            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//            pd.setTitle("Loading...");
-//            pd.setMessage("Loading images...");
-//            pd.setCancelable(false);
-//            pd.setIndeterminate(false);
-//            pd.setMax(100);
-//            pd.setProgress(0);
-//            pd.show();
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setTitle("Save...");
+            pd.setMessage("Save Close Day...");
+            pd.setCancelable(false);
+            pd.setIndeterminate(false);
+            pd.setMax(100);
+            pd.setProgress(0);
+            pd.show();
         }
     }
     private void getClosedayInsert(){
@@ -590,7 +610,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
                 JSONObject catObj = (JSONObject) jaCa.get(0);
 
                 Log.d("sql",catObj.getString("sql"));
-                if(!catObj.getString("success").equals("1")){
+                if(catObj.getString("success").equals("1")){
+                    pd.dismiss();
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
                     builder1.setMessage("บันทึกข้อมูล  เรียบร้อย")
                     ;
@@ -615,8 +636,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    class retrieveCloseDayVoid extends AsyncTask<String,String,String> {
-
+    class CloseDayVoid extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
             //Log.d("Login attempt", jobj.toString());
@@ -625,8 +645,9 @@ public class CloseDayAddActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             params.add(new BasicNameValuePair(cd.dbID, arg0[0]));
+            params.add(new BasicNameValuePair(cd.dbVoidRemark, ""));
             jaCa = jsonparser.getJSONFromUrl(rs.hostCloseDayVoid,params);
-            Log.d("closeday_id",arg0[0]);
+            Log.d("CloseDayVoid cdid",arg0[0]);
 //            } catch (JSONException e) {
 //                // TODO Auto-generated catch block
 //                e.printStackTrace();
@@ -636,29 +657,7 @@ public class CloseDayAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
-            try {
-                if(jaCa!=null){
-                    Log.d("jaCa",jaCa.toString());
-                    JSONObject catObj = (JSONObject) jaCa.get(0);
-                    if(catObj.getString("success").equals("1")){
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
-                        builder1.setMessage("ยกเลิกข้อมูล  เรียบร้อย");
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                btnCaVoid.setEnabled(false);
-                            }
-                        }).create().show();
-                    }
-//                    ID = catObj.getString("closeday_id");
-//                    bill.SC = catObj.getString("sc");
-                }
-            } catch (JSONException e){
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                Log.e("retrieveCloseDay",e.getMessage());
-            }
+            getClosedayVoid();
 //            setControlNewCloseDay();
             pd.dismiss();
         }
@@ -675,6 +674,31 @@ public class CloseDayAddActivity extends AppCompatActivity {
             pd.setMax(100);
             pd.setProgress(0);
             pd.show();
+        }
+    }
+    private void getClosedayVoid(){
+        try {
+            if(jarr!=null){
+                Log.d("jarr",jarr.toString());
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                if(catObj.getString("success").equals("1")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(CloseDayAddActivity.this);
+                    builder1.setMessage("ยกเลิกข้อมูล  เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnCaVoid.setEnabled(false);
+                        }
+                    }).create().show();
+                }
+//                    ID = catObj.getString("closeday_id");
+//                    bill.SC = catObj.getString("sc");
+            }
+        } catch (JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.e("retrieveCloseDay",e.getMessage());
         }
     }
 }

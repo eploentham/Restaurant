@@ -149,8 +149,29 @@ public class BillVoidActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(btnBvVoid.getText().toString().equals(getResources().getString(R.string.void1))){
 //                    Log.d("btnBvVoid onClick", jobj.toString());
-                    txtBvPassword.setVisibility(View.VISIBLE);
-                    btnBvVoid.setText(R.string.void1confrim);
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(BillVoidActivity.this);
+                    builder1.setMessage("ต้องการ"+getResources().getString(R.string.void1)+"\n");
+                    builder1.setCancelable(true);
+                    builder1.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                                finish();
+//                                flagDel=false;
+//                                Toast.makeText(MailarapOrderAdd.this,"You clicked no button",Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
+                    });
+                    builder1.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Whatever...
+                            txtBvPassword.setVisibility(View.VISIBLE);
+                            btnBvVoid.setText(R.string.void1confrim);
+                            txtBvPassword.setSelection(0,txtBvPassword.getText().length());
+                            txtBvPassword.setFocusable(true);
+
+                        }
+                    }).create().show();
                 }else if(btnBvVoid.getText().toString().equals(getResources().getString(R.string.void1confrim))){
 //                    Log.d("btnBvVoid onClick", jobj.toString());
                     if(txtBvPassword.getText().toString().equals("")){
@@ -229,17 +250,18 @@ public class BillVoidActivity extends AppCompatActivity {
                 if(!pageLoad){
                     String[] txt = ((TextView)view).getText().toString().split(" ");
 //                bill = new Bill();
-                    bill = lBill.get(i);
-                    txtBvBillCode.setText(txt[1]);
-                    if(rs.AccessMode.equals("Standalone")) {
-                        jarrOv = daS.BillDetailByBillId(bill.ID);
-                        setlvBillShowOrder();
-                    }else if(rs.AccessMode.equals("Internet")){
-                        new retrieveOrderByBillId().execute(bill.ID);
-                    }else{
-                        new retrieveOrderByBillId().execute(bill.ID);
+                    if(lBill!=null){
+                        bill = lBill.get(i);
+                        txtBvBillCode.setText(txt[1]);
+                        if(rs.AccessMode.equals("Standalone")) {
+                            jarrOv = daS.BillDetailByBillId(bill.ID);
+                            setlvBillShowOrder();
+                        }else if(rs.AccessMode.equals("Internet")){
+                            new retrieveOrderByBillId().execute(bill.ID);
+                        }else{
+                            new retrieveOrderByBillId().execute(bill.ID);
+                        }
                     }
-
                 }
             }
         });
@@ -522,6 +544,7 @@ public class BillVoidActivity extends AppCompatActivity {
                 }
             }catch (JSONException e){
                 e.printStackTrace();
+                Log.e("getBillVoid ",e.getMessage());
             }
         }
     }

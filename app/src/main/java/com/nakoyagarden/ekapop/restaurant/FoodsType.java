@@ -4,8 +4,8 @@ package com.nakoyagarden.ekapop.restaurant;
  * Created by ekapop on 9/6/2016.
  */
 public class FoodsType extends Database{
-    public String ID="", Code="", Name="", Remark="", Active="", Sort1="";
-    public String dbID="foods_type_id", dbCode="foods_type_code", dbName="foods_type_name", dbRemark="remark", dbActive="active", dbSort1="sort1";
+    public String ID="", Code="", Name="", Remark="", Active="", Sort1="", VoidDate="", VoidUser="";
+    public String dbID="foods_type_id", dbCode="foods_type_code", dbName="foods_type_name", dbRemark="remark", dbActive="active", dbSort1="sort1", dbVoidDate="void_date", dbVoidUser="void_user";
 
     public String cFoodsTypeMySQL=creaT+" '"+dbNameD+"'.'"+tbNameFoodsType+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -30,6 +30,8 @@ public class FoodsType extends Database{
             +", "+dbHostId+" "+tex+"  NULL "
             +", "+dbBranchId+" "+tex+"  NULL "
             +", "+dbDeviceId+" "+tex+"  NULL "
+            +", "+dbVoidDate+" "+tex+"  NULL "
+            +", "+dbVoidUser+" "+tex+"  NULL "
             +"); ";
     public String cDropFoodsType="DROP TABLE IF EXISTS "+tbNameFoodsType+" ;";
 }

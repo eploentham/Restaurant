@@ -4,8 +4,8 @@ package com.nakoyagarden.ekapop.restaurant;
  * Created by ekapop on 9/1/2016.
  */
 public class Area extends Database{
-    public String ID="", Code="", Name="", Remark="", Active="", Sort1="";
-    public String dbID="area_id", dbCode="area_code", dbName="area_name", dbRemark="remark";
+    public String ID="", Code="", Name="", Remark="", Active="", Sort1="", VoidDate="", VoidUser="";
+    public String dbID="area_id", dbCode="area_code", dbName="area_name", dbRemark="remark", dbVoidDate="void_date", dbVoidUser="void_user";
     public String dbActive="active", dbSort1="sort1";
 
     //ALTER TABLE `b_user` ADD `ttttt` VARCHAR(255) NULL AFTER `permission_void_closeday`;
@@ -44,6 +44,8 @@ public class Area extends Database{
             +", "+dbHostId+" "+tex+"  NULL "
             +", "+dbBranchId+" "+tex+"  NULL "
             +", "+dbDeviceId+" "+tex+"  NULL "
+            +", "+dbVoidDate+" "+tex+"  NULL "
+            +", "+dbVoidUser+" "+tex+"  NULL "
             +"); ";
     public String cDropArea="DROP TABLE IF EXISTS "+tbNameArea+" ;";
 }

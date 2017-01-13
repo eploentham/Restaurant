@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -218,7 +219,9 @@ public class MainActivity extends AppCompatActivity {
                 new chkServerReachable().execute();
             }
         }
-
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService( Context.TELEPHONY_SERVICE );
+        String imeistring = telephonyManager.getDeviceId();
+        rs.imei = imeistring;
 //        pageLoad=false;
 //        Spinner sp=(Spinner)findViewById(R.genid.spinner);
 //        SpinnerAdapter adapter=new SpinnerAdapter(this,
@@ -276,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                     rs.sCboArea.add(catObj.getString(ar.dbName));
                     rs.sArea.add(catObj.getString(ar.dbID)+"@"+catObj.getString(ar.dbCode)+"@"+catObj.getString(ar.dbName));
                 }
-                imageArea.setImageResource(R.mipmap.green);
+                imageArea.setImageResource(R.mipmap.green1);
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -326,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     rs.sTable.add(catObj.getString(ta.dbID)+"@"+catObj.getString(ta.dbCode)+"@"+catObj.getString(ta.dbName)+"@"+catObj.getString(ta.dbStatusUse));
                     table += catObj.getString(ta.dbCode)+"="+catObj.getString(ta.dbStatusUse)+";\n";
                 }
-                imageTable.setImageResource(R.mipmap.green);
+                imageTable.setImageResource(R.mipmap.green1);
             }
             try {
                 FileOutputStream outputStream;
@@ -383,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                         rs.ReceiptF2 = catObj.getString(res.dbRF2);
                     }
                 }
-                imageRes.setImageResource(R.mipmap.green);
+                imageRes.setImageResource(R.mipmap.green1);
             }
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -406,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrF = jsonparser.getJSONFromUrl(rs.hostGetFoods,params);
             rs.jarrF = jarrF.toString();
-                //jarrF = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
+                //jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
 
             //} catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -425,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void setFoods(){
-        imageFoods.setImageResource(R.mipmap.green);
+        imageFoods.setImageResource(R.mipmap.green1);
     }
     class retrievePrinterName extends AsyncTask<String,String,String>{
         @Override
@@ -493,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
                     rs.sCboFoodsType.add(catObj.getString(ft.dbName));
                     rs.sFoodsType.add(catObj.getString(ft.dbID)+"@"+catObj.getString(ft.dbCode)+"@"+catObj.getString(ft.dbName));
                 }
-                imageFoodsType.setImageResource(R.mipmap.green);
+                imageFoodsType.setImageResource(R.mipmap.green1);
             }
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -532,7 +535,7 @@ public class MainActivity extends AppCompatActivity {
                     rs.sUser.add(catObj.getString(us.dbID)+"@"+catObj.getString(us.dbLogin)+"@"+catObj.getString(us.dbName)+"@"+
                             catObj.getString(us.dbPassword1)+"@"+catObj.getString(us.dbPrivilege)+"@"+catObj.getString(us.dbRemark));
                 }
-                imageUser.setImageResource(R.mipmap.green);
+                imageUser.setImageResource(R.mipmap.green1);
             }
         } catch (JSONException e) {
             // TODO Auto-generated catch block

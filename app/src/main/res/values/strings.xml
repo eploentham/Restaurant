@@ -88,12 +88,22 @@
     <string name="txtBvBillCode">ป้อนเลขที่ใบเสร็จ</string>
     <string name="lbFrWebDirectory">Web Directory</string>
     <string name="lbFrHostID">Host ID</string>
+    <string name="btnMTChange">ย้ายโต๊ะ</string>
+    <string name="btnMTMerge">รวมโต๊ะ</string>
+    <string name="btnMBillVoid">ยกเลิกรับชำระ</string>
+    <string name="btnTcSave">ยืยยัน การย้ายโต๊ะ</string>
+    <string name="btnFristRes">สร้างฐานข้อมูลใหม่</string>
+    <string name="btnFrSaveText">บันทึก Text </string>
+    <string name="btnFrBackUp">สำรองฐานข้อมูล</string>
+    <string name="lbFrLanguage">ภาษา </string>
+    <string name="lbCaCntBill">จำนวนบิล</string>
+    <string name="zero">0</string>
 
     <string name="CashReceive1">เงินสดรับ1</string>
     <string name="CashReceive2">เงินสดรับ2</string>
     <string name="CashReceive3">เงินสดรับ3</string>
     <string name="CashDraw1">เบิกเงินสด1</string>
-    <string name="CashDraw2">เบิกเงินาด2</string>
+    <string name="CashDraw2">เบิกเงินสด2</string>
     <string name="CashDraw3">เบิกเงินสด3</string>
     <string name="CaCntBill">จำนวนบิล</string>
     <string name="CaCntOrder">จำนวนรายการ</string>

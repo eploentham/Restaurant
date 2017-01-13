@@ -77,10 +77,10 @@ $bi->table="t_bill";
 //" value ('".$_POST['order_id']."','".$_POST['foods_code']."',now(),'1','".$_POST['qty']."','".$_POST['remark']."')";
 $sql = "Insert into ".$bi->table."(".$bi->id.",".$bi->billdate.",".$bi->datecreate.",".$bi->remark.",".$bi->statusvoid.",".$bi->tableid.",".$bi->resid.","
 .$bi->areaid.",".$bi->deviceid.",".$bi->amt.",".$bi->discount.",".$bi->active.",".$bi->servicecharge.",".$bi->vat.",".$bi->total.",".$bi->nettotal.","
-.$bi->billcode.",".$bi->billuser.",".$bi->cashreceive.",".$bi->cashton.",".$bi->statuscloseday.",".$bi->closedayid.")".
+.$bi->billcode.",".$bi->billuser.",".$bi->cashreceive.",".$bi->cashton.",".$bi->statuscloseday.",".$bi->closedayid.",".$bi->hostid.")".
 " value ('".$_POST['bill_id']."',now(),now(),'".$_POST['remark']."','0','".$_POST['table_id']."','".$_POST['res_id']."','"
-.$_POST['area_id']."','".$_POST['device_id']."',".$_POST['amt'].",".$_POST['discount'].",'1',".$_POST['service_charge'].",".$_POST['vat'].",".$_POST['total'].",".$_POST['nettotal'].",'"
-.$code1."','".$_POST['billuser']."',".$_POST['cash_receive'].",".$_POST['cash_ton'].",'0','')";
+.$_POST['area_id']."','".$_POST['device_id']."',".$_POST['amount'].",".$_POST['discount'].",'1',".$_POST['service_charge'].",".$_POST['vat'].",".$_POST['total'].",".$_POST['nettotal'].",'"
+.$code1."','".$_POST['billuser']."',".$_POST['cash_receive'].",".$_POST['cash_ton'].",'0','','".$_POST['host_id']."')";
 $objQuery = mysql_query($sql);
 $ok="";
 $err="";
@@ -91,8 +91,8 @@ if(!$objQuery){
     $ok="1";
 }
 
-$sql = "Update b_table Set status_use ='0' Where table_id ='".$_POST['table_id']."'";
-$objQuery = mysql_query($sql);
+$sql1 = "Update b_table Set status_use ='0' Where table_id ='".$_POST['table_id']."'";
+$objQuery = mysql_query($sql1);
 
 mysql_close($objConnect);
 

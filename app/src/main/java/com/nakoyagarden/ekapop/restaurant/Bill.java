@@ -5,12 +5,12 @@ package com.nakoyagarden.ekapop.restaurant;
  */
 public class Bill extends Database{
     public String ID="", Code="", BillDate="", LotID="", Active="", Remark="", StatusVoid="", VoidDate="", TableId="", ResId="", AreaId="", DeviceId="", Amt="", Discount="", SC="";
-    public String Vat="", Total="", NetTotal="", Cnt="", CashReceive="", CashTon="", VoidUser="", BillUser="", ClosedayId="";
+    public String Vat="", Total="", NetTotal="", Cnt="", CashReceive="", CashTon="", VoidUser="", BillUser="", ClosedayId="", HostId="";
 
     public String dbID="bill_id", dbCode="bill_code", dbBillDate="bill_date", dbLotID="lot_id", dbActive="active", dbRemark="remark", dbStatusVoid="status_void";
     public String dbVoidDate="void_date", dbTableId="table_id", dbResId="res_id", dbAreaId="area_id", dbAmt="amount", dbDiscount="discount", dbSC="service_charge";
     public String dbVat="vat", dbTotal="total", dbNetTotal="nettotal", dbCnt="", dbCashReceive="cash_receive", dbCashTon="cash_ton", dbStatusCloseday="status_closeday";
-    public String dbVoidUser="void_user", dbBillUser="bill_user", dbClosedayId="closeday_id";
+    public String dbVoidUser="void_user", dbBillUser="bill_user", dbClosedayId="closeday_id", dbHostId="host_id", dbDeviceId="device_id";
 
     public String cBillMySQL=creaT+" '"+dbNameD+"'.'"+tbNameBill+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "

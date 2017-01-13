@@ -164,7 +164,7 @@ public class OrderViewActivity extends AppCompatActivity {
             //params.add(new BasicNameValuePair("table_code",tableCode));
             jarr = jsonparser.getJSONFromUrl(rs.hostOrderByTableCode,params);
 
-            //rs.jarrF = jarrF.toString();
+            //rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
             //    e.printStackTrace();

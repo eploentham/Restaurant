@@ -5,11 +5,12 @@ package com.nakoyagarden.ekapop.restaurant;
  */
 public class Restaurant extends Database{
     public String ID="", Code="", Name="", Remark="", Active="", Sort1="",TaxID="", PrinterOrder1="", PrinterOrder2="", PrinterOrder3, PrinterWaterBar1="", PrinterWaterBar2="", PrinterWaterBar3="";
-    public String RH1="", RH2="",RF1="",RF2="",BillCode="",DefaultRes="";
+    public String RH1="", RH2="",RF1="",RF2="",BillCode="",DefaultRes="", VoidDate="", VoidUser="";
 
     public String dbID="res_id", dbCode="res_code", dbName="res_name", dbRemark="remark", dbActive="active", dbSort1="sort1",dbTaxID="tax_id";
     public String dbPrinterOrder1="printer_foods1", dbPrinterOrder2="printer_foods2", dbPrinterOrder3="printer_foods3", dbPrinterWaterBar1="printer_waterbar1", dbPrinterWaterBar2="printer_waterbar2", dbPrinterWaterBar3="printer_waterbar3";
     public String dbRH1="receipt_header1", dbRH2="receipt_header2",dbRF1="receipt_footer1",dbRF2="receipt_footer2",dbBillCode="bill_code",dbDefaultRes="default_res", dbBillMonth="bill_month";
+    public String dbVoidDate="void_date", dbVoidUser="void_user";
 
     public String cResMySQL=creaT+" '"+dbNameD+"'.'"+tbNameRes+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -62,6 +63,8 @@ public class Restaurant extends Database{
             +", "+dbHostId+" "+tex+"  NULL "
             +", "+dbBranchId+" "+tex+"  NULL "
             +", "+dbDeviceId+" "+tex+"  NULL "
+            +", "+dbVoidDate+" "+tex+"  NULL "
+            +", "+dbVoidUser+" "+tex+"  NULL "
             +"); ";
     public String cDropRes="DROP TABLE IF EXISTS "+tbNameRes+" ;";
 }

@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -25,9 +26,9 @@ import java.util.List;
 
 public class FoodsTypeAddActivity extends AppCompatActivity {
     TextView lbFtaCode, lbFtaName, lbFtaRemark, lbFtaSort1, lbFtaActive;
-    EditText txtFtaCode, txtFtaName, txtFtaRemark, txtFtaSort1;
+    EditText txtFtaCode, txtFtaName, txtFtaRemark, txtFtaSort1, txtFtaPasswordVoid;
     Switch chkFtaActive;
-    Button btnFtaSave;
+    Button btnFtaSave, btnFtaVoid;
 
     FoodsType ft = new FoodsType();
 
@@ -46,6 +47,7 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
         daS = new DatabaseSQLi(this,"");
+        ft = new FoodsType();
 
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
 
@@ -58,7 +60,9 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         txtFtaName = (EditText)findViewById(R.id.txtFtaName);
         txtFtaRemark = (EditText)findViewById(R.id.txtFtaRemark);
         txtFtaSort1 = (EditText)findViewById(R.id.txtFtaSort1);
+        txtFtaPasswordVoid = (EditText)findViewById(R.id.txtFtaPasswordVoid);
         btnFtaSave = (Button)findViewById(R.id.btnFtaSave);
+        btnFtaVoid = (Button)findViewById(R.id.btnFtaVoid);
         chkFtaActive = (Switch)findViewById(R.id.chkFtaActive);
 
         lbFtaCode.setText(R.string.code);
@@ -67,6 +71,7 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
         lbFtaActive.setText(R.string.active);
         lbFtaSort1.setText(R.string.sort);
         btnFtaSave.setText(R.string.save);
+        btnFtaVoid.setText(R.string.void1);
         btnFtaSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +89,8 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
 
             }
         });
+        btnFtaVoid.setVisibility(View.INVISIBLE);
+        txtFtaPasswordVoid.setVisibility(View.INVISIBLE);
         chkFtaActive.setText(R.string.activeon);
         chkFtaActive.setChecked(true);
         txtFtaCode.setEnabled(false);
@@ -92,20 +99,102 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     chkFtaActive.setText(R.string.activeon);
+                    btnFtaVoid.setVisibility(View.INVISIBLE);
                 }else{
                     chkFtaActive.setText(R.string.activeoff);
+                    btnFtaVoid.setVisibility(View.VISIBLE);
                 }
             }
         });
         if(rs.AccessMode.equals("Standalone")) {
-            jarr = daS.FoodsTypeSelectById(rs.ftID);
+            jarrF = daS.FoodsTypeSelectById(rs.ftID);
             setControl();
         }else if(rs.AccessMode.equals("Internet")){
             new retrieveFoodsType().execute();
         }else{
             new retrieveFoodsType().execute();
         }
+        btnFtaVoid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btnFtaVoid.getText().toString().equals(getResources().getString(R.string.void1confrim))){
+                    if(txtFtaPasswordVoid.getText().toString().equals("")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
+                        builder1.setMessage("Password ไม่ได้ป้อน");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtFtaPasswordVoid.setSelection(0,txtFtaPasswordVoid.getText().length());
+                                txtFtaPasswordVoid.setFocusable(true);
+                            }
+                        }).create().show();
+                    }else{
+                        if(rs.chkPasswordVoid(txtFtaPasswordVoid.getText().toString())){
+//                            String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
+                            if(rs.AccessMode.equals("Standalone")) {
+                                jarr = daS.FoodsTypeVoid(rs.chkUserByPassword(txtFtaPasswordVoid.getText().toString()), ft.ID);
+                                getFoodsTypeVoid();
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new FoodsTypeVoid().execute(rs.chkUserByPassword(txtFtaPasswordVoid.getText().toString()), ft.ID);
+                            }else{
+                                new FoodsTypeVoid().execute(rs.chkUserByPassword(txtFtaPasswordVoid.getText().toString()), ft.ID);
+                            }
+
+                        }else{
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
+                            builder1.setMessage("Password ไม่ถูกต้อง");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    txtFtaPasswordVoid.setSelection(0,txtFtaPasswordVoid.getText().length());
+                                    txtFtaPasswordVoid.setFocusable(true);
+                                }
+                            }).create().show();
+                        }
+                    }
+
+
+                    if(rs.AccessMode.equals("Standalone")) {
+
+                    }else if(rs.AccessMode.equals("Internet")){
+
+                    }else{
+
+                    }
+                }else{
+                    if(!chkFtaActive.isChecked()){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
+                        builder1.setMessage("ต้องการเยกเลิกรายการนี้.\n\nลำดับ "+" รหัส "+txtFtaCode.getText().toString()+" "+ txtFtaName.getText().toString()+"\n");
+                        builder1.setCancelable(true);
+                        builder1.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                finish();
+//                                flagDel=false;
+//                                Toast.makeText(MailarapOrderAdd.this,"You clicked no button",Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder1.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Whatever...
+                                txtFtaPasswordVoid.setVisibility(View.VISIBLE);
+                                btnFtaVoid.setText(R.string.void1confrim);
+                                txtFtaPasswordVoid.setSelection(0,txtFtaPasswordVoid.getText().length());
+                                txtFtaPasswordVoid.setFocusable(true);
+
+                            }
+                        }).create().show();
+
+                    }
+                }
+            }
+        });
 //        new retrieveFoodsType().execute();
+        if(rs.ftID.equals("")) chkFtaActive.setChecked(true);
         setTheme();
     }
     private void setTheme(){
@@ -122,8 +211,8 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
     private void setControl(){
         try {
             ft = new FoodsType();
-            if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
-                JSONObject catObj = (JSONObject) jarr.get(0);
+            if((jarrF!=null) && (!jarrF.equals("[]")) & jarrF.length()>0){
+                JSONObject catObj = (JSONObject) jarrF.get(0);
                 ft.ID = catObj.getString(ft.dbID);
                 ft.Code = catObj.getString(ft.dbCode);
                 ft.Name = rs.StringNull(catObj.getString(ft.dbName));
@@ -214,6 +303,25 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
             Log.e("getFoodsTypeInsert ",e.getMessage());
         }
     }
+    private void getFoodsTypeVoid(){
+        try {
+            JSONObject catObj = (JSONObject) jarr.get(0);
+            Log.d("sql",catObj.getString("sql"));
+            if(catObj.getString("status").equals("1")){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(FoodsTypeAddActivity.this);
+                builder1.setMessage("ยกเลิกข้อมูล  เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnFtaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+            Log.e("getFoodsTypeInsert ",e.getMessage());
+        }
+    }
     class retrieveFoodsType extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
@@ -223,13 +331,36 @@ public class FoodsTypeAddActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
 
-            jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeSelectByID,params);
+            jarrF = jsonparser.getJSONFromUrl(rs.hostFoodsTypeSelectByID,params);
             return ab;
         }
         @Override
         protected void onPostExecute(String ab){
             String aaa = ab;
             setControl();
+        }
+        @Override
+        protected void onPreExecute() {
+            String aaa = ab;
+        }
+    }
+    class FoodsTypeVoid extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... arg0) {
+            //Log.d("Login attempt", jobj.toString());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair(ft.dbID, arg0[1]));
+            params.add(new BasicNameValuePair(ft.dbVoidUser, arg0[0]));
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+
+            jarr = jsonparser.getJSONFromUrl(rs.hostFoodsTypeVoid,params);
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+            String aaa = ab;
+            getFoodsTypeVoid();
         }
         @Override
         protected void onPreExecute() {

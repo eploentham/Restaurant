@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.ssl.PrivateKeyDetails;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +27,9 @@ import java.util.List;
 
 public class ResAddActivity extends AppCompatActivity {
     TextView lbRaCode, lbRaName, lbRaRemark, lbRaSort1, lbRaActive, lbRaDefaultRes, lbRaRH1, lbRaRH2, lbRaRF1, lbRaRF2, lbRaTaxID, lbRaBillCode;
-    EditText txtRaCode, txtRaName, txtRaRemark, txtRaSort1, txtRaRH1, txtRaRH2,  txtRaRF1, txtRaRF2,  txtRaTaxID, txtRaBillCode;
+    EditText txtRaCode, txtRaName, txtRaRemark, txtRaSort1, txtRaRH1, txtRaRH2,  txtRaRF1, txtRaRF2,  txtRaTaxID, txtRaBillCode,txtRaPasswordVoid;
     Switch chkRaActive;
-    Button btnRaSave;
+    Button btnRaSave,btnRaVoid;
     CheckBox chkRaDefaultRes;
 
     Restaurant res = new Restaurant();
@@ -38,7 +37,7 @@ public class ResAddActivity extends AppCompatActivity {
     private RestaurantControl rs;
     JSONArray jarr;
     JsonParser jsonparser = new JsonParser();
-    JSONArray jarrF;
+    JSONArray jarrR;
     String ab;
     int textSize=20,textSize1=18, row;
     DatabaseSQLi daS;
@@ -49,6 +48,7 @@ public class ResAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
         daS = new DatabaseSQLi(this,"");
+        res = new Restaurant();
 
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
         lbRaCode = (TextView)findViewById(R.id.lbRaCode);
@@ -77,9 +77,10 @@ public class ResAddActivity extends AppCompatActivity {
         txtRaRF2 = (EditText)findViewById(R.id.txtRaRF2);
         txtRaTaxID = (EditText)findViewById(R.id.txtRaTaxID);
         txtRaBillCode = (EditText)findViewById(R.id.txtRaBillCode);
-//        txtRaSort1 = (EditText)findViewById(R.genid.txtRaSort1);
+        txtRaPasswordVoid = (EditText)findViewById(R.id.txtRaPasswordVoid);
 
         btnRaSave = (Button)findViewById(R.id.btnRaSave);
+        btnRaVoid = (Button)findViewById(R.id.btnRaVoid);
         chkRaActive = (Switch) findViewById(R.id.chkRaActive);
 
         lbRaCode.setText(R.string.code);
@@ -95,7 +96,9 @@ public class ResAddActivity extends AppCompatActivity {
         lbRaTaxID.setText(R.string.RaTaxID);
         lbRaBillCode.setText(R.string.RaBillCode);
         chkRaDefaultRes.setText("เป็นร้านคิดเงิน");
-
+        btnRaVoid.setText(R.string.void1);
+        btnRaVoid.setVisibility(View.INVISIBLE);
+        txtRaPasswordVoid.setVisibility(View.INVISIBLE);
         txtRaBillCode.setFocusable(false);
 
         btnRaSave.setText(R.string.save);
@@ -108,8 +111,10 @@ public class ResAddActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if(b){
                 chkRaActive.setText(R.string.activeon);
+                btnRaVoid.setVisibility(View.INVISIBLE);
             }else{
                 chkRaActive.setText(R.string.activeoff);
+                btnRaVoid.setVisibility(View.VISIBLE);
             }
             }
         });
@@ -118,7 +123,7 @@ public class ResAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(rs.AccessMode.equals("Standalone")) {
                     getRes();
-                    jarr = daS.ResInsert(res.ID,res.Code,res.Name,res.Remark,res.Sort1);
+                    jarrR = daS.ResInsert(res.ID,res.Code,res.Name,res.Remark,res.Sort1);
                     getResInsert();
                 }else if(rs.AccessMode.equals("Internet")){
                     getRes();
@@ -138,6 +143,87 @@ public class ResAddActivity extends AppCompatActivity {
             new retrieveRes().execute();
         }
 //        new retrieveRes().execute();
+        btnRaVoid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(btnRaVoid.getText().toString().equals(getResources().getString(R.string.void1confrim))){
+                    if(txtRaPasswordVoid.getText().toString().equals("")){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                        builder1.setMessage("Password ไม่ได้ป้อน");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtRaPasswordVoid.setSelection(0,txtRaPasswordVoid.getText().length());
+                                txtRaPasswordVoid.setFocusable(true);
+                            }
+                        }).create().show();
+                    }else{
+                        if(rs.chkPasswordVoid(txtRaPasswordVoid.getText().toString())){
+//                            String tableid = rs.getTable(cboBvTable.getSelectedItem().toString(),"genid");
+                            if(rs.AccessMode.equals("Standalone")) {
+                                jarr = daS.ResVoid(rs.chkUserByPassword(txtRaPasswordVoid.getText().toString()), res.ID);
+                                getResVoid();
+                            }else if(rs.AccessMode.equals("Internet")){
+                                new ResVoid().execute(rs.chkUserByPassword(txtRaPasswordVoid.getText().toString()), res.ID);
+                            }else{
+                                new ResVoid().execute(rs.chkUserByPassword(txtRaPasswordVoid.getText().toString()), res.ID);
+                            }
+
+                        }else{
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                            builder1.setMessage("Password ไม่ถูกต้อง");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    txtRaPasswordVoid.setSelection(0,txtRaPasswordVoid.getText().length());
+                                    txtRaPasswordVoid.setFocusable(true);
+                                }
+                            }).create().show();
+                        }
+                    }
+
+
+                    if(rs.AccessMode.equals("Standalone")) {
+
+                    }else if(rs.AccessMode.equals("Internet")){
+
+                    }else{
+
+                    }
+                }else{
+                    if(!chkRaActive.isChecked()){
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                        builder1.setMessage("ต้องการเยกเลิกรายการนี้.\n\nลำดับ "+" รหัส "+txtRaCode.getText().toString()+" "+ txtRaName.getText().toString()+"\n");
+                        builder1.setCancelable(true);
+                        builder1.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                finish();
+//                                flagDel=false;
+//                                Toast.makeText(MailarapOrderAdd.this,"You clicked no button",Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder1.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Whatever...
+                                txtRaPasswordVoid.setVisibility(View.VISIBLE);
+                                btnRaVoid.setText(R.string.void1confrim);
+                                txtRaPasswordVoid.setSelection(0,txtRaPasswordVoid.getText().length());
+                                txtRaPasswordVoid.setFocusable(true);
+
+                            }
+                        }).create().show();
+
+                    }
+                }
+            }
+        });
+//        new retrieveFoodsType().execute();
+        if(rs.resID.equals("")) chkRaActive.setChecked(true);
         setTheme();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
@@ -262,9 +348,9 @@ public class ResAddActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair(res.dbTaxID, res.TaxID));
             params.add(new BasicNameValuePair(res.dbDefaultRes, res.DefaultRes));
             if(res.ID.equals("")){
-                jarr = jsonparser.getJSONFromUrl(rs.hostResInsert,params);
+                jarrR = jsonparser.getJSONFromUrl(rs.hostResInsert,params);
             }else{
-                jarr = jsonparser.getJSONFromUrl(rs.hostResUpdate,params);
+                jarrR = jsonparser.getJSONFromUrl(rs.hostResUpdate,params);
             }
 //                if(jarr!=null){
 //                    JSONObject catObj = (JSONObject) jarr.get(0);
@@ -287,8 +373,8 @@ public class ResAddActivity extends AppCompatActivity {
     }
     private void getResInsert(){
         try {
-            if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
-                JSONObject catObj = (JSONObject) jarr.get(0);
+            if((jarrR !=null) && (!jarrR.equals("[]")) & jarrR.length()>0){
+                JSONObject catObj = (JSONObject) jarrR.get(0);
                 Log.d("sql",catObj.getString("sql"));
                 if(catObj.getString("success").equals("1")){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
@@ -317,6 +403,38 @@ public class ResAddActivity extends AppCompatActivity {
             Log.e("getResInsert ",e.getMessage());
         }
     }
+    private void getResVoid(){
+        try {
+            if((jarr!=null) && (!jarr.equals("[]")) & jarr.length()>0){
+                JSONObject catObj = (JSONObject) jarr.get(0);
+                Log.d("sql",catObj.getString("sql"));
+                if(catObj.getString("status").equals("1")){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                    builder1.setMessage("ยกเลิกข้อมูล  เรียบร้อย");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btnRaSave.setEnabled(false);
+                        }
+                    }).create().show();
+                }
+            }else{
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ResAddActivity.this);
+                builder1.setMessage("ยกเลิกข้อมูล  ไม่เรียบร้อย");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        btnRaSave.setEnabled(false);
+                    }
+                }).create().show();
+            }
+
+        } catch (JSONException e) {
+            Log.e("getResVoid ",e.getMessage());
+        }
+    }
     class retrieveRes extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... arg0) {
@@ -333,6 +451,29 @@ public class ResAddActivity extends AppCompatActivity {
         protected void onPostExecute(String ab){
             String aaa = ab;
             setControl();
+        }
+        @Override
+        protected void onPreExecute() {
+            String aaa = ab;
+        }
+    }
+    class ResVoid extends AsyncTask<String,String,String> {
+        @Override
+        protected String doInBackground(String... arg0) {
+            //Log.d("Login attempt", jobj.toString());
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userdb",rs.UserDB));
+            params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
+            params.add(new BasicNameValuePair(res.dbID,arg0[1]));
+            params.add(new BasicNameValuePair(res.dbVoidUser, arg0[0]));
+
+            jarr = jsonparser.getJSONFromUrl(rs.hostResVoid,params);
+            return ab;
+        }
+        @Override
+        protected void onPostExecute(String ab){
+            String aaa = ab;
+            getResVoid();
         }
         @Override
         protected void onPreExecute() {

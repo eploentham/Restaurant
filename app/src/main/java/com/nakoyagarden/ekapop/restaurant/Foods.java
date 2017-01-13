@@ -4,10 +4,11 @@ package com.nakoyagarden.ekapop.restaurant;
  * Created by ekapop on 8/23/2016.
  */
 public class Foods extends Database{
-    public String ID="", Code="", Name="", Price="", Active="",TypeId="", Remark="", ResId="", StatusFoods="", PrinterName="", ResCode="", Sort1="";
+    public String ID="", Code="", Name="", Price="", Active="",TypeId="", Remark="", ResId="", StatusFoods="", PrinterName="", ResCode="", Sort1="", VoidDate="", VoidUser="";
 
     public String dbID="foods_id", dbCode="foods_code", dbName="foods_name", dbPrice="foods_price", dbActive="active",dbTypeId="foods_type_id";
     public String dbRemark="remark", dbResId="res_id", dbStatusFoods="status_foods", dbPrinterName="printer_name",dbResCode="res_code", dbSort1="sort1";
+    public String dbVoidDate="void_date", dbVoidUser="void_user";
 
     public String cFoodsMySQL=creaT+" '"+dbNameD+"'.'"+tbNameFoods+"' "
             +"('"+dbID+"' "+varc+" NOT NULL "
@@ -43,6 +44,8 @@ public class Foods extends Database{
             +", "+dbBranchId+" "+tex+"  NULL "
             +", "+dbDeviceId+" "+tex+"  NULL "
             +", "+dbSort1+" "+tex+"  NULL "
+            +", "+dbVoidDate+" "+tex+"  NULL "
+            +", "+dbVoidUser+" "+tex+"  NULL "
             +"); ";
     public String cDropFoods="DROP TABLE IF EXISTS "+tbNameFoods+" ;";
 }

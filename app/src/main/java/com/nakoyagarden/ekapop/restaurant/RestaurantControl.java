@@ -30,6 +30,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public ArrayList<String> sCboFoodsType = new ArrayList<String>();
     public ArrayList<String> sCboUser = new ArrayList<String>();
     public ArrayList<String> sCboPrivilege = new ArrayList<String>();
+    public ArrayList<String> sCboLanguage = new ArrayList<String>();
 
     public ArrayList<String> sTable = new ArrayList<String>();
     public ArrayList<String> sArea = new ArrayList<String>();
@@ -38,7 +39,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public ArrayList<String> sFoodsType = new ArrayList<String>();
     public ArrayList<String> sUser = new ArrayList<String>();
 
-    public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="";
+    public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="", imei="";
 
     public String hostIP="", hostWebDirectory ="", hostPORT="80", UserDB="", PasswordDB ="",TextSize="",PrnO="",PrnB="",PrnC="";
     public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", usID ="", AccessMode="", HostID="";
@@ -72,18 +73,29 @@ public class RestaurantControl  extends Application implements Serializable {
     public String hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
     public String hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
     public String hostFoodsSearch ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsSearch.php";
+    public String hostFoodsVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsVoid.php";
+
     public String hostAreaInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaInsert.php";
     public String hostAreaUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaUpdate.php";
+    public String hostAreaVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaVoid.php";
     public String hostAreaSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaSelectByID.php";
+
     public String hostTableInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableInsert.php";
     public String hostTableUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableUpdate.php";
+    public String hostTableVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableVoid.php";
     public String hostTableSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableSelectByID.php";
+    public String hostTableChange ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableChange.php";
+
     public String hostResInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResInsert.php";
     public String hostResUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResUpdate.php";
+    public String hostResVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResVoid.php";
     public String hostResSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResSelectByID.php";
+
     public String hostFoodsTypeInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeInsert.php";
     public String hostFoodsTypeUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeUpdate.php";
+    public String hostFoodsTypeVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeVoid.php";
     public String hostFoodsTypeSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeSelectByID.php";
+
     public String hostSelectFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoods.php";
     public String hostSelectFoodsByID="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByID.php";
     public String hostSelectFoodsByCode="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByCode.php";
@@ -92,6 +104,7 @@ public class RestaurantControl  extends Application implements Serializable {
     public String hostUserSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectByID.php";
     public String hostUserInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserInsert.php";
     public String hostUserUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserUpdate.php";
+    public String hostUserVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserVoid.php";
 
     public String discount="0.0", SC="0.0", vat="0.0";
 
@@ -106,6 +119,9 @@ public class RestaurantControl  extends Application implements Serializable {
         sCboPrivilege.add("Order");
         sCboPrivilege.add("Order Bill");
         sCboPrivilege.add("Order Bill Closeday");
+        sCboLanguage.add("Thai");
+        sCboLanguage.add("English");
+
         refresh();
     }
     public void refresh(){
@@ -138,18 +154,29 @@ public class RestaurantControl  extends Application implements Serializable {
         hostFoodsInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsInsert.php";
         hostFoodsUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsUpdate.php";
         hostFoodsSearch ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsSearch.php";
+        hostFoodsVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsVoid.php";
+
         hostAreaInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaInsert.php";
         hostAreaUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaUpdate.php";
+        hostAreaVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaVoid.php";
         hostAreaSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"AreaSelectByID.php";
+
         hostTableInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableInsert.php";
         hostTableUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableUpdate.php";
+        hostTableVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableVoid.php";
         hostTableSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableSelectByID.php";
+        hostTableChange ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"TableChange.php";
+
         hostResInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResInsert.php";
         hostResUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResUpdate.php";
+        hostResVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResVoid.php";
         hostResSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"ResSelectByID.php";
+
         hostFoodsTypeInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeInsert.php";
         hostFoodsTypeUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeUpdate.php";
+        hostFoodsTypeVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeVoid.php";
         hostFoodsTypeSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"FoodsTypeSelectByID.php";
+
         hostSelectFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoods.php";
         hostSelectFoodsByID="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByID.php";
         hostSelectFoodsByCode="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"selectFoodsByCode.php";
@@ -158,6 +185,7 @@ public class RestaurantControl  extends Application implements Serializable {
         hostUserSelectByID ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserSelectByID.php";
         hostUserInsert ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserInsert.php";
         hostUserUpdate ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserUpdate.php";
+        hostUserVoid ="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"UserVoid.php";
     }
     private void setCboTable(){
         //sCboTable.add("โต๊ะ 1");

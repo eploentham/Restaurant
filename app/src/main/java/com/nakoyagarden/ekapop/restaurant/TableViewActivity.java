@@ -110,7 +110,7 @@ public class TableViewActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrT = jsonparser.getJSONFromUrl(rs.hostGetTable,params);
-            //rs.jarrF = jarrT.toString();
+            //rs.jarrR = jarrT.toString();
             //} catch (JSONException e) {
             // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -139,10 +139,10 @@ public class TableViewActivity extends AppCompatActivity {
     private void setLvTable(){
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
+            //jarrR = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
             //jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
             if(jarrT!=null){
-                //jarrT =  new JSONArray(rs.jarrF);
+                //jarrT =  new JSONArray(rs.jarrR);
                 arrayList = new ArrayList<String>();
                 //JSONArray categories = jobj.getJSONArray("area");
                 //JSONArray json = new JSONArray(jobj);

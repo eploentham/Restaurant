@@ -119,7 +119,7 @@ public class FoodsViewActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("userdb",rs.UserDB));
             params.add(new BasicNameValuePair("passworddb",rs.PasswordDB));
             jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
-//            rs.jarrF = jarrF.toString();
+//            rs.jarrR = jarrR.toString();
             //} catch (JSONException e) {
                 // TODO Auto-generated catch block
             //    e.printStackTrace();
@@ -148,10 +148,10 @@ public class FoodsViewActivity extends AppCompatActivity {
     private void setLvFoods(){
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            //jarrF = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
+            //jarrR = jsonparser.getJSONFromUrl(rs.hostSelectFoods,params);
             //jarrR = jsonparser.getJSONFromUrl(rs.hostGetRes,params);
             if(jarrF!=null){
-//                jarrF =  new JSONArray(rs.jarrF);
+//                jarrR =  new JSONArray(rs.jarrR);
                 arrayList = new ArrayList<String>();
                 Foods f = new Foods();
                 //JSONArray categories = jobj.getJSONArray("area");
