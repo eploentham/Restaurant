@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     JSONObject jobj = null;
     JSONArray jarrA, jarrT, jarrR, jarrF,jarrU, jarrP, jarrFt;
     //Button btnMInt;
-    ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA, btnMCloseDay, btnMInt;
+    ImageButton btnMBill, btnMOrderV,btnCookV,btnOrderA, btnMCloseDay, btnMInt,btnMReport;
     ImageView imageRes, imageArea,imageTable,imageFoods,imageFoodsType, imageUser;
     TextView lbMMessage;
     public RestaurantControl rs;
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 //        btnMArea.setText(getResources().getString(R.string.add)+getResources().getString(R.string.area));
 //        btnMRes.setText(getResources().getString(R.string.add)+getResources().getString(R.string.restaurant));
         btnMInt = (ImageButton)findViewById(R.id.btnMInt);
+        btnMReport = (ImageButton)findViewById(R.id.btnMReport);
         imageRes = (ImageView)findViewById(R.id.imageRes);
         imageArea = (ImageView)findViewById(R.id.imageArea);
         imageTable = (ImageView)findViewById(R.id.imageTable);
@@ -181,7 +182,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
+        btnMReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(view.getContext(), ReportActivity.class).putExtra("RestaurantControl",rs), 0);
+            }
+        });
         ArrayList<ItemData> list=new ArrayList<>();
         list.add(new ItemData("Khr",R.drawable.idel_blue));
         list.add(new ItemData("Usd",R.drawable.idel_red));

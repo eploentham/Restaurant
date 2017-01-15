@@ -2,6 +2,8 @@ package com.nakoyagarden.ekapop.restaurant;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -9,13 +11,18 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by ekapop on 8/16/2016.
@@ -31,6 +38,8 @@ public class RestaurantControl  extends Application implements Serializable {
     public ArrayList<String> sCboUser = new ArrayList<String>();
     public ArrayList<String> sCboPrivilege = new ArrayList<String>();
     public ArrayList<String> sCboLanguage = new ArrayList<String>();
+    public ArrayList<String> sCboMonth = new ArrayList<String>();
+    public ArrayList<String> sCboYear = new ArrayList<String>();
 
     public ArrayList<String> sTable = new ArrayList<String>();
     public ArrayList<String> sArea = new ArrayList<String>();
@@ -42,8 +51,10 @@ public class RestaurantControl  extends Application implements Serializable {
     public String ResName="", ReceiptH1="", ReceiptH2="", ReceiptF1="", ReceiptF2="", imei="";
 
     public String hostIP="", hostWebDirectory ="", hostPORT="80", UserDB="", PasswordDB ="",TextSize="",PrnO="",PrnB="",PrnC="";
-    public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", usID ="", AccessMode="", HostID="";
+    public String fooID="", ordID="", ordLotID="", arID="", taID ="",resID="", ftID="", usID ="", AccessMode="", HostID="", Language="",AccessMethod="";
     public String hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
+
+    public String hostDailyGroupByFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"DailyGroupByFoods.php";
 
     public String hostGetArea="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getArea.php";
     public String hostGetTable="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getTable.php";
@@ -109,12 +120,14 @@ public class RestaurantControl  extends Application implements Serializable {
     public String discount="0.0", SC="0.0", vat="0.0";
 
     public ArrayList<Foods> lFoo = new ArrayList<Foods>();
-    public String jarrA, jarrT, jarrR, jarrF;
+    public String jarrA, jarrT, jarrR, jarrF, flagReport;
     public Boolean pageLoad=false;
     //JSONArray jarrF1;
     //public List<Ta> lFoo = new ArrayList<Foods>();
     public RestaurantControl(){
         setCboTable();
+//        getText();
+//        setCboMOnth();
         sCboPrivilege.add("All");
         sCboPrivilege.add("Order");
         sCboPrivilege.add("Order Bill");
@@ -122,9 +135,52 @@ public class RestaurantControl  extends Application implements Serializable {
         sCboLanguage.add("Thai");
         sCboLanguage.add("English");
 
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String currentDateandTime = sdf.format(new Date());
+        sCboYear.add(currentDateandTime);
+        sCboYear.add(String.valueOf(Integer.parseInt(currentDateandTime)-1));
+        sCboYear.add(String.valueOf(Integer.parseInt(currentDateandTime)-2));
+        sCboYear.add(String.valueOf(Integer.parseInt(currentDateandTime)-3));
+        sCboYear.add(String.valueOf(Integer.parseInt(currentDateandTime)-4));
+
         refresh();
     }
+    public void setCboMOnth(Context context){
+        getText(context);
+        sCboMonth.clear();
+        if(Language.equals("Thai")){
+            sCboMonth.add("มกราคม");
+            sCboMonth.add("กุมภาพันธ์");
+            sCboMonth.add("มีนาคม");
+            sCboMonth.add("เมษายน");
+            sCboMonth.add("พฤษภาคม");
+            sCboMonth.add("มิถุนายน");
+            sCboMonth.add("กรกฎาคม");
+            sCboMonth.add("สิงหาคม");
+            sCboMonth.add("กันยายน");
+            sCboMonth.add("ตุลาคม");
+            sCboMonth.add("พฤศจิกายน");
+            sCboMonth.add("ธันวาคม");
+        }else if(Language.equals("English")){
+            sCboMonth.add("January");
+            sCboMonth.add("February");
+            sCboMonth.add("March");
+            sCboMonth.add("April");
+            sCboMonth.add("May");
+            sCboMonth.add("June");
+            sCboMonth.add("July");
+            sCboMonth.add("August");
+            sCboMonth.add("September");
+            sCboMonth.add("October");
+            sCboMonth.add("November");
+            sCboMonth.add("December");
+        }
+
+    }
     public void refresh(){
+        hostDailyGroupByFoods="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"DailyGroupByFoods.php";
+
         hostSaveOrder="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"saveTOrder.php";
 
         hostGetArea="http://"+hostIP+":"+hostPORT+"/"+ hostWebDirectory +"getArea.php";
@@ -596,5 +652,48 @@ public class RestaurantControl  extends Application implements Serializable {
             }
         }
         return chk;
+    }
+    private void getText(Context context){
+        try {
+            File file =context.getFileStreamPath("initial.cnf");
+            final int READ_BLOCK_SIZE = 100;
+            FileInputStream fileIn=context.openFileInput(file.getName());
+//            FileInputStream fileIn=openFileInput(file.getPath());
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[READ_BLOCK_SIZE];
+            String s="";
+            int charRead;
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            InputRead.close();
+            String[] p = s.split(";");
+            if(p.length>0){
+                Log.d("getText() length ",String.valueOf(p.length));
+
+//                btnFrCreate.setEnabled(false);
+
+                String hostID = p[12].length()>0 ? p[12].replace("HostID=","").replace("\n",""):"";
+                String AccessMethod = p[13].length()>0 ? p[13].replace("AccessMethod=","").replace("\n",""):"";
+                String language = p[14].length()>0 ? p[14].replace("Language=","").replace("\n",""):"";
+                this.HostID=hostID;
+                this.AccessMethod=AccessMethod;
+                Log.d("getText() language ",language);
+                if(language.equals("Thai")){
+                    Language="Thai";
+                }else if(language.equals("English")){
+                    Language="English";
+                }else{
+                    Language="Thai";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("getText() ",e.getMessage());
+        }
     }
 }

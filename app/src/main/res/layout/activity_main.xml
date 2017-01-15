@@ -56,12 +56,19 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
             android:id="@+id/btnMInt"
             android:layout_marginBottom ="20dp"
             android:layout_gravity="center_horizontal"
             android:elevation="0dp"
             android:layout_below="@+id/btnMCloseDay"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnMReport"
+            android:layout_marginBottom ="20dp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="0dp"
+            android:layout_below="@+id/btnMInt"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

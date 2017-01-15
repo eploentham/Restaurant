@@ -79,8 +79,8 @@ public class CloseDayAddActivity extends AppCompatActivity {
         mLocalActivityManager = new LocalActivityManager(this, false);
         mLocalActivityManager.dispatchCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        rs = (RestaurantControl) intent.getSerializableExtra("RestaurantControl");
+        /*Intent intent = getIntent();*/
+        rs = (RestaurantControl) getIntent().getSerializableExtra("RestaurantControl");
         daS = new DatabaseSQLi(this,"");
         pd = new ProgressDialog(CloseDayAddActivity.this);
         textSize = rs.TextSize.equals("")?16:Integer.parseInt(rs.TextSize);
