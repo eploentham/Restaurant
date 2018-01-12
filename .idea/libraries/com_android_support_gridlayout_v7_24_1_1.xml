@@ -1,6 +1,16 @@
 <component name="libraryTable">
   <library name="com.android.support:gridlayout-v7-24.1.1">
     <CLASSES>
+<<<<<<< HEAD
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-24.1.1.aar/0748b95d23ff78a52e79929b395f4a65/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-24.1.1.aar/0748b95d23ff78a52e79929b395f4a65/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/gridlayout-v7/24.1.1/gridlayout-v7-24.1.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/gridlayout-v7/24.1.1/gridlayout-v7-24.1.1-sources.jar!/" />
+=======
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-24.1.1.aar/cf290ecc5de23efd1e4ad8a3d448400f/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/gridlayout-v7-24.1.1.aar/cf290ecc5de23efd1e4ad8a3d448400f/res" />
     </CLASSES>
@@ -9,6 +19,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/gridlayout-v7/24.1.1/gridlayout-v7-24.1.1-sources.jar!/" />
+>>>>>>> ee6691468eccaf5f79ad680ace43e1cca0c81981
     </SOURCES>
   </library>
 </component>

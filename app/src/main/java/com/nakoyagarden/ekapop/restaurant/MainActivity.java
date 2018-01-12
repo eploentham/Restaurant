@@ -104,38 +104,43 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             final int READ_BLOCK_SIZE = 100;
-            FileInputStream fileIn=openFileInput("initial.cnf");
-            InputStreamReader InputRead= new InputStreamReader(fileIn);
-            char[] inputBuffer= new char[READ_BLOCK_SIZE];
-            String s="";
-            int charRead;
+            File file = new File("initial.cnf");
+            if(file.exists()){
+                FileInputStream fileIn=openFileInput("initial.cnf");
+                InputStreamReader InputRead= new InputStreamReader(fileIn);
+                char[] inputBuffer= new char[READ_BLOCK_SIZE];
+                String s="";
+                int charRead;
 
-            while ((charRead=InputRead.read(inputBuffer))>0) {
-                // char to string conversion
-                String readstring=String.copyValueOf(inputBuffer,0,charRead);
-                s +=readstring;
-            }
-            InputRead.close();
+                while ((charRead=InputRead.read(inputBuffer))>0) {
+                    // char to string conversion
+                    String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                    s +=readstring;
+                }
+                InputRead.close();
 //                    txtIaHost.setText(s);
-            String[] p = s.split(";");
-            if(p.length>0){
-                rs.hostIP = p[0].replace("host=","");
+                String[] p = s.split(";");
+                if(p.length>0){
+                    rs.hostIP = p[0].replace("host=","");
 //                        txtIaPrint.setText(p[1].replace("printer=",""));
 //                        rs.hostIP = s;
 //                txtIaHost.setText(p[0].replace("host=",""));
-                //txtIaPrint.setText(p[1].replace("printer=",""));
-                rs.hostPORT =  p[4].replace("PortNumber=","").replace("\n","");
-                rs.hostWebDirectory =p[5].replace("WebDirectory=","").replace("\n","");
-                rs.UserDB =p[6].replace("UserDB=","").replace("\n","");
-                rs.PasswordDB =p[7].replace("PasswordDB=","").replace("\n","");
-                rs.TextSize =p[8].replace("TextSize=","").replace("\n","");
-                rs.AccessMode =p[13].replace("AccessMethod=","").replace("\n","");
-                rs.HostID =p[12].replace("HostID=","").replace("\n","");
+                    //txtIaPrint.setText(p[1].replace("printer=",""));
+                    rs.hostPORT =  p[4].replace("PortNumber=","").replace("\n","");
+                    rs.hostWebDirectory =p[5].replace("WebDirectory=","").replace("\n","");
+                    rs.UserDB =p[6].replace("UserDB=","").replace("\n","");
+                    rs.PasswordDB =p[7].replace("PasswordDB=","").replace("\n","");
+                    rs.TextSize =p[8].replace("TextSize=","").replace("\n","");
+                    rs.AccessMode =p[13].replace("AccessMethod=","").replace("\n","");
+                    rs.HostID =p[12].replace("HostID=","").replace("\n","");
 //                txtIaTaxID.setText(p[3].replace("TaxID=",""));
 //                txtIaPortID.setText(p[4].replace("PortNumber=",""));
 //                txtIaWebDirectory.setText(p[5].replace("WebDirectory=",""));
+                }
+                fileIn.close();
             }
-            fileIn.close();
+
+
             rs.refresh();
 //            }
         } catch (Exception e) {
@@ -226,8 +231,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService( Context.TELEPHONY_SERVICE );
-        String imeistring = telephonyManager.getDeviceId();
-        rs.imei = imeistring;
+
+//        String imeistring = telephonyManager.getDeviceId();
+//        rs.imei = imeistring;
 //        pageLoad=false;
 //        Spinner sp=(Spinner)findViewById(R.genid.spinner);
 //        SpinnerAdapter adapter=new SpinnerAdapter(this,
