@@ -31,10 +31,10 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'com.hrules:horizontalnumberpicker:1.1.1'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:gridlayout-v7:24.1.1'
+    implementation files('libs/httpclient-4.5.1.jar')
 }
 task copyNativeLibs(type: Copy) {
     from(new File(project(':app').buildDir, 'native-libs')) { include '**/*.so' }
