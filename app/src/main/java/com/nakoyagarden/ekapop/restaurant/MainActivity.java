@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
                 fileIn.close();
             }
 
-
             rs.refresh();
 //            }
         } catch (Exception e) {
