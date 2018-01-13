@@ -52,7 +52,8 @@
         <activity android:name=".FirstResActivity" />
         <activity android:name=".TableChangeActivity" />
         <activity android:name=".ReportActivity" />
-        <activity android:name=".ReportViewActivity"></activity>
+        <activity android:name=".ReportViewActivity" />
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>
