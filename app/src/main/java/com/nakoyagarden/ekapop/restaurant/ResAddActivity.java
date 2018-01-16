@@ -1,10 +1,11 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResAddActivity extends AppCompatActivity {
+public class ResAddActivity extends Activity {
     TextView lbRaCode, lbRaName, lbRaRemark, lbRaSort1, lbRaActive, lbRaDefaultRes, lbRaRH1, lbRaRH2, lbRaRF1, lbRaRF2, lbRaTaxID, lbRaBillCode;
     EditText txtRaCode, txtRaName, txtRaRemark, txtRaSort1, txtRaRH1, txtRaRH2,  txtRaRF1, txtRaRF2,  txtRaTaxID, txtRaBillCode,txtRaPasswordVoid;
     Switch chkRaActive;

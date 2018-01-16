@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -159,7 +158,6 @@ public class InitailActivity extends Activity implements ReceiveListener {
 //                onPrintText();
 //                new retrieveArea().execute();
                 saveText();
-
             }
         });
         btnFristRes.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +258,6 @@ public class InitailActivity extends Activity implements ReceiveListener {
     protected void onPause() {
         super.onPause();
         mLocalActivityManager.dispatchPause(!isFinishing());
-
     }
 
     @Override
