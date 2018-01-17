@@ -1,9 +1,9 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class FirstResActivity extends AppCompatActivity {
+public class FirstResActivity extends Activity {
     TextView lbFrFristRes, lbFrResName, lbFrUserDB, lbFrPasswordDB, lbFrWebDirectory, lbFrDatabaseIP, lbFrHostID, lbFrLanguage;
     EditText txtFrResName, txtFrUserDB, txtFrPasswordDB, txtFrWebDirectory, txtFrDatabaseIP, txtFrHostID;
     RadioButton chkFrStandalone, chkFrHaveServer, chkFrInternet;

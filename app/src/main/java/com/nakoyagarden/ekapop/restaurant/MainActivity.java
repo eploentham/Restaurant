@@ -1,10 +1,10 @@
 package com.nakoyagarden.ekapop.restaurant;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -31,7 +31,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     JsonParser jsonparser = new JsonParser();
     String ab;
     JSONObject jobj = null;
@@ -104,9 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             final int READ_BLOCK_SIZE = 100;
-            File file = new File("initial.cnf");
+            //File file = new File("initial.cnf");
+            File file = getFileStreamPath("initial.cnf");
             if(file.exists()){
-                FileInputStream fileIn=openFileInput("initial.cnf");
+                FileInputStream fileIn = openFileInput("initial.cnf");
                 InputStreamReader InputRead= new InputStreamReader(fileIn);
                 char[] inputBuffer= new char[READ_BLOCK_SIZE];
                 String s="";
